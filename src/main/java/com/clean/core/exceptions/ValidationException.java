@@ -5,6 +5,7 @@ import com.clean.core.utils.validation.ValidationResult;
 /**
  *
  * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
+ * @author Jorge
  */
 public class ValidationException extends IllegalArgumentException {
 

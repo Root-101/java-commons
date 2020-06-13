@@ -25,7 +25,7 @@ import java.util.HashMap;
  */
 public class AnnotationChecker {
 
-    private static final HashMap<Class, Class<? extends AnnotationRegister>> register = new HashMap<>();
+    private static final HashMap<Class<? extends Annotation>, Class<? extends AnnotationRegister>> register = new HashMap<>();
 
     static {
         //initial register of ours annotations
@@ -36,8 +36,24 @@ public class AnnotationChecker {
         registerAnnotation(StringNotEmpty.class, StringNotEmptyRegister.class);
     }
 
-    public static void registerAnnotation(Class annotationClass, Class<? extends AnnotationRegister> annotationRegister) {
+    public static void registerAnnotation(Class<? extends Annotation> annotationClass, Class<? extends AnnotationRegister> annotationRegister) {
         register.put(annotationClass, annotationRegister);
+    }
+
+    public static void clearAllRegister() {
+        register.clear();
+    }
+
+    public static void removeRegister(Class<? extends Annotation> annotationClass) {
+        register.remove(annotationClass);
+    }
+
+    public static boolean containRegister(Class<? extends Annotation> annotationClass) {
+        return register.containsKey(annotationClass);
+    }
+
+    public static Class<? extends AnnotationRegister> getRegister(Class<? extends Annotation> annotationClass) {
+        return register.get(annotationClass);
     }
 
     public static ValidationResult checkAllFieldsOfObject(Object objectToCheckFor) throws IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InstantiationException, InvocationTargetException {

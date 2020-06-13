@@ -29,6 +29,10 @@ public class CheckerFactory {
         return new ListNotEmptyCheckable(source);
     }
 
+    public static Checkable buildGreaterThanCeroCheckable(Object source) {
+        return new GreaterThanCeroCheckable(source);
+    }
+
     public static Checkable buildGreaterThanCeroCheckable(int source) {
         return new GreaterThanCeroCheckable<Integer>(source);
     }

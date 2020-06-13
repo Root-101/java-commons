@@ -25,7 +25,7 @@ import java.util.HashMap;
  */
 public class AnnotationChecker {
 
-    private static final HashMap<Class, Class> register = new HashMap<>();
+    private static final HashMap<Class, Class<? extends AnnotationRegister>> register = new HashMap<>();
 
     static {
         //initial register of ours annotations
@@ -36,7 +36,7 @@ public class AnnotationChecker {
         registerAnnotation(StringNotEmpty.class, StringNotEmptyRegister.class);
     }
 
-    public static void registerAnnotation(Class annotationClass, Class annotationRegister) {
+    public static void registerAnnotation(Class annotationClass, Class<? extends AnnotationRegister> annotationRegister) {
         register.put(annotationClass, annotationRegister);
     }
 
@@ -71,7 +71,11 @@ public class AnnotationChecker {
             if (register.containsKey(annotation.annotationType())) {
                 Class c = register.get(annotation.annotationType());
                 Object newInstance = c.getConstructor().newInstance();
-                ((AnnotationRegister) newInstance).checkAnnotation(annotation, fieldToCheckFor.get(objectToCheckFor), validationResult);
+                if (newInstance instanceof AnnotationRegister) {
+                    ((AnnotationRegister) newInstance).checkAnnotation(annotation, fieldToCheckFor.get(objectToCheckFor), validationResult);
+                } else {
+                    throw new ClassCastException("Class " + c + " correspondind to the register of " + annotation.annotationType() + " annotation don't implement the " + AnnotationRegister.class + " interface.");
+                }
             }
         }
 

@@ -29,3 +29,5 @@ hs_err_pid*
 
 *.JSON
 src/main/java/com/TEST_EXAMPLE.java
+
+release_library/

@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
+ * @author Jorge
  */
 public class ValidationResult {
 
@@ -33,10 +34,15 @@ public class ValidationResult {
     public boolean haveError() {
         return !messages.isEmpty();
     }
-    
-    public void throwException(){
+
+    public void throwException() {
         if (haveError()) {
             throw new ValidationException(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return messages.toString();
     }
 }

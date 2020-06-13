@@ -11,6 +11,10 @@ public class CheckerFactory {
         return new NotNullCheckable(source);
     }
 
+    public static Checkable buildNeverCheckable(Object source) {
+        return new NeverCheckable(source);
+    }
+
     public static Checkable buildStringNotEmptyCheckable(String source) {
         return new StringNotEmptyCheckable(source);
     }

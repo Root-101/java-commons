@@ -5,17 +5,19 @@ package com.clean.core.utils.validation.checkables;
  * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
  * @author Jorge
  */
-public class StringNotEmptyCheckable implements Checkable<String> {
+public class LengthExactCheckable implements Checkable<String> {
 
     private final String source;
+    private final int length;
 
-    public StringNotEmptyCheckable(String source) {
+    public LengthExactCheckable(String source, int length) {
         this.source = source;
+        this.length = length;
     }
 
     @Override
     public boolean check() {
-        return !source.isEmpty();
+        return source.length() == length;
     }
 
     @Override

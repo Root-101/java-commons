@@ -6,7 +6,7 @@ package com.clean.core.utils.validation.checkables;
  */
 public class NotNullCheckable implements Checkable {
 
-    private Object source;
+    private final Object source;
 
     public NotNullCheckable(Object source) {
         this.source = source;

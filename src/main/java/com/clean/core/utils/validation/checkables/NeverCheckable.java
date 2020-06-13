@@ -6,7 +6,7 @@ package com.clean.core.utils.validation.checkables;
  */
 public class NeverCheckable implements Checkable {
 
-    private Object source;
+    private final Object source;
 
     public NeverCheckable(Object source) {
         this.source = source;

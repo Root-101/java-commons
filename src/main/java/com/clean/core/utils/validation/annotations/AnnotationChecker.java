@@ -3,6 +3,8 @@ package com.clean.core.utils.validation.annotations;
 import com.clean.core.utils.validation.ValidationResult;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -24,22 +26,22 @@ import java.util.HashMap;
  */
 public class AnnotationChecker {
 
-    private static final HashMap<Class, AnnotationRegister> register = new HashMap<>();
+    private static final HashMap<Class, Class> register = new HashMap<>();
 
     static {
         //initial register of ours annotations
-        registerAnnotation(GreaterThanCero.class, new GreaterThanCeroRegister());
-        registerAnnotation(LengthExact.class, new LengthExactRegister());
-        registerAnnotation(ListNotEmpty.class, new ListNotEmptyRegister());
-        registerAnnotation(NotNull.class, new NotNullRegister());
-        registerAnnotation(StringNotEmpty.class, new StringNotEmptyRegister());
+        registerAnnotation(GreaterThanCero.class, GreaterThanCeroRegister.class);
+        registerAnnotation(LengthExact.class, LengthExactRegister.class);
+        registerAnnotation(ListNotEmpty.class, ListNotEmptyRegister.class);
+        registerAnnotation(NotNull.class, NotNullRegister.class);
+        registerAnnotation(StringNotEmpty.class, StringNotEmptyRegister.class);
     }
 
-    public static void registerAnnotation(Class annotationClass, AnnotationRegister annotationRegister) {
+    public static void registerAnnotation(Class annotationClass, Class annotationRegister) {
         register.put(annotationClass, annotationRegister);
     }
 
-    public static ValidationResult checkAllFieldsOfObject(Object objectToCheckFor) throws IllegalArgumentException, IllegalAccessException {
+    public static ValidationResult checkAllFieldsOfObject(Object objectToCheckFor) throws IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InstantiationException, InvocationTargetException {
         ValidationResult validationResult = new ValidationResult();
 
         for (Field actualField : objectToCheckFor.getClass().getDeclaredFields()) {
@@ -49,7 +51,7 @@ public class AnnotationChecker {
         return validationResult;
     }
 
-    public static void checkField(Object objectToCheckFor, String fieldName, ValidationResult validationResult) throws IllegalArgumentException, IllegalAccessException {
+    public static void checkField(Object objectToCheckFor, String fieldName, ValidationResult validationResult) throws IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InstantiationException, InvocationTargetException {
         boolean foundField = false;
         for (Field actualField : objectToCheckFor.getClass().getDeclaredFields()) {
             if (actualField.getName().equals(fieldName)) {
@@ -62,13 +64,15 @@ public class AnnotationChecker {
         }
     }
 
-    private static void checkField(Object objectToCheckFor, Field fieldToCheckFor, ValidationResult validationResult) throws IllegalArgumentException, IllegalAccessException {
+    private static void checkField(Object objectToCheckFor, Field fieldToCheckFor, ValidationResult validationResult) throws IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InstantiationException, InvocationTargetException {
         boolean oldFieldAccessibility = fieldToCheckFor.isAccessible();
         fieldToCheckFor.setAccessible(true);//in case it's private, force the readable
 
         for (Annotation annotation : fieldToCheckFor.getDeclaredAnnotations()) {
             if (register.containsKey(annotation.annotationType())) {
-                register.get(annotation.annotationType()).checkAnnotation(annotation, fieldToCheckFor.get(objectToCheckFor), validationResult);
+                Class c = register.get(annotation.annotationType());
+                Object newInstance = c.getConstructor().newInstance();
+                ((AnnotationRegister) newInstance).checkAnnotation(annotation, fieldToCheckFor.get(objectToCheckFor), validationResult);
             }
         }
 

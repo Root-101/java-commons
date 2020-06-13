@@ -1,12 +1,12 @@
 package com.clean.core.utils.validation.checkables;
 
 /**
- * 
+ *
  * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
  * @author Jorge
  */
-public class StringNotEmptyCheckable implements Checkable<String>{
-    
+public class StringNotEmptyCheckable implements Checkable<String> {
+
     private String source;
 
     public StringNotEmptyCheckable(String source) {

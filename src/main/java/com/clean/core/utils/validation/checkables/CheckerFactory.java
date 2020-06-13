@@ -1,5 +1,7 @@
 package com.clean.core.utils.validation.checkables;
 
+import java.util.List;
+
 /**
  *
  * @author Jorge
@@ -17,6 +19,14 @@ public class CheckerFactory {
 
     public static Checkable buildStringNotEmptyCheckable(String source) {
         return new StringNotEmptyCheckable(source);
+    }
+
+    public static Checkable buildLengthExactCheckable(String source, int length) {
+        return new LengthExactCheckable(source, length);
+    }
+
+    public static Checkable buildListNotEmptyCheckable(List source) {
+        return new ListNotEmptyCheckable(source);
     }
 
     public static Checkable buildGreaterThanCeroCheckable(int source) {

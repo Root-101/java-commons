@@ -28,3 +28,4 @@ hs_err_pid*
 *.mf
 
 *.JSON
+src/main/java/com/TEST_EXAMPLE.java

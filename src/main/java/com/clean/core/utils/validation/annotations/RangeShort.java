@@ -18,7 +18,7 @@ public @interface RangeShort {
 
     public short higth() default Short.MAX_VALUE;
 
-    public String message() default "";
+    public String message();
 
     public String detailMessage() default "";
 

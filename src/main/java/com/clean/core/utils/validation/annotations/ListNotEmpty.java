@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface ListNotEmpty {
 
-    public String message() default "";
+    public String message();
 
     public String detailMessage() default "";
 

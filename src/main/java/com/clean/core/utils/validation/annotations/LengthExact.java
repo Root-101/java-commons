@@ -16,7 +16,7 @@ public @interface LengthExact {
 
     public int length() default 0;
 
-    public String message() default "";
+    public String message();
 
     public String detailMessage() default "";
 

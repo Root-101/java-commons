@@ -18,7 +18,7 @@ public @interface RangeDouble {
 
     public double higth() default Double.MAX_VALUE;
 
-    public String message() default "";
+    public String message();
 
     public String detailMessage() default "";
 

@@ -18,7 +18,7 @@ public @interface RangeLong {
 
     public long higth() default Long.MAX_VALUE;
 
-    public String message() default "";
+    public String message();
 
     public String detailMessage() default "";
 

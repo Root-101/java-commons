@@ -18,7 +18,7 @@ public @interface RangeFloat {
 
     public float higth() default Float.MAX_VALUE;
 
-    public String message() default "";
+    public String message();
 
     public String detailMessage() default "";
 

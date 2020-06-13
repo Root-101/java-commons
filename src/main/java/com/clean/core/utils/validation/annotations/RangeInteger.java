@@ -18,7 +18,7 @@ public @interface RangeInteger {
 
     public int higth() default Integer.MAX_VALUE;
 
-    public String message() default "";
+    public String message();
 
     public String detailMessage() default "";
 

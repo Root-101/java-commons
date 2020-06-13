@@ -30,34 +30,34 @@ public class CheckerFactory {
     }
 
     public static Checkable buildGreaterThanCeroCheckable(int source) {
-        return new GreaterThanCeroIntegerCheckable(source);
+        return new GreaterThanCeroCheckable<Integer>(source);
     }
 
     public static Checkable buildGreaterThanCeroCheckable(long source) {
-        return new GreaterThanCeroLongCheckable(source);
+        return new GreaterThanCeroCheckable<Long>(source);
     }
 
     public static Checkable buildGreaterThanCeroCheckable(float source) {
-        return new GreaterThanCeroFloatCheckable(source);
+        return new GreaterThanCeroCheckable<Float>(source);
     }
 
     public static Checkable buildGreaterThanCeroCheckable(double source) {
-        return new GreaterThanCeroDoubleCheckable(source);
+        return new GreaterThanCeroCheckable<Double>(source);
     }
 
     public static Checkable buildRangeCheckable(int source, int low, int hight) {
-        return new RangeIntegerCheckable(source, low, hight);
+        return new RangeCheckable<Integer>(source, low, hight);
     }
 
     public static Checkable buildRangeCheckable(long source, long low, long hight) {
-        return new RangeLongCheckable(source, low, hight);
+        return new RangeCheckable<Long>(source, low, hight);
     }
 
     public static Checkable buildRangeCheckable(float source, float low, float hight) {
-        return new RangeFloatCheckable(source, low, hight);
+        return new RangeCheckable<Float>(source, low, hight);
     }
 
     public static Checkable buildRangeCheckable(double source, double low, double hight) {
-        return new RangeDoubleCheckable(source, low, hight);
+        return new RangeCheckable<Double>(source, low, hight);
     }
 }

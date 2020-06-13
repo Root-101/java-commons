@@ -26,7 +26,7 @@ public class ValidationResult {
     }
 
     public void check(Checkable checker, ValidationMessage messageOnError) {
-        if (checker.check()) {
+        if (!checker.check()) {
             messages.add(messageOnError);
         }
     }
@@ -35,10 +35,24 @@ public class ValidationResult {
         return !messages.isEmpty();
     }
 
-    public void throwException() {
+    public ValidationResult throwException() {
         if (haveError()) {
             throw new ValidationException(this);
+        } else {
+            return this;
         }
+    }
+
+    public void add(ValidationMessage validationMessage) {
+        this.messages.add(validationMessage);
+    }
+
+    public void add(List<ValidationMessage> validationMessages) {
+        this.messages.addAll(validationMessages);
+    }
+
+    public void add(ValidationResult validationResult) {
+        this.messages.addAll(validationResult.getMessages());
     }
 
     @Override

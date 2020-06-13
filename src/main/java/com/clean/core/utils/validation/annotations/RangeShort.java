@@ -12,11 +12,11 @@ import java.lang.annotation.Target;
  */
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface RangeLong {
+public @interface RangeShort {
 
-    public long low() default Long.MIN_VALUE;
+    public short low() default Short.MIN_VALUE;
 
-    public long higth() default Long.MAX_VALUE;
+    public short higth() default Short.MAX_VALUE;
 
     public String message() default "";
 

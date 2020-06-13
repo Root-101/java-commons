@@ -26,6 +26,8 @@ public class RangeCheckable<T> implements Checkable<T> {
             return checkLong();
         } else if (source instanceof Double) {
             return checkDouble();
+        } else if (source instanceof Short) {
+            return checkShort();
         }
         return false;
     }
@@ -60,6 +62,13 @@ public class RangeCheckable<T> implements Checkable<T> {
         double src = ((Double) this.source);
         double low = ((Double) this.low);
         double hight = ((Double) this.hight);
+        return src >= low && src <= hight;
+    }
+
+    private boolean checkShort() {
+        short src = ((Short) this.source);
+        short low = ((Short) this.low);
+        short hight = ((Short) this.hight);
         return src >= low && src <= hight;
     }
 

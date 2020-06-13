@@ -22,6 +22,8 @@ public class GreaterThanCeroCheckable<T> implements Checkable<T> {
             return checkLong();
         } else if (this.source instanceof Double) {
             return checkDouble();
+        } else if (this.source instanceof Short) {
+            return checkShort();
         }
         return false;
     }
@@ -45,6 +47,10 @@ public class GreaterThanCeroCheckable<T> implements Checkable<T> {
 
     private boolean checkDouble() {
         return ((Double) this.source) > 0;
+    }
+
+    private boolean checkShort() {
+        return ((Short) this.source) > 0;
     }
 
 }

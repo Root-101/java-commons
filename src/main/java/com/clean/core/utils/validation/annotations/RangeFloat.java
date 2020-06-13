@@ -14,9 +14,9 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface RangeFloat {
 
-    public float low() default Integer.MIN_VALUE;
+    public float low() default Float.MIN_VALUE;
 
-    public float higth() default Integer.MAX_VALUE;
+    public float higth() default Float.MAX_VALUE;
 
     public String message() default "";
 

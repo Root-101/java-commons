@@ -9,6 +9,14 @@ import java.util.List;
  */
 public class CheckerFactory {
 
+    public static Checkable buildDigitCheckable(Character source) {
+        return new DigitCheckable(source);
+    }
+
+    public static Checkable buildAlphabetCheckable(Character source) {
+        return new AlphabetCheckable(source);
+    }
+
     public static Checkable buildNotNullCheckable(Object source) {
         return new NotNullCheckable(source);
     }
@@ -51,6 +59,10 @@ public class CheckerFactory {
 
     public static Checkable buildRangeCheckable(int source, int low, int hight) {
         return new RangeCheckable<Integer>(source, low, hight);
+    }
+
+    public static Checkable buildRangeCheckable(short source, short low, short hight) {
+        return new RangeCheckable<Short>(source, low, hight);
     }
 
     public static Checkable buildRangeCheckable(long source, long low, long hight) {

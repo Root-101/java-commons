@@ -34,6 +34,13 @@ public class AnnotationChecker {
         registerAnnotation(ListNotEmpty.class, ListNotEmptyRegister.class);
         registerAnnotation(NotNull.class, NotNullRegister.class);
         registerAnnotation(StringNotEmpty.class, StringNotEmptyRegister.class);
+        registerAnnotation(RangeDouble.class, RangeDoubleRegister.class);
+        registerAnnotation(RangeFloat.class, RangeFloatRegister.class);
+        registerAnnotation(RangeInteger.class, RangeIntegerRegister.class);
+        registerAnnotation(RangeLong.class, RangeLongRegister.class);
+        registerAnnotation(RangeShort.class, RangeShortRegister.class);
+        registerAnnotation(Digit.class, DigitRegister.class);
+        registerAnnotation(Alphabet.class, AlphabetRegister.class);
     }
 
     public static void registerAnnotation(Class<? extends Annotation> annotationClass, Class<? extends AnnotationRegister> annotationRegister) {

@@ -4,6 +4,10 @@ import com.clean.core.exceptions.ValidationException;
 import com.clean.core.utils.validation.checkables.Checkable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 /**
  *
@@ -59,4 +63,15 @@ public class ValidationResult {
     public String toString() {
         return messages.toString();
     }
+
+    public void check(Object object) {
+        add(Validation.buildDefaultValidatorFactory().getValidator().validate(object));
+    }
+
+    private void add(Set<ConstraintViolation<Object>> validate) {
+        for (ConstraintViolation<Object> c : validate) {
+            add(ValidationMessage.from(c.getInvalidValue(), c.getMessage()));
+        }
+    }
+
 }

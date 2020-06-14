@@ -5,21 +5,21 @@ package com.clean.core.utils.validation.checkables;
  * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
  * @author Jorge
  */
-public class StringNotEmptyCheckable implements Checkable<String> {
+public class DigitCheckable implements Checkable<Character> {
 
-    private final String source;
+    private final char source;
 
-    public StringNotEmptyCheckable(String source) {
+    public DigitCheckable(char source) {
         this.source = source;
     }
 
     @Override
     public boolean check() {
-        return !source.isEmpty();
+        return Character.isDigit(source);
     }
 
     @Override
-    public String getSource() {
+    public Character getSource() {
         return source;
     }
 

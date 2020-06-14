@@ -3,23 +3,22 @@ package com.clean.core.utils.validation.checkables;
 /**
  *
  * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
- * @author Jorge
  */
-public class StringNotEmptyCheckable implements Checkable<String> {
+public class NeverCheckable implements Checkable {
 
-    private final String source;
+    private final Object source;
 
-    public StringNotEmptyCheckable(String source) {
+    public NeverCheckable(Object source) {
         this.source = source;
     }
 
     @Override
     public boolean check() {
-        return !source.isEmpty();
+        return false;
     }
 
     @Override
-    public String getSource() {
+    public Object getSource() {
         return source;
     }
 

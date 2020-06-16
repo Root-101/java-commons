@@ -1,4 +1,6 @@
-package com.clean.core.utils.validation.checkables;
+package com.clean.core.utils.validation.checkables.impl;
+
+import com.clean.core.utils.validation.checkables.Checkable;
 
 /**
  *

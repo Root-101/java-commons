@@ -39,7 +39,6 @@ public class AnnotationChecker {
         registerAnnotation(RangeInteger.class, RangeIntegerRegister.class);
         registerAnnotation(RangeLong.class, RangeLongRegister.class);
         registerAnnotation(RangeShort.class, RangeShortRegister.class);
-        registerAnnotation(Digit.class, DigitRegister.class);
         registerAnnotation(Alphabet.class, AlphabetRegister.class);
     }
 

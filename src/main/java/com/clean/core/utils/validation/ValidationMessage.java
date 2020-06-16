@@ -8,6 +8,8 @@ import com.clean.core.utils.Severity;
  */
 public class ValidationMessage {
 
+    public static final String ENCLOSING_STRING = "#";
+
     private final Object source;
     private final String message;
     private final String detailMessage;
@@ -19,8 +21,8 @@ public class ValidationMessage {
 
     private ValidationMessage(Object source, String message, String detailMessage, Severity severity) {
         this.source = source;
-        this.message = message;
-        this.detailMessage = detailMessage;
+        this.message = unwrapString(message);
+        this.detailMessage = unwrapString(detailMessage);
         this.severity = severity;
     }
 
@@ -97,6 +99,14 @@ public class ValidationMessage {
                 detailMessage = message;
             }
             return new ValidationMessage(source, message, detailMessage, severity);
+        }
+    }
+
+    private String unwrapString(String message) {
+        if (message.startsWith(ENCLOSING_STRING) && message.endsWith(ENCLOSING_STRING)) {
+            throw new UnsupportedOperationException("Developing");
+        } else {
+            return message;
         }
     }
 }

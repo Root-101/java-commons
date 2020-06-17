@@ -1,7 +1,6 @@
 package com.clean.core.utils.validation.annotations;
 
 import com.clean.core.utils.validation.annotations.registers.DigitRegister;
-import com.clean.core.utils.Severity;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

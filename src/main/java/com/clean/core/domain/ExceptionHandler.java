@@ -1,7 +1,7 @@
 package com.clean.core.domain;
 
 /**
- * 
+ *
  * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
  */
 public class ExceptionHandler {
@@ -15,11 +15,14 @@ public class ExceptionHandler {
         exceptionHandlerService = newService;
     }
 
-    public static ExceptionHandlerService getResourceService() {
+    public static ExceptionHandlerService getExceptionHandlerService() {
         if (exceptionHandlerService == null) {
             throw new IllegalStateException("Bad call");
         }
         return exceptionHandlerService;
     }
 
+    public static void handleException(Exception ex) {
+        getExceptionHandlerService().handleException(ex);
+    }
 }

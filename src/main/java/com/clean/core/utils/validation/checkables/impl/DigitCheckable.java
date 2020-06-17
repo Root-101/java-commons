@@ -1,21 +1,23 @@
-package com.clean.core.utils.validation.checkables;
+package com.clean.core.utils.validation.checkables.impl;
+
+import com.clean.core.utils.validation.checkables.Checkable;
 
 /**
  *
  * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
  * @author Jorge
  */
-public class AlphabetCheckable implements Checkable<Character> {
+public class DigitCheckable implements Checkable<Character> {
 
     private final char source;
 
-    public AlphabetCheckable(char source) {
+    public DigitCheckable(char source) {
         this.source = source;
     }
 
     @Override
     public boolean check() {
-        return Character.isAlphabetic(source);
+        return Character.isDigit(source);
     }
 
     @Override

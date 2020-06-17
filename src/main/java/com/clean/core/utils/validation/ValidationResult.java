@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
-import javax.validation.Validator;
 
 /**
  *
@@ -64,8 +63,12 @@ public class ValidationResult {
         return messages.toString();
     }
 
-    public void check(Object object) {
-        add(Validation.buildDefaultValidatorFactory().getValidator().validate(object));
+    public void checkFromAnnotations(Object objectToCheck) {
+        add(Validation.buildDefaultValidatorFactory().getValidator().validate(objectToCheck));
+    }
+
+    public void checkFromAnnotations(Object objectToCheck, String field) {
+        add(Validation.buildDefaultValidatorFactory().getValidator().validateProperty(objectToCheck, field));
     }
 
     private void add(Set<ConstraintViolation<Object>> validate) {

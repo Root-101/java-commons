@@ -9,9 +9,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 
 /**
- *
- * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
+ * 
  * @author Jorge
+ * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public class ValidationResult {
 

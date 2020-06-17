@@ -3,9 +3,9 @@ package com.clean.core.utils.validation.checkables.impl;
 import com.clean.core.utils.validation.checkables.Checkable;
 
 /**
- *
- * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
+ * 
  * @author Jorge
+ * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public class DigitCheckable implements Checkable<Character> {
 

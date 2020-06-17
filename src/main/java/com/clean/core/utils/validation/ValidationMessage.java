@@ -4,7 +4,8 @@ import com.clean.core.utils.Severity;
 
 /**
  *
- * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
+ * @author Jorge
+ * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public class ValidationMessage {
 
@@ -100,6 +101,10 @@ public class ValidationMessage {
             }
             return new ValidationMessage(source, message, detailMessage, severity);
         }
+    }
+
+    public static String msgFromResource(String text) {
+        return ENCLOSING_STRING + text + ENCLOSING_STRING;
     }
 
     private String unwrapString(String message) {

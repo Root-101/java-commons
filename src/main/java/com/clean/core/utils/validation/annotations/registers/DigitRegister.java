@@ -6,8 +6,8 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- *
- * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
+ * 
+ * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public class DigitRegister implements ConstraintValidator<Digit, Character> {
 

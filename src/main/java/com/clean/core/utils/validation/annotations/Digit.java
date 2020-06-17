@@ -1,5 +1,6 @@
 package com.clean.core.utils.validation.annotations;
 
+import com.clean.core.utils.validation.annotations.registers.DigitRegister;
 import com.clean.core.utils.Severity;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -24,7 +25,5 @@ public @interface Digit {
     Class<? extends Payload>[] payload() default {};
 
     public String detailMessage() default "";
-
-    public Severity severity() default Severity.WARNING;
 
 }

@@ -1,29 +1,29 @@
 package com.clean.core.utils.validation.checkables.impl;
 
 import com.clean.core.utils.validation.checkables.Checkable;
-import java.util.List;
 
 /**
  *
  * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
  * @author Jorge
- * @param <T>
  */
-public class ListNotEmptyCheckable<T> implements Checkable<List<T>> {
+public class SizeExactCheckable implements Checkable<String> {
 
-    private final List<T> source;
+    private final String source;
+    private final int length;
 
-    public ListNotEmptyCheckable(List<T> source) {
+    public SizeExactCheckable(String source, int length) {
         this.source = source;
+        this.length = length;
     }
 
     @Override
     public boolean check() {
-        return source != null && !source.isEmpty();
+        return source.length() == length;
     }
 
     @Override
-    public List<T> getSource() {
+    public String getSource() {
         return source;
     }
 

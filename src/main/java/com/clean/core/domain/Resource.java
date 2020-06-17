@@ -15,7 +15,6 @@ package com.clean.core.domain;
 public class Resource {
 
     private static ResourceService resourceService;
-    
 
     private Resource() {
     }

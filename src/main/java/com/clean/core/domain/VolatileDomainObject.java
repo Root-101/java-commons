@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.clean.core.domain;
 
 /**
- * 
+ *
  * JoBits
+ *
  * @author Jorge
- * 
+ *
  */
-public class VolatileDomainObject extends DomainObject{
+public class VolatileDomainObject extends DomainObject {
 
 }

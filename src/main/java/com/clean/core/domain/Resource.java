@@ -23,11 +23,11 @@ public class Resource {
         return resourceService;
     }
 
-    public String getString(String key) {
+    public static String getString(String key) {
         return getResourceService().getString(key);
     }
 
-    public Object getObject(String key) {
+    public static Object getObject(String key) {
         return getResourceService().getObject(key);
     }
 }

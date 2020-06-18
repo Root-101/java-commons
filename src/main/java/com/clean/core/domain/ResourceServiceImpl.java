@@ -9,7 +9,11 @@ import java.util.ResourceBundle;
  */
 public class ResourceServiceImpl implements ResourceService {
 
-    private static ResourceBundle resourceBundle = null;
+    private ResourceBundle resourceBundle = null;
+
+    public ResourceServiceImpl(ResourceBundle resourceBundle) {
+        this.resourceBundle = resourceBundle;
+    }
 
     @Override
     public ResourceBundle getResourceBundle() {

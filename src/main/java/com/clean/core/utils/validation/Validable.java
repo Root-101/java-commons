@@ -1,6 +1,6 @@
 package com.clean.core.utils.validation;
 
-import javax.validation.ValidationException;
+import com.clean.core.exceptions.ValidationException;
 
 /**
  * 

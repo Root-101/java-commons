@@ -1,7 +1,7 @@
 package com.clean.core.domain;
 
 /**
- * 
+ *
  * @author Jorge
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
@@ -23,4 +23,11 @@ public class Resource {
         return resourceService;
     }
 
+    public String getString(String key) {
+        return getResourceService().getString(key);
+    }
+
+    public Object getObject(String key) {
+        return getResourceService().getObject(key);
+    }
 }

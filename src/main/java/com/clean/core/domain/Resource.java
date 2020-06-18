@@ -18,7 +18,7 @@ public class Resource {
 
     public static ResourceService getResourceService() {
         if (resourceService == null) {
-            throw new IllegalStateException("Bad call");
+            throw new IllegalStateException("There isn't any ResourceService registered");
         }
         return resourceService;
     }

@@ -29,13 +29,13 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public String getString(String key) {
-        return getResourceBundle().getString(key);
+    public String getString(String key) {//return only if contain key
+        return getResourceBundle().containsKey(key) ? getString(key) : key;
     }
 
     @Override
-    public Object getObject(String key) {
-        return getResourceBundle().getObject(key);
+    public Object getObject(String key) {//return only if contain key
+        return getResourceBundle().containsKey(key) ? getObject(key) : null;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.clean.core.usecases;
+package com.clean.core.app.usecase;
 
 /**
  *

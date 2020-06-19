@@ -38,11 +38,7 @@ public class ValidationMessage {
     public static ValidationMessage from(Object source, String messages, String detailMessages, Severity severity) {
         return new ValidationMessage(source, messages, detailMessages, severity);
     }
-
-    public static ValidationMessage from(DefaultMessage messages) {
-        throw new UnsupportedOperationException();
-    }
-
+    
     public String getMessage() {
         return message;
     }

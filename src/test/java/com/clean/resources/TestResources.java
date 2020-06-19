@@ -1,8 +1,8 @@
 package com.clean.resources;
 
-import com.clean.core.domain.Resource;
-import com.clean.core.domain.ResourceBundleUtils;
-import com.clean.core.domain.ResourceServiceImpl;
+import com.clean.core.domain.services.Resource;
+import com.clean.core.domain.services.ResourceBundleUtils;
+import com.clean.core.domain.services.ResourceServiceImpl;
 import java.io.File;
 import java.net.MalformedURLException;
 import org.junit.Test;

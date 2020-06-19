@@ -1,4 +1,4 @@
-package com.clean.core.domain;
+package com.clean.core.domain.services;
 
 import java.io.File;
 import java.net.MalformedURLException;

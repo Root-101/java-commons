@@ -1,4 +1,4 @@
-package com.clean.core.repo;
+package com.clean.core.app.repo;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.clean.core.domain;
+package com.clean.core.app.services;
 
 /**
  *

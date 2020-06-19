@@ -15,7 +15,6 @@ public class ResourceServiceImpl implements ResourceService {
         this.resourceBundle = resourceBundle;
     }
 
-    @Override
     public ResourceBundle getResourceBundle() {
         if (resourceBundle == null) {
             throw new NullPointerException("Not Resource Bundle registered.");
@@ -23,7 +22,6 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceBundle;
     }
 
-    @Override
     public void setResourceBundle(ResourceBundle newResourceBundle) {
         resourceBundle = newResourceBundle;
     }

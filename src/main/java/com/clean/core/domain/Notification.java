@@ -22,7 +22,15 @@ public class Notification {
         return notificationService;
     }
 
-    public static void makeNotification() {
-        getNotificationService().makeNotification();
+    public void showNotification(String type, String textToDisplay) {
+        notificationService.showNotification(type, textToDisplay);
+    }
+
+    public boolean showConfirmDialog(String type, String textToDisplay) {
+        return notificationService.showConfirmDialog(type, textToDisplay);
+    }
+
+    public Object showInputDialog(String type, String textToDisplay) {
+        return notificationService.showInputDialog(type, textToDisplay);
     }
 }

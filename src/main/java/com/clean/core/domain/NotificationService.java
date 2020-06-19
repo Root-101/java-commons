@@ -6,6 +6,10 @@ package com.clean.core.domain;
  */
 public interface NotificationService {
 
-    public void makeNotification();
+    public void showNotification(String type, String textToDisplay);
+
+    public boolean showConfirmDialog(String type, String textToDisplay);
+
+    public Object showInputDialog(String type, String textToDisplay);
 
 }

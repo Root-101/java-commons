@@ -1,4 +1,4 @@
-package com.clean.modulo;
+package com.clean.core.app.modules;
 
 import com.clean.core.app.usecase.AbstractUseCase;
 
@@ -6,7 +6,7 @@ import com.clean.core.app.usecase.AbstractUseCase;
  *
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
-public interface UseCaseModule extends AbstractModule {
+public interface UseCaseRepoModule extends AbstractModule {
 
     public <T> T getUseCaseImplementation(Class<? extends AbstractUseCase> classType);
     

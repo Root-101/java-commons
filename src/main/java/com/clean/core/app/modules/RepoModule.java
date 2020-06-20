@@ -1,4 +1,4 @@
-package com.clean.modulo;
+package com.clean.core.app.modules;
 
 import com.clean.core.app.repo.AbstractRepository;
 

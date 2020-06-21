@@ -7,7 +7,7 @@ import org.junit.Test;
  *
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
-public class NewClass {
+public class AbstractModuleExample {
 
     @Test
     public void abc() {

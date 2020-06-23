@@ -16,4 +16,6 @@ public interface AbstractModule {
 
     public void removeModule(AbstractModule classType);
 
+    public void removeModule(String moduleName);
+
 }

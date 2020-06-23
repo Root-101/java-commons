@@ -9,7 +9,11 @@ public abstract class DefaultAbstractModule implements AbstractModule {
 
     @Override
     public <T> T getImplementation(Class<T> classType) {
-        T ans = getOwnImplementation(classType);
+        T ans = null;
+        try {
+            ans = getOwnImplementation(classType);
+        } catch (Exception e) {
+        }
         return ans != null ? ans : getImplementationRegistered(classType);
     }
 
@@ -17,7 +21,11 @@ public abstract class DefaultAbstractModule implements AbstractModule {
 
     private <T> T getImplementationRegistered(Class<T> classType) {
         for (AbstractModule value : registeredModules.values()) {
-            T actual = value.getImplementation(classType);
+            T actual = null;
+            try {
+                actual = value.getImplementation(classType);
+            } catch (Exception e) {
+            }
             if (actual != null) {
                 return actual;
             }
@@ -49,6 +57,11 @@ public abstract class DefaultAbstractModule implements AbstractModule {
     @Override
     public void removeModule(AbstractModule classType) {
         registeredModules.remove(classType.getModuleName());
+    }
+
+    @Override
+    public void removeModule(String moduleName) {
+        registeredModules.remove(moduleName);
     }
 
 }

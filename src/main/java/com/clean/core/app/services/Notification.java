@@ -11,7 +11,7 @@ public class Notification {
     private Notification() {
     }
 
-    public static void registerResourceService(NotificationService newService) {
+    public static void registerNotificationService(NotificationService newService) {
         notificationService = newService;
     }
 

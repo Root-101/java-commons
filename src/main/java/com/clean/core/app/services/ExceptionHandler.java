@@ -11,7 +11,7 @@ public class ExceptionHandler {
     private ExceptionHandler() {
     }
 
-    public static void registerResourceService(ExceptionHandlerService newService) {
+    public static void registerExceptionHandlerService(ExceptionHandlerService newService) {
         exceptionHandlerService = newService;
     }
 

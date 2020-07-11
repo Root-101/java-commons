@@ -3,6 +3,10 @@ package com.clean.core.app.modules;
 import java.util.Collection;
 import java.util.HashMap;
 
+/**
+ * 
+ * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
+ */
 public abstract class DefaultAbstractModule implements AbstractModule {
 
     private final HashMap<String, AbstractModule> registeredModules = new HashMap<>();

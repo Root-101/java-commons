@@ -14,7 +14,9 @@ public interface CRUDRepository<T> extends AbstractRepository {
 
     public T update(T objectToUpdate) throws Exception;
 
-    public T destroy(T objecttToDestroy) throws Exception;
+    public T destroy(T objectToDestroy) throws Exception;
+    
+    public T destroyById(Object keyId) throws Exception;
 
     public T findBy(Object keyId) throws Exception;
 

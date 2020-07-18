@@ -31,8 +31,8 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
     }
 
     @Override
-    public Domain update(Domain objectToUpdate) throws Exception {
-        return crudRepo.update(objectToUpdate);
+    public Domain edit(Domain objectToUpdate) throws Exception {
+        return crudRepo.edit(objectToUpdate);
     }
 
     @Override

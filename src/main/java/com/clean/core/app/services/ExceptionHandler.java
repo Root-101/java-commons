@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
-public class ExceptionHandler implements ExceptionHandlerService {
+public class ExceptionHandler {
 
     private static final List<ExceptionHandlerService> exceptionHandlerService = new ArrayList<>();
 
@@ -18,8 +18,7 @@ public class ExceptionHandler implements ExceptionHandlerService {
         exceptionHandlerService.add(newService);
     }
 
-    @Override
-    public void handleException(Exception ex) {
+    public static void handleException(Exception ex) {
         exceptionHandlerService.forEach(service -> {
             service.handleException(ex);
         });

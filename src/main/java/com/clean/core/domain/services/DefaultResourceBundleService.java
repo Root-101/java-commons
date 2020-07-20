@@ -7,11 +7,11 @@ import java.util.ResourceBundle;
  *
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
-public class ResourceServiceImpl implements ResourceService {
+public class DefaultResourceBundleService implements ResourceService {
 
     private ResourceBundle resourceBundle = null;
 
-    public ResourceServiceImpl(ResourceBundle resourceBundle) {
+    public DefaultResourceBundleService(ResourceBundle resourceBundle) {
         this.resourceBundle = resourceBundle;
     }
 
@@ -28,12 +28,17 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public String getString(String key) {//return only if contain key
-        return getResourceBundle().containsKey(key) ? getString(key) : key;
+        return getResourceBundle().containsKey(key) ? getResourceBundle().getString(key) : key;
     }
 
     @Override
     public Object getObject(String key) {//return only if contain key
-        return getResourceBundle().containsKey(key) ? getObject(key) : null;
+        return getResourceBundle().containsKey(key) ? getResourceBundle().getObject(key) : null;
+    }
+
+    @Override
+    public boolean contain(String key) {
+        return getResourceBundle().containsKey(key);
     }
 
 }

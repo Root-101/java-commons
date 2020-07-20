@@ -1,5 +1,8 @@
 package com.clean.core.domain.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Jorge
@@ -7,27 +10,34 @@ package com.clean.core.domain.services;
  */
 public class Resource {
 
-    private static ResourceService resourceService;
+    private static final List<ResourceService> resourceService = new ArrayList<>();
 
     private Resource() {
     }
 
     public static void registerResourceService(ResourceService newService) {
-        resourceService = newService;
-    }
-
-    public static ResourceService getResourceService() {
-        if (resourceService == null) {
-            throw new IllegalStateException("There isn't any ResourceService registered");
-        }
-        return resourceService;
+        resourceService.add(newService);
     }
 
     public static String getString(String key) {
-        return getResourceService().getString(key);
+        for (ResourceService res : resourceService) {
+            if (res.contain(key)) {
+                return res.getString(key);
+            }
+        }
+        return key;
+    }
+
+    public static boolean contain(String key) {
+        return resourceService.stream().anyMatch(res -> (res.contain(key)));
     }
 
     public static Object getObject(String key) {
-        return getResourceService().getObject(key);
+        for (ResourceService res : resourceService) {
+            if (res.contain(key)) {
+                return res.getObject(key);
+            }
+        }
+        return key;
     }
 }

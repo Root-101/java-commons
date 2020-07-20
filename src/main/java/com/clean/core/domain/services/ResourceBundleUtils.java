@@ -23,6 +23,10 @@ public class ResourceBundleUtils {
      */
     public static Locale ENGLISH = Locale.US;
 
+    public static ResourceBundle fromExternalFile(String externalFile, Locale locale) throws MalformedURLException {
+        return fromExternalFile(new File(externalFile), locale);
+    }
+
     /**
      * Create a ResourceBundle from an external {@code file}, asume the folder
      * as the file.getParentFile().toString() and the baseName as the
@@ -37,6 +41,7 @@ public class ResourceBundleUtils {
      * @throws MalformedURLException if the external file is not valid
      */
     public static ResourceBundle fromExternalFile(File externalFile, Locale locale) throws MalformedURLException {
+        externalFile = new File(externalFile.getAbsolutePath());
         String folder = externalFile.getParentFile().toString();
         String file = externalFile.getName();
         return fromExternalFile(folder, file, locale);

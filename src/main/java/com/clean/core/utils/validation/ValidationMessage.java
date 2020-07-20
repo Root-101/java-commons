@@ -1,5 +1,6 @@
 package com.clean.core.utils.validation;
 
+import com.clean.core.domain.services.Resource;
 import com.clean.core.utils.Severity;
 
 /**
@@ -38,7 +39,7 @@ public class ValidationMessage {
     public static ValidationMessage from(Object source, String messages, String detailMessages, Severity severity) {
         return new ValidationMessage(source, messages, detailMessages, severity);
     }
-    
+
     public String getMessage() {
         return message;
     }
@@ -57,7 +58,7 @@ public class ValidationMessage {
 
     @Override
     public String toString() {
-        return "ValidationMessage{" + "source=" + source + ", message=" + message + ", detailMessage=" + detailMessage + ", severity=" + severity + '}';
+        return message;
     }
 
     public static builder builder() {
@@ -105,7 +106,8 @@ public class ValidationMessage {
 
     private String unwrapString(String message) {
         if (message.startsWith(ENCLOSING_STRING) && message.endsWith(ENCLOSING_STRING)) {
-            throw new UnsupportedOperationException("Developing");
+            String keyCleaned = message.substring(ENCLOSING_STRING.length(), message.length() - ENCLOSING_STRING.length());
+            return Resource.getString(keyCleaned);
         } else {
             return message;
         }

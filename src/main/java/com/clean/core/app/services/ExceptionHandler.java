@@ -1,28 +1,28 @@
 package com.clean.core.app.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 
+ *
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
-public class ExceptionHandler {
+public class ExceptionHandler implements ExceptionHandlerService {
 
-    private static ExceptionHandlerService exceptionHandlerService;
+    private static final List<ExceptionHandlerService> exceptionHandlerService = new ArrayList<>();
 
     private ExceptionHandler() {
     }
 
     public static void registerExceptionHandlerService(ExceptionHandlerService newService) {
-        exceptionHandlerService = newService;
+        exceptionHandlerService.add(newService);
     }
 
-    public static ExceptionHandlerService getExceptionHandlerService() {
-        if (exceptionHandlerService == null) {
-            throw new IllegalStateException("Bad call");
-        }
-        return exceptionHandlerService;
+    @Override
+    public void handleException(Exception ex) {
+        exceptionHandlerService.forEach(service -> {
+            service.handleException(ex);
+        });
     }
 
-    public static void handleException(Exception ex) {
-        getExceptionHandlerService().handleException(ex);
-    }
 }

@@ -1,7 +1,7 @@
 package com.clean.core.app.services;
 
 /**
- * 
+ *
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public interface NotificationService {
@@ -12,4 +12,5 @@ public interface NotificationService {
 
     public Object showInputDialog(String type, String textToDisplay);
 
+    public boolean contain(String type);
 }

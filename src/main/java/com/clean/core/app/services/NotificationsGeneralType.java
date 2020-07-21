@@ -4,7 +4,7 @@ package com.clean.core.app.services;
  * 
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
-public class GeneralNotificationType {
+public class NotificationsGeneralType {
 
     public static final String NOTIFICATION_ERROR = "notification.general.error";
     public static final String NOTIFICATION_SUCCESS = "notification.general.succes";
@@ -19,6 +19,8 @@ public class GeneralNotificationType {
     public static final String CONFIRM_DELETE = "confirm.general.delete";
     public static final String CONFIRM_CANCEL = "confirm.general.cancel";
     public static final String CONFIRM_CONTINUE = "confirm.general.continue";
+    public static final String CONFIRM_ERROR = "confirm.general.error";
+    public static final String CONFIRM_INFO = "confirm.general.info";
 
     public static final String DIALOG_INPUT = "input.general.input";
 

@@ -19,9 +19,24 @@ public class ExceptionHandler {
     }
 
     public static void handleException(Exception ex) {
-        exceptionHandlerService.forEach(service -> {
-            service.handleException(ex);
-        });
+        for (ExceptionHandlerService exc : exceptionHandlerService) {
+            if (exc.contain(ex)) {
+                exc.handleException(ex);
+            }
+        }
     }
 
+    public static boolean contain(String type) {
+        if (exceptionHandlerService.stream().anyMatch(excep -> (excep.contain(type)))) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean contain(Exception ex) {
+        if (exceptionHandlerService.stream().anyMatch(excep -> (excep.contain(ex)))) {
+            return true;
+        }
+        return false;
+    }
 }

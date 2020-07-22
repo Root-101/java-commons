@@ -19,6 +19,7 @@ public class ExceptionHandler {
     }
 
     public static void handleException(Exception ex) {
+        ex.printStackTrace();
         for (ExceptionHandlerService exc : exceptionHandlerService) {
             if (exc.contain(ex)) {
                 exc.handleException(ex);
@@ -26,7 +27,7 @@ public class ExceptionHandler {
         }
     }
 
-    public static boolean contain(String type) {
+    public static boolean contain(Class type) {
         if (exceptionHandlerService.stream().anyMatch(excep -> (excep.contain(type)))) {
             return true;
         }

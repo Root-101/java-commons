@@ -37,16 +37,20 @@ public abstract class ExceptionHandlerServiceFunctional implements ExceptionHand
 
     @Override
     public boolean contain(Exception ex) {
-        return contain(getExceptionType(ex));
+        return contain(ex.getClass());
     }
 
     @Override
-    public boolean contain(String type) {
-        return exceptionsMap.containsKey(type);
+    public boolean contain(Class type) {
+        return exceptionsMap.containsKey(getExceptionType(type));
     }
 
-    public static String getExceptionType(Exception ex) {
-        String split[] = ex.getClass().toString().split(" ");
+    public static String getExceptionType(Exception type) {
+        return getExceptionType(type.getClass());
+    }
+
+    public static String getExceptionType(Class type) {
+        String split[] = type.toString().split(" ");
         return split[split.length - 1];
     }
 }

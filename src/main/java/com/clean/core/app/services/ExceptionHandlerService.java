@@ -10,5 +10,5 @@ public interface ExceptionHandlerService {
 
     public boolean contain(Exception ex);
 
-    public boolean contain(String type);
+    public boolean contain(Class type);
 }

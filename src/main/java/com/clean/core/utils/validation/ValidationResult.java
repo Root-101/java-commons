@@ -9,7 +9,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 
 /**
- * 
+ *
  * @author Jorge
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
@@ -60,7 +60,7 @@ public class ValidationResult {
 
     @Override
     public String toString() {
-        return messages.toString();
+        return messages.isEmpty() ? "" : messages.get(0).toString();
     }
 
     public void checkFromAnnotations(Object objectToCheck) {

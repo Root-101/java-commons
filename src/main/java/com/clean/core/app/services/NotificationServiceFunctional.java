@@ -31,7 +31,9 @@ public abstract class NotificationServiceFunctional<T> implements NotificationSe
     }
 
     protected abstract void addNotifications();
+
     protected abstract void addConfirmDialog();
+
     protected abstract void addInputDialog();
 
     public final void addNotification(String type, Consumer<T> consumer) {
@@ -48,17 +50,25 @@ public abstract class NotificationServiceFunctional<T> implements NotificationSe
 
     @Override
     public void showNotification(String type, T toDisplay) {
-        notifMap.get(type).accept(toDisplay);
+        if (notifMap.containsKey(type)) {
+            notifMap.get(type).accept(toDisplay);
+        }
     }
 
     @Override
     public boolean showConfirmDialog(String type, T toDisplay) {
-        return confirmMap.get(type).test(toDisplay);
+        if (confirmMap.containsKey(type)) {
+            return confirmMap.get(type).test(toDisplay);
+        }
+        return false;
     }
 
     @Override
     public Object showInputDialog(String type, T toDisplay) {
-        return inputMap.get(type).apply(toDisplay);
+        if (inputMap.containsKey(type)) {
+            return inputMap.get(type).apply(toDisplay);
+        }
+        return null;
     }
 
     @Override

@@ -24,9 +24,7 @@ public class Notification {
 
     public static void showNotification(String type, Object textToDisplay) {
         for (NotificationService notif : notificationService) {
-            if (notif.contain(type)) {
-                notif.showNotification(type, textToDisplay);
-            }
+            notif.showNotification(type, textToDisplay);
         }
     }
 

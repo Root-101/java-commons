@@ -5,9 +5,9 @@ import com.clean.core.utils.validation.checkables.impl.NeverCheckable;
 import com.clean.core.utils.validation.checkables.impl.SizeExactCheckable;
 
 /**
- *
+ * 
  * @author Jorge
- * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
+ * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public class CheckerFactory {
 

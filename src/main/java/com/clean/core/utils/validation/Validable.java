@@ -1,14 +1,14 @@
 package com.clean.core.utils.validation;
 
-import javax.validation.ValidationException;
+import com.clean.core.exceptions.ValidationException;
 
 /**
  * 
  * @author Jorge
- * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
+ * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public interface Validable {
-    
+
     public ValidationResult validate() throws ValidationException;
 
 }

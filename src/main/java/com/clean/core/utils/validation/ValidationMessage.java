@@ -1,10 +1,12 @@
 package com.clean.core.utils.validation;
 
+import com.clean.core.domain.services.Resource;
 import com.clean.core.utils.Severity;
 
 /**
  *
- * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
+ * @author Jorge
+ * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public class ValidationMessage {
 
@@ -38,10 +40,6 @@ public class ValidationMessage {
         return new ValidationMessage(source, messages, detailMessages, severity);
     }
 
-    public static ValidationMessage from(DefaultMessage messages) {
-        throw new UnsupportedOperationException();
-    }
-
     public String getMessage() {
         return message;
     }
@@ -60,7 +58,7 @@ public class ValidationMessage {
 
     @Override
     public String toString() {
-        return "ValidationMessage{" + "source=" + source + ", message=" + message + ", detailMessage=" + detailMessage + ", severity=" + severity + '}';
+        return message;
     }
 
     public static builder builder() {
@@ -102,9 +100,14 @@ public class ValidationMessage {
         }
     }
 
+    public static String msgFromResource(String text) {
+        return ENCLOSING_STRING + text + ENCLOSING_STRING;
+    }
+
     private String unwrapString(String message) {
         if (message.startsWith(ENCLOSING_STRING) && message.endsWith(ENCLOSING_STRING)) {
-            throw new UnsupportedOperationException("Developing");
+            String keyCleaned = message.substring(ENCLOSING_STRING.length(), message.length() - ENCLOSING_STRING.length());
+            return Resource.getString(keyCleaned);
         } else {
             return message;
         }

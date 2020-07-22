@@ -1,9 +1,11 @@
 package com.clean.core.domain;
 
+import java.io.Serializable;
 
 /**
  *
- * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
  * @author Jorge
+ * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
-public abstract class DomainObject{}
+public abstract class DomainObject implements Serializable {
+}

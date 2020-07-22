@@ -25,4 +25,9 @@ dependencies{
        
     implementation 'org.glassfish.web:javax.el:2.2.6'
     
+    // https://mvnrepository.com/artifact/com.google.inject/guice
+    compile group: 'com.google.inject', name: 'guice', version: '4.2.3'
+    // https://mvnrepository.com/artifact/javax.inject/javax.inject
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
+    
 }

@@ -9,8 +9,8 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- *
- * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
+ * 
+ * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)

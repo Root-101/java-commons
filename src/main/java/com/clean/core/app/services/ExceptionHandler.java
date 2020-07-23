@@ -1,6 +1,7 @@
 package com.clean.core.app.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,7 +20,8 @@ public class ExceptionHandler {
     }
 
     public static void handleException(Exception ex) {
-        ex.printStackTrace();
+        System.out.println("Handling Exception: " + ex.getMessage());
+        System.out.println(Arrays.toString(ex.getStackTrace()));
         for (ExceptionHandlerService exc : exceptionHandlerService) {
             if (exc.contain(ex)) {
                 exc.handleException(ex);

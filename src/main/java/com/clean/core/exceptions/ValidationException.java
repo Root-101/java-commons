@@ -1,10 +1,10 @@
 package com.clean.core.exceptions;
 
+import com.clean.core.utils.validation.ValidationMessage;
 import com.clean.core.utils.validation.ValidationResult;
-import com.clean.core.utils.validation.checkables.CheckerFactory;
 
 /**
- * 
+ *
  * @author Jorge
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
@@ -16,10 +16,10 @@ public class ValidationException extends IllegalArgumentException {
         this(null, string);
     }
 
-    public ValidationException(Object source, String string) {
-        super(string);
+    public ValidationException(String source, String message) {
+        super(message);
         this.validationErrors = new ValidationResult();
-        this.validationErrors.check(CheckerFactory.buildNeverCheckable(source), string);
+        this.validationErrors.add(ValidationMessage.from(source, message));
     }
 
     public ValidationException(ValidationResult validationErrors) {

@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * 
+ *
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public class SizeExactRegister implements ConstraintValidator<SizeExact, String> {
@@ -21,7 +21,7 @@ public class SizeExactRegister implements ConstraintValidator<SizeExact, String>
 
     @Override
     public boolean isValid(String text, ConstraintValidatorContext cvc) {
-        return CheckerFactory.buildLengthExactCheckable(text, length).check();
+        return CheckerFactory.buildLengthExactCheckable("source", text, length).check();
     }
 
 }

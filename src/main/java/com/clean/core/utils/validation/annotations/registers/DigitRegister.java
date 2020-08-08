@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * 
+ *
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public class DigitRegister implements ConstraintValidator<Digit, Character> {
@@ -18,7 +18,7 @@ public class DigitRegister implements ConstraintValidator<Digit, Character> {
 
     @Override
     public boolean isValid(Character digit, ConstraintValidatorContext cvc) {
-        return CheckerFactory.buildDigitCheckable(digit).check();
+        return CheckerFactory.buildDigitCheckable("source", digit).check();
     }
 
 }

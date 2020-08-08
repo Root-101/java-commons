@@ -3,16 +3,18 @@ package com.clean.core.utils.validation.checkables.impl;
 import com.clean.core.utils.validation.checkables.Checkable;
 
 /**
- * 
+ *
  * @author Jorge
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public class NeverCheckable implements Checkable {
 
-    private final Object source;
+    private final String source;
+    private final Object value;
 
-    public NeverCheckable(Object source) {
+    public NeverCheckable(String source, Object value) {
         this.source = source;
+        this.value = value;
     }
 
     @Override
@@ -21,8 +23,13 @@ public class NeverCheckable implements Checkable {
     }
 
     @Override
-    public Object getSource() {
+    public String getSource() {
         return source;
+    }
+
+    @Override
+    public Object getValue() {
+        return value;
     }
 
 }

@@ -73,7 +73,7 @@ public class ValidationResult {
 
     private void add(Set<ConstraintViolation<Object>> validate) {
         for (ConstraintViolation<Object> c : validate) {
-            add(ValidationMessage.from(c.getInvalidValue(), c.getMessage()));
+            add(ValidationMessage.from(c.getPropertyPath().toString(), c.getInvalidValue(), c.getMessage()));
         }
     }
 

@@ -11,33 +11,38 @@ import com.clean.core.utils.Severity;
 public class ValidationMessage {
 
     public static final String ENCLOSING_STRING = "#";
+    public static final String SPLIT_STRING = "#";
 
-    private final Object source;
+    private final String source;
+    private final Object value;
     private final String message;
     private final String detailMessage;
     private final Severity severity;
 
-    private ValidationMessage(Object source, String message, Severity severity) {
-        this(source, message, message, severity);
-    }
-
-    private ValidationMessage(Object source, String message, String detailMessage, Severity severity) {
+    private ValidationMessage(String source, Object value, String message, String detailMessage, Severity severity) {
         this.source = source;
+        this.value = value;
         this.message = unwrapString(message);
         this.detailMessage = unwrapString(detailMessage);
         this.severity = severity;
     }
 
-    public static ValidationMessage from(Object source, String message) {
-        return new ValidationMessage(source, message, message, Severity.WARNING);
+    public static ValidationMessage from(String source, String message) {
+        String split[] = message.split(SPLIT_STRING);
+        String messageSimple = split[0];
+        String messageDetail = split.length >= 1 ? split[1] : messageSimple;
+        return new ValidationMessage(source, null, messageSimple, messageDetail, Severity.WARNING);
     }
 
-    public static ValidationMessage from(Object source, String messages, Severity severity) {
-        return new ValidationMessage(source, messages, severity);
+    public static ValidationMessage from(String source, Object value, String message) {
+        String split[] = message.split(SPLIT_STRING);
+        String messageSimple = split[0];
+        String messageDetail = split.length >= 1 ? split[1] : messageSimple;
+        return new ValidationMessage(source, value, messageSimple, messageDetail, Severity.WARNING);
     }
 
-    public static ValidationMessage from(Object source, String messages, String detailMessages, Severity severity) {
-        return new ValidationMessage(source, messages, detailMessages, severity);
+    public static ValidationMessage from(String source, String messages, String detailMessages) {
+        return new ValidationMessage(source, null, messages, detailMessages, Severity.WARNING);
     }
 
     public String getMessage() {
@@ -52,8 +57,12 @@ public class ValidationMessage {
         return severity;
     }
 
-    public Object getSource() {
+    public String getSource() {
         return source;
+    }
+
+    public Object getValue() {
+        return value;
     }
 
     @Override
@@ -67,13 +76,19 @@ public class ValidationMessage {
 
     public static class builder {
 
-        private Object source;
+        private String source;
+        private Object value;
         private String message;
         private String detailMessage;
         private Severity severity = Severity.WARNING;
 
-        public builder source(Object source) {
+        public builder source(String source) {
             this.source = source;
+            return this;
+        }
+
+        public builder value(Object value) {
+            this.value = value;
             return this;
         }
 
@@ -87,7 +102,7 @@ public class ValidationMessage {
             return this;
         }
 
-        public builder source(Severity severity) {
+        public builder severity(Severity severity) {
             this.severity = severity;
             return this;
         }
@@ -96,7 +111,7 @@ public class ValidationMessage {
             if (detailMessage == null) {
                 detailMessage = message;
             }
-            return new ValidationMessage(source, message, detailMessage, severity);
+            return new ValidationMessage(source, value, message, detailMessage, severity);
         }
     }
 

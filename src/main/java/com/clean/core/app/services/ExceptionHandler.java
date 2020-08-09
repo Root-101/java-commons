@@ -22,10 +22,16 @@ public class ExceptionHandler {
     public static void handleException(Exception ex) {
         System.out.println("Handling Exception: " + ex.getMessage());
         System.out.println(Arrays.toString(ex.getStackTrace()));
+        boolean found = false;
         for (ExceptionHandlerService exc : exceptionHandlerService) {
             if (exc.contain(ex)) {
                 exc.handleException(ex);
+                found = true;
             }
+        }
+        //si no se encontro y no es una Exception generica, la convierto a generica y la proceso
+        if (!found && !ex.getClass().toString().equals(Exception.class.toString())) {
+            handleException(new Exception(ex));
         }
     }
 

@@ -11,7 +11,7 @@ import com.clean.core.utils.Severity;
 public class ValidationMessage {
 
     public static final String ENCLOSING_STRING = "#";
-    public static final String SPLIT_STRING = "#";
+    public static final String SPLIT_STRING = "~";
 
     private final String source;
     private final Object value;
@@ -30,14 +30,14 @@ public class ValidationMessage {
     public static ValidationMessage from(String source, String message) {
         String split[] = message.split(SPLIT_STRING);
         String messageSimple = split[0];
-        String messageDetail = split.length >= 1 ? split[1] : messageSimple;
+        String messageDetail = split.length >= 2 ? split[1] : messageSimple;
         return new ValidationMessage(source, null, messageSimple, messageDetail, Severity.WARNING);
     }
 
     public static ValidationMessage from(String source, Object value, String message) {
         String split[] = message.split(SPLIT_STRING);
         String messageSimple = split[0];
-        String messageDetail = split.length >= 1 ? split[1] : messageSimple;
+        String messageDetail = split.length >= 2 ? split[1] : messageSimple;
         return new ValidationMessage(source, value, messageSimple, messageDetail, Severity.WARNING);
     }
 

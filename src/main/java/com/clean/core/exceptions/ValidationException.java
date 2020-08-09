@@ -26,6 +26,10 @@ public class ValidationException extends IllegalArgumentException {
         this.validationErrors = validationErrors;
     }
 
+    public ValidationResult getValidationErrors() {
+        return validationErrors;
+    }
+
     @Override
     public String getMessage() {
         return validationErrors.toString();

@@ -1,5 +1,7 @@
 package com.clean.core.app.repo;
 
+import java.util.List;
+
 /**
  *
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
@@ -8,8 +10,12 @@ package com.clean.core.app.repo;
  */
 public interface Converter<Domain, Entity> {
 
-    public Domain from(Entity object);
+    public Domain from(Entity object) throws Exception;
 
-    public Entity to(Domain object);
+    public Entity to(Domain object) throws Exception;
+
+    public List<Domain> from(List<Entity> object) throws Exception;
+
+    public List<Entity> to(List<Domain> object) throws Exception;
 
 }

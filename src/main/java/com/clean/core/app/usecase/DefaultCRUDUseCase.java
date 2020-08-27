@@ -36,8 +36,8 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
     }
 
     @Override
-    public Domain destroy(Domain objecttToDestroy) throws Exception {
-        return crudRepo.destroy(objecttToDestroy);
+    public Domain destroy(Domain objectToDestroy) throws Exception {
+        return crudRepo.destroy(objectToDestroy);
     }
 
     @Override

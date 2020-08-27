@@ -23,6 +23,7 @@ public class NotificationsGeneralType {
     public static final String CONFIRM_CONTINUE = "confirm.general.continue";
     public static final String CONFIRM_ERROR = "confirm.general.error";
     public static final String CONFIRM_INFO = "confirm.general.info";
+    public static final String CONFIRM_GENERAL = "confirm.general.general";
 
     public static final String DIALOG_INPUT = "input.general.input";
 

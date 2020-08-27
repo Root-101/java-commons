@@ -1,23 +1,37 @@
 package com.clean.core.exceptions;
 
+import com.clean.core.utils.validation.ValidationMessage;
 import com.clean.core.utils.validation.ValidationResult;
 
 /**
  *
- * @author Jesús Hernández Barrios (jhernandezb96@gmail.com)
+ * @author Jorge
+ * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
 public class ValidationException extends IllegalArgumentException {
 
-    public ValidationException() {
-    }
+    private final ValidationResult validationErrors;
 
     public ValidationException(String string) {
-        super(string);
-    }
-    
-    
-    public ValidationException(ValidationResult validationErrors) {
-        throw new UnsupportedOperationException(); //To change body of generated methods, choose Tools | Templates.
+        this(null, string);
     }
 
+    public ValidationException(String source, String message) {
+        super(message);
+        this.validationErrors = new ValidationResult();
+        this.validationErrors.add(ValidationMessage.from(source, message));
+    }
+
+    public ValidationException(ValidationResult validationErrors) {
+        this.validationErrors = validationErrors;
+    }
+
+    public ValidationResult getValidationErrors() {
+        return validationErrors;
+    }
+
+    @Override
+    public String getMessage() {
+        return validationErrors.toString();
+    }
 }

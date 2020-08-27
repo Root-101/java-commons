@@ -1,0 +1,33 @@
+apply plugin: 'java'
+//apply plugin: 'jacoco'
+apply plugin: 'maven'
+
+group = 'com.clean.core'
+repositories {
+    jcenter()
+}
+
+dependencies{
+    
+    testCompile 'junit:junit:4.12'
+    
+    // https://mvnrepository.com/artifact/javax.validation/validation-api
+    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final' 
+    
+    // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.0.Final'
+        
+    // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator-annotation-processor
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator-annotation-processor', version: '6.1.0.Final'
+
+    // https://mvnrepository.com/artifact/javax.el/javax.el-api
+    compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
+       
+    implementation 'org.glassfish.web:javax.el:2.2.6'
+    
+    // https://mvnrepository.com/artifact/com.google.inject/guice
+    compile group: 'com.google.inject', name: 'guice', version: '4.2.3'
+    // https://mvnrepository.com/artifact/javax.inject/javax.inject
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
+    
+}

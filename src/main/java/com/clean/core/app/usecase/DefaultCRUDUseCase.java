@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
+    private transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
+
     protected CRUDRepository<Domain> crudRepo;
 
     protected CRUDRepository<Domain> getRepo() {
@@ -27,37 +29,64 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
     @Override
     public Domain create(Domain newObject) throws Exception {
-        return crudRepo.create(newObject);
+        Domain d = crudRepo.create(newObject);
+        firePropertyChange("create", newObject, d);
+        return d;
     }
 
     @Override
     public Domain edit(Domain objectToUpdate) throws Exception {
-        return crudRepo.edit(objectToUpdate);
+        Domain d = crudRepo.edit(objectToUpdate);
+        firePropertyChange("edit", objectToUpdate, d);
+        return d;
     }
 
     @Override
     public Domain destroy(Domain objectToDestroy) throws Exception {
-        return crudRepo.destroy(objectToDestroy);
+        Domain d = crudRepo.destroy(objectToDestroy);
+        firePropertyChange("destroy", objectToDestroy, d);
+        return d;
     }
 
     @Override
     public Domain destroyById(Object keyId) throws Exception {
-        return crudRepo.destroyById(keyId);
+        Domain d = crudRepo.destroyById(keyId);
+        firePropertyChange("destroyById", keyId, d);
+        return d;
     }
 
     @Override
     public Domain findBy(Object keyId) throws Exception {
-        return crudRepo.findBy(keyId);
+        Domain d = crudRepo.findBy(keyId);
+        firePropertyChange("findBy", keyId, d);
+        return d;
     }
 
     @Override
     public List<Domain> findAll() throws Exception {
-        return crudRepo.findAll();
+        List<Domain> d = crudRepo.findAll();
+        firePropertyChange("findAll", null, d);
+        return d;
     }
 
     @Override
     public int count() throws Exception {
-        return crudRepo.count();
+        int c = crudRepo.count();
+        firePropertyChange("count", null, c);
+        return c;
     }
 
+    @Override
+    public void addPropertyChangeListener(java.beans.PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(java.beans.PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    private void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    }
 }

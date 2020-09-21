@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  */
 public abstract class ExceptionHandlerServiceFunctional implements ExceptionHandlerService {
 
-    private final HashMap<String, Consumer<Exception>> exceptionsMap = new HashMap<>();
+    private final HashMap<String, Consumer<Throwable>> exceptionsMap = new HashMap<>();
 
     public ExceptionHandlerServiceFunctional() {
         addAll();
@@ -22,21 +22,21 @@ public abstract class ExceptionHandlerServiceFunctional implements ExceptionHand
 
     protected abstract void addAll();
 
-    public final void addHandler(String type, Consumer<Exception> consumer) {
+    public final void addHandler(String type, Consumer<Throwable> consumer) {
         exceptionsMap.put(type, consumer);
     }
 
     @Override
-    public void handleException(Exception ex) {
+    public void handleException(Throwable ex) {
         handleExceptionInternal(getExceptionType(ex), ex);
     }
 
-    private void handleExceptionInternal(String type, Exception ex) {
+    private void handleExceptionInternal(String type, Throwable ex) {
         exceptionsMap.get(type).accept(ex);
     }
 
     @Override
-    public boolean contain(Exception ex) {
+    public boolean contain(Throwable ex) {
         return contain(ex.getClass());
     }
 
@@ -45,7 +45,7 @@ public abstract class ExceptionHandlerServiceFunctional implements ExceptionHand
         return exceptionsMap.containsKey(getExceptionType(type));
     }
 
-    public static String getExceptionType(Exception type) {
+    public static String getExceptionType(Throwable type) {
         return getExceptionType(type.getClass());
     }
 

@@ -6,9 +6,9 @@ package com.clean.core.app.services;
  */
 public interface ExceptionHandlerService {
 
-    public void handleException(Exception ex);
+    public void handleException(Throwable ex);
 
-    public boolean contain(Exception ex);
+    public boolean contain(Throwable ex);
 
     public boolean contain(Class type);
 }

@@ -19,7 +19,7 @@ public class ExceptionHandler {
         exceptionHandlerService.add(newService);
     }
 
-    public static void handleException(Exception ex) {
+    public static void handleException(Throwable ex) {
         System.out.println("Handling Exception: " + ex.getMessage());
         System.out.println(Arrays.toString(ex.getStackTrace()));
         boolean found = false;

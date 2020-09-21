@@ -30,35 +30,35 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
     @Override
     public Domain create(Domain newObject) throws Exception {
         Domain d = crudRepo.create(newObject);
-        firePropertyChange("create", newObject, d);
+        firePropertyChange("create", null, d);
         return d;
     }
 
     @Override
     public Domain edit(Domain objectToUpdate) throws Exception {
         Domain d = crudRepo.edit(objectToUpdate);
-        firePropertyChange("edit", objectToUpdate, d);
+        firePropertyChange("edit", null, d);
         return d;
     }
 
     @Override
     public Domain destroy(Domain objectToDestroy) throws Exception {
         Domain d = crudRepo.destroy(objectToDestroy);
-        firePropertyChange("destroy", objectToDestroy, d);
+        firePropertyChange("destroy", null, d);
         return d;
     }
 
     @Override
     public Domain destroyById(Object keyId) throws Exception {
         Domain d = crudRepo.destroyById(keyId);
-        firePropertyChange("destroyById", keyId, d);
+        firePropertyChange("destroyById", null, d);
         return d;
     }
 
     @Override
     public Domain findBy(Object keyId) throws Exception {
         Domain d = crudRepo.findBy(keyId);
-        firePropertyChange("findBy", keyId, d);
+        firePropertyChange("findBy", null, d);
         return d;
     }
 

@@ -14,6 +14,8 @@ import com.clean.core.app.repo.ReadWriteRepository;
  */
 public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain> {
 
+    private transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
+
     protected ReadWriteRepository<Domain> readWriteRepo;
 
     public DefaultReadWriteUseCase() {
@@ -33,12 +35,28 @@ public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain>
 
     @Override
     public Domain read() throws Exception {
-        return readWriteRepo.read();
+        Domain d = readWriteRepo.read();
+        firePropertyChange("read", null, d);
+        return d;
     }
 
     @Override
     public void write(Domain object) throws Exception {
         readWriteRepo.write(object);
+        firePropertyChange("write", null, object);
     }
 
+    @Override
+    public void addPropertyChangeListener(java.beans.PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(java.beans.PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    private void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    }
 }

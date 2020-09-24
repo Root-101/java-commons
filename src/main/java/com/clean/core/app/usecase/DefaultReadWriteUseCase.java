@@ -6,6 +6,8 @@
 package com.clean.core.app.usecase;
 
 import com.clean.core.app.repo.ReadWriteRepository;
+import com.clean.core.utils.validation.Validable;
+import com.clean.core.utils.validation.ValidationResult;
 
 /**
  *
@@ -42,6 +44,8 @@ public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain>
 
     @Override
     public void write(Domain object) throws Exception {
+        validateDomain(object);
+        
         readWriteRepo.write(object);
         firePropertyChange("write", null, object);
     }
@@ -58,5 +62,12 @@ public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain>
 
     private void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    }
+
+    private ValidationResult validateDomain(Domain domain) throws Exception {
+        if (domain instanceof Validable) {
+            return ((Validable) domain).validate().throwException();
+        }
+        return new ValidationResult();
     }
 }

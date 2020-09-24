@@ -6,6 +6,8 @@
 package com.clean.core.app.usecase;
 
 import com.clean.core.app.repo.CRUDRepository;
+import com.clean.core.utils.validation.Validable;
+import com.clean.core.utils.validation.ValidationResult;
 import java.util.List;
 
 /**
@@ -29,6 +31,8 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
     @Override
     public Domain create(Domain newObject) throws Exception {
+        validateDomain(newObject);
+        
         Domain d = crudRepo.create(newObject);
         firePropertyChange("create", null, d);
         return d;
@@ -36,6 +40,8 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
     @Override
     public Domain edit(Domain objectToUpdate) throws Exception {
+        validateDomain(objectToUpdate);
+        
         Domain d = crudRepo.edit(objectToUpdate);
         firePropertyChange("edit", null, d);
         return d;
@@ -88,5 +94,12 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
     private void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    }
+
+    private ValidationResult validateDomain(Domain domain) throws Exception {
+        if (domain instanceof Validable) {
+            return ((Validable) domain).validate().throwException();
+        }
+        return new ValidationResult();
     }
 }

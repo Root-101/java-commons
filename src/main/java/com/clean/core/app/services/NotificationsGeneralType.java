@@ -15,6 +15,7 @@ public class NotificationsGeneralType {
     public static final String NOTIFICATION_WARNING = "notification.general.warning";
     public static final String NOTIFICATION_LOGIN = "notification.general.login";
     public static final String NOTIFICATION_LOGOUT = "notification.general.logout";
+    public static final String NOTIFICATION_SIMPLE_TEXT = "notification.general.simple";
 
     public static final String CONFIRM_CREATE = "confirm.general.create";
     public static final String CONFIRM_EDIT = "confirm.general.edit";

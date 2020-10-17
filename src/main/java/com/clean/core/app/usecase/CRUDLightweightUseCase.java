@@ -11,19 +11,11 @@ package com.clean.core.app.usecase;
  */
 public interface CRUDLightweightUseCase<T> extends CRUDUseCase<T> {
 
-    public default void create_ligth(T newObject) throws Exception {
-        create(newObject);
-    }
+    public void create_light(T newObject) throws Exception;
 
-    public default void edit_ligth(T objectToUpdate) throws Exception {
-        edit(objectToUpdate);
-    }
+    public void edit_light(T objectToUpdate) throws Exception;
 
-    public default void destroy_ligth(T objectToDestroy) throws Exception {
-        destroy(objectToDestroy);
-    }
+    public void destroy_light(T objectToDestroy) throws Exception;
 
-    public default void destroyById_ligth(Object keyId) throws Exception {
-        destroyById(keyId);
-    }
+    public void destroyById_light(Object keyId) throws Exception;
 }

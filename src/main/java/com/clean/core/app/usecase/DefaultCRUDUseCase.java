@@ -92,7 +92,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    private void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 

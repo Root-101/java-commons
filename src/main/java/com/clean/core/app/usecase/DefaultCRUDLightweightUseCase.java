@@ -6,7 +6,6 @@
 package com.clean.core.app.usecase;
 
 import com.clean.core.app.repo.CRUDLightweightRepo;
-import com.clean.core.app.repo.CRUDRepository;
 
 /**
  *
@@ -28,26 +27,26 @@ public class DefaultCRUDLightweightUseCase<Domain> extends DefaultCRUDUseCase<Do
     }
 
     @Override
-    public void create_ligth(Domain newObject) throws Exception {
-        crudLightRepo.create_ligth(newObject);
+    public void create_light(Domain newObject) throws Exception {
+        crudLightRepo.create_light(newObject);
         firePropertyChange("create_light", null, null);
     }
 
     @Override
-    public void edit_ligth(Domain objectToUpdate) throws Exception {
-        crudLightRepo.edit_ligth(objectToUpdate);
+    public void edit_light(Domain objectToUpdate) throws Exception {
+        crudLightRepo.edit_light(objectToUpdate);
         firePropertyChange("edit_light", null, null);
     }
 
     @Override
-    public void destroy_ligth(Domain objectToDestroy) throws Exception {
-        crudLightRepo.destroy_ligth(objectToDestroy);
+    public void destroy_light(Domain objectToDestroy) throws Exception {
+        crudLightRepo.destroy_light(objectToDestroy);
         firePropertyChange("destroy_light", null, null);
     }
 
     @Override
-    public void destroyById_ligth(Object keyId) throws Exception {
-        crudLightRepo.destroyById_ligth(keyId);
+    public void destroyById_light(Object keyId) throws Exception {
+        crudLightRepo.destroyById_light(keyId);
         firePropertyChange("destroyById_light", null, null);
     }
 

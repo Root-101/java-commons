@@ -11,11 +11,11 @@ package com.clean.core.app.repo;
  */
 public interface CRUDLightweightRepo<T> extends CRUDRepository<T> {
 
-    public void create_ligth(T newObject) throws Exception;
+    public void create_light(T newObject) throws Exception;
 
-    public void edit_ligth(T objectToUpdate) throws Exception;
+    public void edit_light(T objectToUpdate) throws Exception;
 
-    public void destroy_ligth(T objectToDestroy) throws Exception;
+    public void destroy_light(T objectToDestroy) throws Exception;
 
-    public void destroyById_ligth(Object keyId) throws Exception;
+    public void destroyById_light(Object keyId) throws Exception;
 }

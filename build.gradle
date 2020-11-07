@@ -4,6 +4,8 @@ plugins {
 
 group = 'com.clean.core'
 
+version = '1.2.0.RELEASE.20201106'
+
 repositories {
     jcenter()
     mavenCentral()

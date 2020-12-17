@@ -4,18 +4,18 @@ package com.clean.core.app.services;
  * 
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  */
-public class LoginHandler {
+public class AuthenticationHandler {
 
-    private static LoginHandlerService loginHandlerService;
+    private static AuthenticationHandlerService loginHandlerService;
 
-    private LoginHandler() {
+    private AuthenticationHandler() {
     }
 
-    public static void registerLoginHandlerService(LoginHandlerService newService) {
+    public static void registerLoginHandlerService(AuthenticationHandlerService newService) {
         loginHandlerService = newService;
     }
 
-    public static LoginHandlerService getLoginHandlerService() {
+    public static AuthenticationHandlerService getLoginHandlerService() {
         if (loginHandlerService == null) {
             throw new IllegalStateException("Bad call");
         }

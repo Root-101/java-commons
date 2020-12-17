@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
-    private transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
+    protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
     protected CRUDRepository<Domain> crudRepo;
 

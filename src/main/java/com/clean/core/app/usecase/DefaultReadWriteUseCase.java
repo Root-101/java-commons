@@ -16,7 +16,7 @@ import com.clean.core.utils.validation.ValidationResult;
  */
 public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain> {
 
-    private transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
+    protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
     protected ReadWriteRepository<Domain> readWriteRepo;
 
@@ -60,7 +60,7 @@ public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain>
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    private void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 

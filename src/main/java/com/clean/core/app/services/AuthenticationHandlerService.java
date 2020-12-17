@@ -1,6 +1,5 @@
 package com.clean.core.app.services;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +19,5 @@ public interface AuthenticationHandlerService<UserType, PassType, AnswType, Loge
 
     public AnswType login(UserType user, PassType pass, Map<String, Object> args);
 
-    public LogedUserType user();
-
-    public boolean checkAccess(Method method);
+    //public boolean checkAccess(Method method){throw }
 }

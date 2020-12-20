@@ -28,11 +28,14 @@ public class AuthenticationHandler {
         return authHandlerService;
     }
 
-    public static <T> T login(Object user, Object pass) {
-        return (T) getAuthHandlerService().login(user, pass);
+    public static boolean login(Object user, Object pass) {
+        return getAuthHandlerService().login(user, pass);
     }
 
-    public static <T> T login(Object user, Object pass, Map<String, Object> args) {
-        return (T) getAuthHandlerService().login(user, pass, args);
+    public static boolean login(Object user, Object pass, Map<String, Object> args) {
+        return getAuthHandlerService().login(user, pass, args);
+    }
+    public static boolean logout() {
+        return getAuthHandlerService().logout();
     }
 }

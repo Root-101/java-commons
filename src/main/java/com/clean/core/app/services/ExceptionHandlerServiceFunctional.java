@@ -26,6 +26,12 @@ public abstract class ExceptionHandlerServiceFunctional implements ExceptionHand
         exceptionsMap.put(type, consumer);
     }
 
+    public final void addHandler(Consumer<Throwable> consumer, String... type) {
+        for (String string : type) {
+            exceptionsMap.put(string, consumer);
+        }
+    }
+
     @Override
     public void handleException(Throwable ex) {
         handleExceptionInternal(getExceptionType(ex), ex);

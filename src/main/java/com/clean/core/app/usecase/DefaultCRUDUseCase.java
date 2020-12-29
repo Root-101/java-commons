@@ -6,6 +6,7 @@
 package com.clean.core.app.usecase;
 
 import com.clean.core.app.repo.CRUDRepository;
+import com.clean.core.utils.Licenced;
 import com.clean.core.utils.validation.Validable;
 import com.clean.core.utils.validation.ValidationResult;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * @author Jesus Hernandez Barrios (jhernandezb96@gmail.com)
  * @param <Domain>
  */
+@Licenced
 public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
@@ -29,24 +31,27 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
         this.crudRepo = repo;
     }
 
+    @Licenced
     @Override
     public Domain create(Domain newObject) throws Exception {
         validateDomain(newObject);
-        
+
         Domain d = crudRepo.create(newObject);
         firePropertyChange("create", null, d);
         return d;
     }
 
+    @Licenced
     @Override
     public Domain edit(Domain objectToUpdate) throws Exception {
         validateDomain(objectToUpdate);
-        
+
         Domain d = crudRepo.edit(objectToUpdate);
         firePropertyChange("edit", null, d);
         return d;
     }
 
+    @Licenced
     @Override
     public Domain destroy(Domain objectToDestroy) throws Exception {
         Domain d = crudRepo.destroy(objectToDestroy);
@@ -54,6 +59,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
         return d;
     }
 
+    @Licenced
     @Override
     public Domain destroyById(Object keyId) throws Exception {
         Domain d = crudRepo.destroyById(keyId);

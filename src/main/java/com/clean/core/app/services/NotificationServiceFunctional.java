@@ -30,11 +30,14 @@ public abstract class NotificationServiceFunctional<T> implements NotificationSe
         addInputDialog();
     }
 
-    protected abstract void addNotifications();
+    protected void addNotifications() {
+    }
 
-    protected abstract void addConfirmDialog();
+    protected void addConfirmDialog() {
+    }
 
-    protected abstract void addInputDialog();
+    protected void addInputDialog() {
+    }
 
     public final void addNotification(String type, Consumer<T> consumer) {
         notifMap.put(type, consumer);

@@ -4,7 +4,7 @@ plugins {
 
 group = 'com.clean.core'
 
-version = '1.4.0.RELEASE.20201219'
+version = '1.5.0.RELEASE.20201228'
 
 repositories {
     jcenter()

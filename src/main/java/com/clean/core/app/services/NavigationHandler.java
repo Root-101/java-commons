@@ -19,36 +19,32 @@ package com.clean.core.app.services;
 import com.clean.core.exceptions.AlreadyRegisteredService;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class UserResolver {
+public class NavigationHandler {
 
-    private static UserResolverService userResolverService;
+    private static NavigationService navigationService;
 
-    private UserResolver() {
+    private NavigationHandler() {
     }
 
-    public static void registerUserResolverService(UserResolverService newService) {
-        if (userResolverService != null) {
-            throw new AlreadyRegisteredService("UserResolver");
+    public static void registerNavigationService(NavigationService newService) {
+        if (navigationService != null) {
+            throw new AlreadyRegisteredService("Licence");
         }
-        userResolverService = newService;
+        navigationService = newService;
     }
 
-    public static UserResolverService getUserResolverService() {
-        if (userResolverService == null) {
+    public static NavigationService getNavigationService() {
+        if (navigationService == null) {
             throw new IllegalStateException("Bad call");
         }
-        return userResolverService;
+        return navigationService;
     }
 
-    public static <T> T resolveUser() throws Exception {
-        return (T) getUserResolverService().resolveUser();
-    }
-
-    public static <T> T resolveUser(Class<T> clazz) throws Exception {
-        return (T) getUserResolverService().resolveUser();
+    public static void navigateTo(String to, Object caller) {
+        getNavigationService().navigateTo(to, caller);
     }
 }

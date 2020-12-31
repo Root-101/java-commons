@@ -16,36 +16,16 @@
  */
 package com.clean.core.app.services;
 
-import com.clean.core.exceptions.AlreadyRegisteredService;
-
 /**
  * 
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class LicenceHandler {
+public interface ExceptionService {
 
-    private static LicenceService licenceService;
+    public void handleException(Throwable ex);
 
-    private LicenceHandler() {
-    }
+    public boolean contain(Throwable ex);
 
-    public static void registerLicenceService(LicenceService newService) {
-        if (licenceService != null) {
-            throw new AlreadyRegisteredService("Licence");
-        }
-        licenceService = newService;
-    }
-
-    public static LicenceService getLicenceService() {
-        if (licenceService == null) {
-            throw new IllegalStateException("Bad call");
-        }
-        return licenceService;
-    }
-
-    public static boolean isActive() {
-        return getLicenceService().isActive();
-    }
-
+    public boolean contain(Class type);
 }

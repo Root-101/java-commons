@@ -16,7 +16,7 @@
  */
 package com.clean.core.app.presenters;
 
-import com.clean.core.app.services.Navigation;
+import com.clean.core.app.services.NavigationHandler;
 
 /**
  *
@@ -27,7 +27,7 @@ public abstract class DefaultPresenter implements AbstractPresenter {
 
     @Override
     public void navigateTo(String to, Object... caller) {
-        Navigation.navigateTo(to, caller);
+        NavigationHandler.navigateTo(to, caller);
     }
 
 }

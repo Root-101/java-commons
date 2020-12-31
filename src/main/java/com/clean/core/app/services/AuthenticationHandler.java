@@ -26,33 +26,33 @@ import java.util.Map;
  */
 public class AuthenticationHandler {
 
-    private static AuthenticationService authHandlerService;
+    private static AuthenticationService authenticationService;
 
     private AuthenticationHandler() {
     }
 
-    public static void registerAuthHandlerService(AuthenticationService newService) {
-        if (authHandlerService != null) {
+    public static void registerAuthenticationService(AuthenticationService newService) {
+        if (authenticationService != null) {
             throw new AlreadyRegisteredService("Authentication");
         }
-        authHandlerService = newService;
+        authenticationService = newService;
     }
 
-    public static AuthenticationService getAuthHandlerService() {
-        if (authHandlerService == null) {
+    public static AuthenticationService getAuthenticationService() {
+        if (authenticationService == null) {
             throw new IllegalStateException("Bad call");
         }
-        return authHandlerService;
+        return authenticationService;
     }
 
     public static boolean login(Object user, Object pass) {
-        return getAuthHandlerService().login(user, pass);
+        return getAuthenticationService().login(user, pass);
     }
 
     public static boolean login(Object user, Object pass, Map<String, Object> args) {
-        return getAuthHandlerService().login(user, pass, args);
+        return getAuthenticationService().login(user, pass, args);
     }
     public static boolean logout() {
-        return getAuthHandlerService().logout();
+        return getAuthenticationService().logout();
     }
 }

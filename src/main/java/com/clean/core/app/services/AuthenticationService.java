@@ -16,36 +16,26 @@
  */
 package com.clean.core.app.services;
 
-import com.clean.core.exceptions.AlreadyRegisteredService;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
+ * @param <UserType>
+ * @param <PassType>
+ * @param <LogedUserType> 
  */
-public class LicenceHandler {
+public interface AuthenticationService<UserType, PassType, LogedUserType> {
 
-    private static LicenceService licenceService;
-
-    private LicenceHandler() {
+    public default boolean login(UserType user, PassType pass) {
+        return login(user, pass, new HashMap<>());
     }
 
-    public static void registerLicenceService(LicenceService newService) {
-        if (licenceService != null) {
-            throw new AlreadyRegisteredService("Licence");
-        }
-        licenceService = newService;
-    }
+    public boolean login(UserType user, PassType pass, Map<String, Object> args);
 
-    public static LicenceService getLicenceService() {
-        if (licenceService == null) {
-            throw new IllegalStateException("Bad call");
-        }
-        return licenceService;
-    }
+    public boolean logout();
 
-    public static boolean isActive() {
-        return getLicenceService().isActive();
-    }
-
+    //public boolean checkAccess(Method method){throw }
 }

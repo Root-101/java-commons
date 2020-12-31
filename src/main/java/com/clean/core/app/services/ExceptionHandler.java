@@ -27,12 +27,12 @@ import java.util.List;
  */
 public class ExceptionHandler {
 
-    private static final List<ExceptionService> exceptionServices = new ArrayList<>();
+    private static final List<ExceptionHandlerService> exceptionServices = new ArrayList<>();
 
     private ExceptionHandler() {
     }
 
-    public static void registerExceptionService(ExceptionService newService) {
+    public static void registerExceptionService(ExceptionHandlerService newService) {
         exceptionServices.add(newService);
     }
 
@@ -40,7 +40,7 @@ public class ExceptionHandler {
         System.out.println("Handling Exception: " + ex.getMessage());
         System.out.println(Arrays.toString(ex.getStackTrace()));
         boolean found = false;
-        for (ExceptionService exc : exceptionServices) {
+        for (ExceptionHandlerService exc : exceptionServices) {
             if (exc.contain(ex)) {
                 exc.handleException(ex);
                 found = true;

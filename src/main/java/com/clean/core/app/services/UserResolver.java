@@ -17,9 +17,10 @@
 package com.clean.core.app.services;
 
 import com.clean.core.exceptions.AlreadyRegisteredService;
+import com.clean.core.exceptions.NoneRegisteredService;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
@@ -39,7 +40,7 @@ public class UserResolver {
 
     public static UserResolverService getUserResolverService() {
         if (userResolverService == null) {
-            throw new IllegalStateException("Bad call");
+            throw new NoneRegisteredService("UserResolver");
         }
         return userResolverService;
     }

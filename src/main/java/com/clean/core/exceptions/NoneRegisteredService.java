@@ -14,39 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.clean.core.app.services;
-
-import com.clean.core.exceptions.AlreadyRegisteredService;
-import com.clean.core.exceptions.NoneRegisteredService;
+package com.clean.core.exceptions;
 
 /**
  * 
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class LicenceHandler {
+public class NoneRegisteredService extends RuntimeException {
 
-    private static LicenceService licenceService;
-
-    private LicenceHandler() {
-    }
-
-    public static void registerLicenceService(LicenceService newService) {
-        if (licenceService != null) {
-            throw new AlreadyRegisteredService("Licence");
-        }
-        licenceService = newService;
-    }
-
-    public static LicenceService getLicenceService() {
-        if (licenceService == null) {
-            throw new NoneRegisteredService("Licence");
-        }
-        return licenceService;
-    }
-
-    public static boolean isActive() {
-        return getLicenceService().isActive();
+    public NoneRegisteredService(String string) {
+        super(string);
     }
 
 }

@@ -17,6 +17,7 @@
 package com.clean.core.app.services;
 
 import com.clean.core.exceptions.AlreadyRegisteredService;
+import com.clean.core.exceptions.NoneRegisteredService;
 
 /**
  *
@@ -32,14 +33,14 @@ public class NavigationHandler {
 
     public static void registerNavigationService(NavigationService newService) {
         if (navigationService != null) {
-            throw new AlreadyRegisteredService("Licence");
+            throw new AlreadyRegisteredService("Navigation");
         }
         navigationService = newService;
     }
 
     public static NavigationService getNavigationService() {
         if (navigationService == null) {
-            throw new IllegalStateException("Bad call");
+            throw new NoneRegisteredService("Navigation");
         }
         return navigationService;
     }

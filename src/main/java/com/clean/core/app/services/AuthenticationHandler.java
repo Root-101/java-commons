@@ -17,6 +17,7 @@
 package com.clean.core.app.services;
 
 import com.clean.core.exceptions.AlreadyRegisteredService;
+import com.clean.core.exceptions.NoneRegisteredService;
 import java.util.Map;
 
 /**
@@ -40,7 +41,7 @@ public class AuthenticationHandler {
 
     public static AuthenticationService getAuthenticationService() {
         if (authenticationService == null) {
-            throw new IllegalStateException("Bad call");
+            throw new NoneRegisteredService("Authentication");
         }
         return authenticationService;
     }

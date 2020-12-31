@@ -21,7 +21,7 @@ import com.root101.clean.core.exceptions.NoneRegisteredService;
 import java.util.Map;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
@@ -53,6 +53,7 @@ public class AuthenticationHandler {
     public static boolean login(Object user, Object pass, Map<String, Object> args) {
         return getAuthenticationService().login(user, pass, args);
     }
+
     public static boolean logout() {
         return getAuthenticationService().logout();
     }

@@ -19,10 +19,10 @@ package com.root101.clean.core.app.usecase;
 import com.root101.clean.core.app.repo.CRUDLightweightRepo;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @param <Domain> 
+ * @param <Domain>
  */
 public class DefaultCRUDLightweightUseCase<Domain> extends DefaultCRUDUseCase<Domain> implements CRUDLightweightUseCase<Domain> {
 

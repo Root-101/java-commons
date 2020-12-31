@@ -20,12 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <UserType>
  * @param <PassType>
- * @param <LogedUserType> 
+ * @param <LogedUserType>
  */
 public interface AuthenticationService<UserType, PassType, LogedUserType> {
 

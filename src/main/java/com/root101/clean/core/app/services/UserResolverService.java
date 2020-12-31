@@ -17,10 +17,10 @@
 package com.root101.clean.core.app.services;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @param <UserType> 
+ * @param <UserType>
  */
 public interface UserResolverService<UserType> {
 

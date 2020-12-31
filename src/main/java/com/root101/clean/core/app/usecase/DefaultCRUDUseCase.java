@@ -23,10 +23,10 @@ import com.root101.clean.core.utils.validation.ValidationResult;
 import java.util.List;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @param <Domain> 
+ * @param <Domain>
  */
 @Licenced
 public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {

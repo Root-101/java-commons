@@ -21,7 +21,7 @@ import com.root101.clean.core.utils.validation.checkables.impl.NeverCheckable;
 import com.root101.clean.core.utils.validation.checkables.impl.SizeExactCheckable;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */

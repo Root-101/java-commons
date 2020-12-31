@@ -22,10 +22,10 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @param <T> 
+ * @param <T>
  */
 public abstract class NotificationServiceFunctional<T> implements NotificationService<T> {
 

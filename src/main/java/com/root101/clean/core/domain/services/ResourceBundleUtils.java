@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */

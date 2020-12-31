@@ -21,10 +21,10 @@ import com.root101.clean.core.utils.validation.Validable;
 import com.root101.clean.core.utils.validation.ValidationResult;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @param <Domain> 
+ * @param <Domain>
  */
 public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain> {
 
@@ -57,7 +57,7 @@ public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain>
     @Override
     public void write(Domain object) throws Exception {
         validateDomain(object);
-        
+
         readWriteRepo.write(object);
         firePropertyChange("write", null, object);
     }

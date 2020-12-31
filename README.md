@@ -1,6 +1,6 @@
 ## Clean Core Full
 
-Clean core full pretende ser un framework para 
+Clean core pretende ser un framework para 
 
 ## Table of Contents
 - [Clean Core Full](#clean-core-full)

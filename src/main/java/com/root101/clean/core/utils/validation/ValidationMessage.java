@@ -19,7 +19,7 @@ package com.root101.clean.core.utils.validation;
 import com.root101.clean.core.domain.services.ResourceHandler;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @author jjhurtado@Github

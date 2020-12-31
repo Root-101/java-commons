@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
- * @param <Entity> 
+ * @param <Entity>
  */
 public interface Converter<Domain, Entity> {
 

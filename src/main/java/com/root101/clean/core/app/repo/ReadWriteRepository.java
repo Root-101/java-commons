@@ -17,11 +17,11 @@
 package com.root101.clean.core.app.repo;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @author jjhurtado@Github
- * @param <T> 
+ * @param <T>
  */
 public interface ReadWriteRepository<T> extends AbstractRepository {
 

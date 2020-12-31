@@ -19,7 +19,7 @@ package com.root101.clean.core.app.presenters;
 import com.root101.clean.core.app.services.NavigationService;
 
 /**
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */

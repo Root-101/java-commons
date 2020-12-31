@@ -2,9 +2,9 @@ plugins {
     id 'java'
 }
 
-group = 'com.clean.core'
+group = 'com.root101.clean'
 
-version = '1.5.0.RELEASE.20201228'
+version = '2.0.0.RELEASE.20201230'
 
 repositories {
     jcenter()
@@ -24,8 +24,5 @@ dependencies{
     compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
        
     implementation 'org.glassfish.web:javax.el:2.2.6'
-    
-    compile group: 'com.google.inject', name: 'guice', version: '4.2.3'
-    compile group: 'javax.inject', name: 'javax.inject', version: '1'
     
 }

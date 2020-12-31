@@ -1,6 +1,6 @@
 package com.clean.resources;
 
-import com.clean.core.domain.services.Resource;
+import com.clean.core.domain.services.ResourceHandler;
 import com.clean.core.domain.services.ResourceBundleUtils;
 import com.clean.core.domain.services.DefaultResourceBundleService;
 import java.io.File;
@@ -15,15 +15,15 @@ public class TestResources {
 
     @Test
     public void testExternalResource() throws MalformedURLException {
-        Resource.registerResourceService(new DefaultResourceBundleService(ResourceBundleUtils.fromExternalFile(new File("C:\\Users\\Yo\\Documents\\NetBeansProjects\\TestNB\\res\\abc"), ResourceBundleUtils.SPANISH))
+        ResourceHandler.registerResourceService(new DefaultResourceBundleService(ResourceBundleUtils.fromExternalFile(new File("C:\\Users\\Yo\\Documents\\NetBeansProjects\\TestNB\\res\\abc"), ResourceBundleUtils.SPANISH))
         );
-        Resource.getString("perro");
+        ResourceHandler.getString("perro");
     }
 
     @Test
     public void testExternalResourceApart() throws MalformedURLException {
-        Resource.registerResourceService(new DefaultResourceBundleService(ResourceBundleUtils.fromExternalFile("C:\\Users\\Yo\\Documents\\NetBeansProjects\\TestNB\\res", "abc", ResourceBundleUtils.SPANISH))
+        ResourceHandler.registerResourceService(new DefaultResourceBundleService(ResourceBundleUtils.fromExternalFile("C:\\Users\\Yo\\Documents\\NetBeansProjects\\TestNB\\res", "abc", ResourceBundleUtils.SPANISH))
         );
-        Resource.getString("perro");
+        ResourceHandler.getString("perro");
     }
 }

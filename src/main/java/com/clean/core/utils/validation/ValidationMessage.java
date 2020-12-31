@@ -1,6 +1,6 @@
 package com.clean.core.utils.validation;
 
-import com.clean.core.domain.services.Resource;
+import com.clean.core.domain.services.ResourceHandler;
 import com.clean.core.utils.Severity;
 
 /**
@@ -122,7 +122,7 @@ public class ValidationMessage {
     private String unwrapString(String message) {
         if (message.startsWith(ENCLOSING_STRING) && message.endsWith(ENCLOSING_STRING)) {
             String keyCleaned = message.substring(ENCLOSING_STRING.length(), message.length() - ENCLOSING_STRING.length());
-            return Resource.getString(keyCleaned);
+            return ResourceHandler.getString(keyCleaned);
         } else {
             return message;
         }

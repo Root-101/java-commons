@@ -23,6 +23,10 @@ package com.root101.clean.core.exceptions;
  */
 public class NoneRegisteredService extends RuntimeException {
 
+    public static NoneRegisteredService from(String service) {//TODO: a key y resources
+        return new NoneRegisteredService("El servicio " + service + " NO se ha registrado");
+    }
+
     public NoneRegisteredService(String string) {
         super(string);
     }

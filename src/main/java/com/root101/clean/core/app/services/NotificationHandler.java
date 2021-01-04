@@ -40,6 +40,7 @@ public class NotificationHandler {
     }
 
     public static void showNotification(String type, Object textToDisplay) {
+        System.out.println("Notification: " + type + " => " + textToDisplay);
         for (NotificationService notif : notificationServices) {
             notif.showNotification(type, textToDisplay);
         }
@@ -50,6 +51,7 @@ public class NotificationHandler {
     }
 
     public static boolean showConfirmDialog(String type, Object textToDisplay) {
+        System.out.println("Confirm: " + type + " => " + textToDisplay);
         for (NotificationService notif : notificationServices) {
             if (notif.contain(type)) {
                 return notif.showConfirmDialog(type, textToDisplay);
@@ -63,6 +65,7 @@ public class NotificationHandler {
     }
 
     public static Object showInputDialog(String type, Object textToDisplay) {
+        System.out.println("Input: " + type + " => " + textToDisplay);
         for (NotificationService notif : notificationServices) {
             if (notif.contain(type)) {
                 return notif.showInputDialog(type, textToDisplay);

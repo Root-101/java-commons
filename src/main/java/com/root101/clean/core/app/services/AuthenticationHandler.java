@@ -47,14 +47,17 @@ public class AuthenticationHandler {
     }
 
     public static boolean login(Object user, Object pass) {
+        System.out.printf("-----AUTHENTICATION_HANDLER----- > Logging user '%s' | No extra args\n", user);
         return getAuthenticationService().login(user, pass);
     }
 
     public static boolean login(Object user, Object pass, Map<String, Object> args) {
+        System.out.printf("-----AUTHENTICATION_HANDLER----- > Logging user '%s' | '%s' extra args\n", user, args.size());
         return getAuthenticationService().login(user, pass, args);
     }
 
     public static boolean logout() {
+        System.out.println("-----AUTHENTICATION_HANDLER----- > Logout current user");
         return getAuthenticationService().logout();
     }
 }

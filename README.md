@@ -157,3 +157,9 @@ Entre esto, un sistema de validacion para dominios que permite corregir errores 
 Ver el [ejemplo de Validaciones](http://github.com/JesusHdezWaterloo/) 
 
 
+## Releases
+- 2.0.1.RELEASE.20210108
+### Improvements
+    - ExceptionHandler: Agregado `Thread.setDefaultUncaughtExceptionHandler` para que por defecto procese todas las excepciones por aqui
+    - Agregados println a los handlers de algunos servicios para ver a nivel de consola el proceso que está siguiendo la aplicación
+    - Agregadas Excepciones al lanzar si hay incongruencias en la inicialización de los módulos

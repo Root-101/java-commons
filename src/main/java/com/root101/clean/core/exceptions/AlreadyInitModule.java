@@ -21,13 +21,13 @@ package com.root101.clean.core.exceptions;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class NoneRegisteredService extends RuntimeException {
+public class AlreadyInitModule extends RuntimeException {
 
-    public static NoneRegisteredService from(String service) {//TODO: a key y resources
-        return new NoneRegisteredService("El servicio " + service + " NO se ha registrado");
+    public static AlreadyInitModule from(String module) {//TODO: a key y resources
+        return new AlreadyInitModule("El módulo " + module + " ya se ha inicializado");
     }
 
-    public NoneRegisteredService(String string) {
+    public AlreadyInitModule(String string) {
         super(string);
     }
 

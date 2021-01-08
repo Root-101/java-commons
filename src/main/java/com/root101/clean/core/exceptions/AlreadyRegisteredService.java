@@ -23,6 +23,10 @@ package com.root101.clean.core.exceptions;
  */
 public class AlreadyRegisteredService extends RuntimeException {
 
+    public static AlreadyRegisteredService from(String service) {//TODO: a key y resources
+        return new AlreadyRegisteredService("El servicio " + service + " ya se ha registrado");
+    }
+
     public AlreadyRegisteredService(String string) {
         super(string);
     }

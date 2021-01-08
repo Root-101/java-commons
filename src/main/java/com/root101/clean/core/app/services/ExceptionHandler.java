@@ -29,6 +29,13 @@ public class ExceptionHandler {
 
     private static final List<ExceptionHandlerService> exceptionServices = new ArrayList<>();
 
+    static {//set by default any error in this handler
+        Thread.setDefaultUncaughtExceptionHandler((Thread t, Throwable e) -> {
+            System.out.printf("-----EXCEPTION_HANDLER----- > Error on thread '%s' with throwable message '%s'\n", t.getName(), e.getMessage());
+            ExceptionHandler.handleException(e);
+        });
+    }
+
     private ExceptionHandler() {
     }
 
@@ -37,8 +44,8 @@ public class ExceptionHandler {
     }
 
     public static void handleException(Throwable ex) {
-        System.out.println("Handling Exception: " + ex.getMessage());
-        System.out.println(Arrays.toString(ex.getStackTrace()));
+        System.out.printf("Handling Exception | Type => '%s' | message => '%s'\n", ex.getClass(), ex.getMessage());
+        System.out.println("Stack Trace: " + Arrays.toString(ex.getStackTrace()));
         boolean found = false;
         for (ExceptionHandlerService exc : exceptionServices) {
             if (exc.contain(ex)) {

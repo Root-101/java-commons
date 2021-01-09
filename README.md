@@ -67,6 +67,7 @@ Un ejemlo de su implementación y uso en:
 
 #### Exception
 Otro de los servicios que se predeterminaron fue el servicio de control de excepciones, diseñado para generalizar y unificar la manera en la que se procesan las excepciones en el sistema. La idea general es que cada módulo defina las excepciones que va a lanzar y la manera de procesarlas, asi, cualquier excepcion que se lanze, es capturada y procesada acorde, y si no hay ningun procesador para ella, se procesa por defecto, preferiblemente con un cartel de error:
+Por defecto todas las excepciones que no se procesen, luego de ser procesadas internamente por el JDK, pasan por este handler
 
 Como procesar una excepcion:
 ```java

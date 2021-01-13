@@ -24,5 +24,5 @@ package com.root101.clean.core.app.services;
  */
 public interface UserResolverService<UserType> {
 
-    public UserType resolveUser() throws Exception;
+    public UserType resolveUser() throws RuntimeException;
 }

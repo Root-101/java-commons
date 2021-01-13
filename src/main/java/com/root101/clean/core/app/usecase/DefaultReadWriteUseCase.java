@@ -48,14 +48,14 @@ public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain>
     }
 
     @Override
-    public Domain read() throws Exception {
+    public Domain read() throws RuntimeException {
         Domain d = readWriteRepo.read();
         firePropertyChange("read", null, d);
         return d;
     }
 
     @Override
-    public void write(Domain object) throws Exception {
+    public void write(Domain object) throws RuntimeException {
         validateDomain(object);
 
         readWriteRepo.write(object);
@@ -76,7 +76,7 @@ public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain>
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    private ValidationResult validateDomain(Domain domain) throws Exception {
+    private ValidationResult validateDomain(Domain domain) throws RuntimeException {
         if (domain instanceof Validable) {
             return ((Validable) domain).validate().throwException();
         }

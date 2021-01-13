@@ -45,11 +45,11 @@ public class UserResolver {
         return userResolverService;
     }
 
-    public static <T> T resolveUser() throws Exception {
+    public static <T> T resolveUser() throws RuntimeException {
         return (T) getUserResolverService().resolveUser();
     }
 
-    public static <T> T resolveUser(Class<T> clazz) throws Exception {
+    public static <T> T resolveUser(Class<T> clazz) throws RuntimeException {
         return (T) getUserResolverService().resolveUser();
     }
 }

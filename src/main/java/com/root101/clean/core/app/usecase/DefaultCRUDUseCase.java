@@ -45,7 +45,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
     @Licenced
     @Override
-    public Domain create(Domain newObject) throws Exception {
+    public Domain create(Domain newObject) throws RuntimeException {
         validateDomain(newObject);
 
         Domain d = crudRepo.create(newObject);
@@ -55,7 +55,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
     @Licenced
     @Override
-    public Domain edit(Domain objectToUpdate) throws Exception {
+    public Domain edit(Domain objectToUpdate) throws RuntimeException {
         validateDomain(objectToUpdate);
 
         Domain d = crudRepo.edit(objectToUpdate);
@@ -65,7 +65,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
     @Licenced
     @Override
-    public Domain destroy(Domain objectToDestroy) throws Exception {
+    public Domain destroy(Domain objectToDestroy) throws RuntimeException {
         Domain d = crudRepo.destroy(objectToDestroy);
         firePropertyChange("destroy", null, d);
         return d;
@@ -73,28 +73,28 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
     @Licenced
     @Override
-    public Domain destroyById(Object keyId) throws Exception {
+    public Domain destroyById(Object keyId) throws RuntimeException {
         Domain d = crudRepo.destroyById(keyId);
         firePropertyChange("destroyById", null, d);
         return d;
     }
 
     @Override
-    public Domain findBy(Object keyId) throws Exception {
+    public Domain findBy(Object keyId) throws RuntimeException {
         Domain d = crudRepo.findBy(keyId);
         firePropertyChange("findBy", null, d);
         return d;
     }
 
     @Override
-    public List<Domain> findAll() throws Exception {
+    public List<Domain> findAll() throws RuntimeException {
         List<Domain> d = crudRepo.findAll();
         firePropertyChange("findAll", null, d);
         return d;
     }
 
     @Override
-    public int count() throws Exception {
+    public int count() throws RuntimeException {
         int c = crudRepo.count();
         firePropertyChange("count", null, c);
         return c;
@@ -114,7 +114,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    private ValidationResult validateDomain(Domain domain) throws Exception {
+    private ValidationResult validateDomain(Domain domain) throws RuntimeException {
         if (domain instanceof Validable) {
             return ((Validable) domain).validate().throwException();
         }

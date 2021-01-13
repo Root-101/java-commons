@@ -24,11 +24,11 @@ package com.root101.clean.core.app.repo;
  */
 public interface CRUDLightweightRepo<T> extends CRUDRepository<T> {
 
-    public void create_light(T newObject) throws Exception;
+    public void create_light(T newObject) throws RuntimeException;
 
-    public void edit_light(T objectToUpdate) throws Exception;
+    public void edit_light(T objectToUpdate) throws RuntimeException;
 
-    public void destroy_light(T objectToDestroy) throws Exception;
+    public void destroy_light(T objectToDestroy) throws RuntimeException;
 
-    public void destroyById_light(Object keyId) throws Exception;
+    public void destroyById_light(Object keyId) throws RuntimeException;
 }

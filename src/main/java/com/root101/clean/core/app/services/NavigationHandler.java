@@ -18,6 +18,7 @@ package com.root101.clean.core.app.services;
 
 import com.root101.clean.core.exceptions.AlreadyRegisteredService;
 import com.root101.clean.core.exceptions.NoneRegisteredService;
+import java.util.Objects;
 
 /**
  *
@@ -35,6 +36,8 @@ public class NavigationHandler {
         if (navigationService != null) {
             throw new AlreadyRegisteredService("Navigation");
         }
+        Objects.requireNonNull(newService, "NavigationService can't be null");
+
         navigationService = newService;
     }
 

@@ -16,8 +16,11 @@
  */
 package com.root101.clean.core.domain.services;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  *
@@ -29,10 +32,16 @@ public class ResourceHandler {
 
     private static final List<ResourceService> resourceService = new ArrayList<>();
 
+    static {
+        Locale.setDefault(ResourceBundleUtils.SPANISH);
+    }
+
     private ResourceHandler() {
     }
 
     public static void registerResourceService(ResourceService newService) {
+        Objects.requireNonNull(newService, "ResourceService can't be null");
+
         resourceService.add(newService);
     }
 
@@ -56,5 +65,29 @@ public class ResourceHandler {
             }
         }
         return key;
+    }
+
+    public static ResourceService registerInternal(String internalFile, Locale locale) {
+        ResourceService service = DefaultResourceBundleService.buildInternal(internalFile, locale);
+        registerResourceService(service);
+        return service;
+    }
+
+    public static ResourceService registerInternal(String internalFile) {
+        ResourceService service = DefaultResourceBundleService.buildInternal(internalFile);
+        registerResourceService(service);
+        return service;
+    }
+
+    public static ResourceService registerExternal(String internalFile, Locale locale) throws MalformedURLException {
+        ResourceService service = DefaultResourceBundleService.buildExternal(internalFile, locale);
+        registerResourceService(service);
+        return service;
+    }
+
+    public static ResourceService registerExternal(String internalFile) throws MalformedURLException {
+        ResourceService service = DefaultResourceBundleService.buildExternal(internalFile);
+        registerResourceService(service);
+        return service;
     }
 }

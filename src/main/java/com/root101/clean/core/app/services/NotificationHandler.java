@@ -18,6 +18,7 @@ package com.root101.clean.core.app.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -32,6 +33,8 @@ public class NotificationHandler {
     }
 
     public static void registerNotificationService(NotificationService newService) {
+        Objects.requireNonNull(newService, "NotificationService can't be null");
+
         notificationServices.add(newService);
     }
 

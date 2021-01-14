@@ -19,6 +19,7 @@ package com.root101.clean.core.app.services;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -40,10 +41,14 @@ public class ExceptionHandler {
     }
 
     public static void registerExceptionService(ExceptionHandlerService newService) {
+        Objects.requireNonNull(newService, "ExceptionHandlerService can't be null");
+
         exceptionServices.add(newService);
     }
 
     public static void handleException(Throwable ex) {
+        Objects.requireNonNull(ex, "Throwable in handleException can't be null");
+
         System.out.printf("Handling Exception | Type => '%s' | message => '%s'\n", ex.getClass(), ex.getMessage());
         System.out.println("Stack Trace: " + Arrays.toString(ex.getStackTrace()));
         boolean found = false;

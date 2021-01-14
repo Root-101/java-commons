@@ -19,6 +19,7 @@ package com.root101.clean.core.app.services;
 import com.root101.clean.core.exceptions.AlreadyRegisteredService;
 import com.root101.clean.core.exceptions.NoneRegisteredService;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
@@ -36,6 +37,7 @@ public class AuthenticationHandler {
         if (authenticationService != null) {
             throw new AlreadyRegisteredService("Authentication");
         }
+        Objects.requireNonNull(newService, "AuthenticationService can't be null");
         authenticationService = newService;
     }
 

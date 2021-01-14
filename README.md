@@ -164,3 +164,13 @@ Ver el [ejemplo de Validaciones](http://github.com/JesusHdezWaterloo/)
     - ExceptionHandler: Agregado `Thread.setDefaultUncaughtExceptionHandler` para que por defecto procese todas las excepciones por aqui
     - Agregados println a los handlers de algunos servicios para ver a nivel de consola el proceso que está siguiendo la aplicación
     - Agregadas Excepciones al lanzar si hay incongruencias en la inicialización de los módulos
+
+- 2.0.2.RELEASE.20210113
+### Improvements
+    - RuntimeExceptions: Todas las excepciones de los repositorios & casos de usos & Converter cambiado de throws Exception a throws RuntimeException para no tener que estar poniendo los try{}catch(){} ni los throws en los metodos. Y como se agregó en la versión `2.0.1.RELEASE.20210108` el `Thread.setDefaultUncaughtExceptionHandler`, todas las excepciones finalmente se procesan con el ExceptionHandler por defecto.
+    - DefaultResourceBundleService: Agrados builders para construir ResourceService rápido
+    - ResourceHandler: Agregados registers por defectos para facilitar registrar nuevos servicios
+
+- 2.0.3.RELEASE.20210113
+### Improvements
+    - Release Notes actualizadas con los cambios de la versión `2.0.2.RELEASE.20210113`

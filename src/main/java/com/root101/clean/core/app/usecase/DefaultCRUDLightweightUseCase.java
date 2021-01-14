@@ -39,25 +39,25 @@ public class DefaultCRUDLightweightUseCase<Domain> extends DefaultCRUDUseCase<Do
     }
 
     @Override
-    public void create_light(Domain newObject) throws Exception {
+    public void create_light(Domain newObject) throws RuntimeException {
         crudLightRepo.create_light(newObject);
         firePropertyChange("create_light", null, null);
     }
 
     @Override
-    public void edit_light(Domain objectToUpdate) throws Exception {
+    public void edit_light(Domain objectToUpdate) throws RuntimeException {
         crudLightRepo.edit_light(objectToUpdate);
         firePropertyChange("edit_light", null, null);
     }
 
     @Override
-    public void destroy_light(Domain objectToDestroy) throws Exception {
+    public void destroy_light(Domain objectToDestroy) throws RuntimeException {
         crudLightRepo.destroy_light(objectToDestroy);
         firePropertyChange("destroy_light", null, null);
     }
 
     @Override
-    public void destroyById_light(Object keyId) throws Exception {
+    public void destroyById_light(Object keyId) throws RuntimeException {
         crudLightRepo.destroyById_light(keyId);
         firePropertyChange("destroyById_light", null, null);
     }

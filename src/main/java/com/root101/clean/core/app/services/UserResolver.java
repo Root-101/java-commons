@@ -18,6 +18,7 @@ package com.root101.clean.core.app.services;
 
 import com.root101.clean.core.exceptions.AlreadyRegisteredService;
 import com.root101.clean.core.exceptions.NoneRegisteredService;
+import java.util.Objects;
 
 /**
  *
@@ -35,6 +36,8 @@ public class UserResolver {
         if (userResolverService != null) {
             throw new AlreadyRegisteredService("UserResolver");
         }
+        Objects.requireNonNull(newService, "UserResolverService can't be null");
+
         userResolverService = newService;
     }
 
@@ -45,11 +48,11 @@ public class UserResolver {
         return userResolverService;
     }
 
-    public static <T> T resolveUser() throws Exception {
+    public static <T> T resolveUser() throws RuntimeException {
         return (T) getUserResolverService().resolveUser();
     }
 
-    public static <T> T resolveUser(Class<T> clazz) throws Exception {
+    public static <T> T resolveUser(Class<T> clazz) throws RuntimeException {
         return (T) getUserResolverService().resolveUser();
     }
 }

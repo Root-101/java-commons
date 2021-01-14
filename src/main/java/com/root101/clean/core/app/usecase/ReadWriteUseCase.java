@@ -24,9 +24,9 @@ package com.root101.clean.core.app.usecase;
  */
 public interface ReadWriteUseCase<T> extends AbstractUseCase {
 
-    public T read() throws Exception;
+    public T read() throws RuntimeException;
 
-    public void write(T object) throws Exception;
+    public void write(T object) throws RuntimeException;
 
     public void addPropertyChangeListener(java.beans.PropertyChangeListener listener);
 

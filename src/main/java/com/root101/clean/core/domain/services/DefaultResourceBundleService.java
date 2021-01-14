@@ -16,6 +16,9 @@
  */
 package com.root101.clean.core.domain.services;
 
+import java.net.MalformedURLException;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -29,13 +32,12 @@ public class DefaultResourceBundleService implements ResourceService {
     private ResourceBundle resourceBundle = null;
 
     public DefaultResourceBundleService(ResourceBundle resourceBundle) {
+        Objects.requireNonNull(resourceBundle, "Resource Bundle can't be null");
+
         this.resourceBundle = resourceBundle;
     }
 
-    public ResourceBundle getResourceBundle() {
-        if (resourceBundle == null) {
-            throw new NullPointerException("Not Resource Bundle registered.");
-        }
+    protected ResourceBundle getResourceBundle() {
         return resourceBundle;
     }
 
@@ -58,4 +60,54 @@ public class DefaultResourceBundleService implements ResourceService {
         return getResourceBundle().containsKey(key);
     }
 
+    /**
+     * Construye una instancia de ResourceService de un .properties interno de
+     * la carpeta resources. Ejemplo: Carpeta:
+     * (...)src/main/resource/some_file.properties Llamada:
+     * DefaultResourceBundleService.buildInternal("some_file");
+     *
+     * @param resourceURL
+     * @param locale
+     * @return
+     */
+    public static ResourceService buildInternal(String resourceURL, Locale locale) {
+        return new DefaultResourceBundleService(
+                ResourceBundleUtils.fromInternalFile(resourceURL,
+                        locale));
+    }
+
+    /**
+     *
+     * Igual que el {@code buildInternal(String resourceURL)} con el
+     * Locale.getDefault()
+     *
+     * @param resourceURL
+     * @return
+     */
+    public static ResourceService buildInternal(String resourceURL) {
+        return new DefaultResourceBundleService(
+                ResourceBundleUtils.fromInternalFile(resourceURL,
+                        Locale.getDefault()));
+    }
+
+    /**
+     * ResourceService.
+     * buildExternal("C:\\Users\\Yo\\Desktop\\some_file")
+     *
+     * @param resourceURL
+     * @param locale
+     * @return
+     * @throws MalformedURLException
+     */
+    public static ResourceService buildExternal(String resourceURL, Locale locale) throws MalformedURLException {
+        return new DefaultResourceBundleService(
+                ResourceBundleUtils.fromExternalFile(resourceURL,
+                        locale));
+    }
+
+    public static ResourceService buildExternal(String resourceURL) throws MalformedURLException {
+        return new DefaultResourceBundleService(
+                ResourceBundleUtils.fromExternalFile(resourceURL,
+                        Locale.getDefault()));
+    }
 }

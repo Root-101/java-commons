@@ -1,10 +1,11 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group = 'com.root101.clean'
 
-version = '2.0.3.RELEASE.20210113'
+version = '2.1.0.RELEASE.20210118'
 
 repositories {
     jcenter()
@@ -12,7 +13,6 @@ repositories {
 }
 
 dependencies{
-    
     testCompile 'junit:junit:4.13'
     
     compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final' 
@@ -24,5 +24,19 @@ dependencies{
     compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
        
     implementation 'org.glassfish.web:javax.el:2.2.6'
-    
+}
+
+publishing {
+    publications {
+        myLibrary(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        mavenLocal()
+        /*maven{
+        url = System.getProperty("publish.local.url")//para probar cargar cosas del gradle.prop global: systemProp.publish.local.url = E:\\Trabajos\\Projects\\GIT Projects Gradle\\LOCAL_REPO
+        }*/
+    }
 }

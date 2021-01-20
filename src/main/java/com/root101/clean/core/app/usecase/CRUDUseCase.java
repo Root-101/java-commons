@@ -47,8 +47,5 @@ public interface CRUDUseCase<T> extends AbstractUseCase {
     public default int count() throws RuntimeException {
         return findAll().size();
     }
-
-    public void addPropertyChangeListener(java.beans.PropertyChangeListener listener);
-
-    public void removePropertyChangeListener(java.beans.PropertyChangeListener listener);
+    
 }

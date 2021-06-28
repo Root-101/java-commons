@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.root101.clean.core.app.usecase;
+package com.root101.clean.core.app.services;
 
 import java.util.List;
 
@@ -22,30 +22,11 @@ import java.util.List;
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @param <T>
  */
-public interface CRUDUseCase<T> extends AbstractUseCase {
+public interface ConverterService {
 
-    public T create(T newObject) throws RuntimeException;
+    public <T> T convert(Object objectToConvert, Class<? extends T> convertToClass) throws RuntimeException;
 
-    public T edit(T objectToUpdate) throws RuntimeException;
+    public <T> List<T> convert(List list, Class<? extends T> convertToClass) throws RuntimeException;
 
-    public T destroy(T objectToDestroy) throws RuntimeException;
-
-    public T destroyById(Object keyId) throws RuntimeException;
-
-    public T findBy(Object keyId) throws RuntimeException;
-
-    public List<T> findAll() throws RuntimeException;
-
-    /**
-     * By default return the size of the findAll() list.
-     *
-     * @return findAll().size()
-     * @throws RuntimeException
-     */
-    public default int count() throws RuntimeException {
-        return findAll().size();
-    }
-    
 }

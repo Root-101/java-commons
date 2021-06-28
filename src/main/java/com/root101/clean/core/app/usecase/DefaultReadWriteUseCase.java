@@ -49,13 +49,18 @@ public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain>
 
     @Override
     public Domain read() throws RuntimeException {
+        firePropertyChange("pre_read", null, null);
+        
         Domain d = readWriteRepo.read();
-        firePropertyChange("read", null, d);
+        
+        firePropertyChange("post_read", null, d);
+        
         return d;
     }
 
     @Override
     public void write(Domain object) throws RuntimeException {
+        firePropertyChange("pre_write", null, object);
         validateDomain(object);
 
         readWriteRepo.write(object);

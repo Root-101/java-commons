@@ -46,57 +46,78 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
     @Licenced
     @Override
     public Domain create(Domain newObject) throws RuntimeException {
+        firePropertyChange("pre_create", null, newObject);
         validateDomain(newObject);
 
         Domain d = crudRepo.create(newObject);
-        firePropertyChange("create", null, d);
+        
+        firePropertyChange("post_create", null, d);
+        
         return d;
     }
 
     @Licenced
     @Override
     public Domain edit(Domain objectToUpdate) throws RuntimeException {
+        firePropertyChange("pre_edit", null, objectToUpdate);
         validateDomain(objectToUpdate);
 
         Domain d = crudRepo.edit(objectToUpdate);
-        firePropertyChange("edit", null, d);
+        
+        firePropertyChange("post_edit", null, d);
         return d;
     }
 
     @Licenced
     @Override
     public Domain destroy(Domain objectToDestroy) throws RuntimeException {
+        firePropertyChange("pre_destroy", null, objectToDestroy);
+        
         Domain d = crudRepo.destroy(objectToDestroy);
-        firePropertyChange("destroy", null, d);
+        
+        firePropertyChange("post_destroy", null, d);
         return d;
     }
 
     @Licenced
     @Override
     public Domain destroyById(Object keyId) throws RuntimeException {
+        firePropertyChange("pre_destroyById", null, keyId);
         Domain d = crudRepo.destroyById(keyId);
-        firePropertyChange("destroyById", null, d);
+        
+        firePropertyChange("post_destroyById", null, d);
+        
         return d;
     }
 
     @Override
     public Domain findBy(Object keyId) throws RuntimeException {
+        firePropertyChange("pre_findBy", null, keyId);
         Domain d = crudRepo.findBy(keyId);
-        firePropertyChange("findBy", null, d);
+        
+        firePropertyChange("post_findBy", null, d);
+        
         return d;
     }
 
     @Override
     public List<Domain> findAll() throws RuntimeException {
+        firePropertyChange("pre_findAll", null, null);
+        
         List<Domain> d = crudRepo.findAll();
+        
         firePropertyChange("findAll", null, d);
         return d;
     }
 
     @Override
     public int count() throws RuntimeException {
+        firePropertyChange("pre_count", null, null);
+        
         int c = crudRepo.count();
+        
         firePropertyChange("count", null, c);
+        
         return c;
     }
 

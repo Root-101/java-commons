@@ -29,7 +29,4 @@ public interface ReadWriteRepository<T> extends AbstractRepository {
 
     public void write(T object) throws RuntimeException;
 
-    public void addPropertyChangeListener(java.beans.PropertyChangeListener listener);
-
-    public void removePropertyChangeListener(java.beans.PropertyChangeListener listener);
 }

@@ -22,4 +22,9 @@ package com.root101.clean.core.app.repo;
  * @author JesusHdezWaterloo@Github
  */
 public interface AbstractRepository {
+
+    public void addPropertyChangeListener(java.beans.PropertyChangeListener listener);
+
+    public void removePropertyChangeListener(java.beans.PropertyChangeListener listener);
+
 }

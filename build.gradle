@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'maven-publish'
+    //id 'org.javamodularity.moduleplugin' version '1.8.4' apply true
 }
 
 group = 'com.root101.clean'
@@ -13,15 +14,13 @@ repositories {
 }
 
 dependencies{
-    testCompile 'junit:junit:4.13'
+    implementation 'javax.validation:validation-api:2.0.1.Final' 
     
-    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final' 
-    
-    compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.0.Final'
+    implementation 'org.hibernate.validator:hibernate-validator:6.1.0.Final'
         
-    compile group: 'org.hibernate.validator', name: 'hibernate-validator-annotation-processor', version: '6.1.0.Final'
+    implementation 'org.hibernate.validator:hibernate-validator-annotation-processor:6.1.0.Final'
 
-    compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
+    implementation 'javax.el:javax.el-api:3.0.0'
        
     implementation 'org.glassfish.web:javax.el:2.2.6'
 }

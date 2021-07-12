@@ -17,9 +17,7 @@
 package com.root101.clean.core.app.usecase;
 
 import static com.root101.clean.core.app.PropertyChangeConstrains.*;
-import com.root101.clean.core.app.repo.CRUDRepository;
 import com.root101.clean.core.app.repo.CRUDRepositoryConsume;
-import com.root101.clean.core.utils.Licenced;
 import com.root101.clean.core.utils.validation.Validable;
 import com.root101.clean.core.utils.validation.ValidationResult;
 import java.util.List;

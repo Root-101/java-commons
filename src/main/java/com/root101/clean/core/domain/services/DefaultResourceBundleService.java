@@ -91,8 +91,7 @@ public class DefaultResourceBundleService implements ResourceService {
     }
 
     /**
-     * ResourceService.
-     * buildExternal("C:\\Users\\Yo\\Desktop\\some_file")
+     * ResourceService. buildExternal("C:\\Users\\Yo\\Desktop\\some_file")
      *
      * @param resourceURL
      * @param locale

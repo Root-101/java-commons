@@ -51,7 +51,7 @@ public class DefaultRestService<Domain> implements CRUDRestService<Domain> {
         Domain d = crudUC.edit(objectToUpdate);
 
         firePropertyChange(AFTER_EDIT, null, d);
-        
+
         return d;
     }
 
@@ -62,7 +62,7 @@ public class DefaultRestService<Domain> implements CRUDRestService<Domain> {
         Domain d = crudUC.destroy(objectToDestroy);
 
         firePropertyChange(AFTER_DESTROY, null, d);
-        
+
         return d;
     }
 
@@ -80,7 +80,7 @@ public class DefaultRestService<Domain> implements CRUDRestService<Domain> {
     @Override
     public Domain findBy(Object keyId) throws RuntimeException {
         firePropertyChange(BEFORE_FIND_BY, null, keyId);
-        
+
         Domain d = crudUC.findBy(keyId);
 
         firePropertyChange(AFTER_FIND_BY, null, d);
@@ -95,7 +95,7 @@ public class DefaultRestService<Domain> implements CRUDRestService<Domain> {
         List<Domain> d = crudUC.findAll();
 
         firePropertyChange(AFTER_FIND_ALL, null, d);
-        
+
         return d;
     }
 

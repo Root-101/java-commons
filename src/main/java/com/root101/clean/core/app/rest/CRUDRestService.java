@@ -48,5 +48,5 @@ public interface CRUDRestService<T> extends AbstractUseCase {
     public default int count() throws RuntimeException {
         return findAll().size();
     }
-    
+
 }

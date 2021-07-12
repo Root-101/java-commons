@@ -16,6 +16,7 @@
  */
 package com.root101.clean.core.app.usecase;
 
+import static com.root101.clean.core.app.PropertyChangeConstrains.*;
 import com.root101.clean.core.app.repo.CRUDRepository;
 import com.root101.clean.core.utils.Licenced;
 import com.root101.clean.core.utils.validation.Validable;
@@ -39,85 +40,92 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
         return crudRepo;
     }
 
-    protected void setRepo(CRUDRepository<Domain> repo) {
+    protected void setRepo(CRUDRepository<Domain> repo) {//TODO: remove
         this.crudRepo = repo;
     }
 
     @Licenced
     @Override
     public Domain create(Domain newObject) throws RuntimeException {
-        firePropertyChange("pre_create", null, newObject);
+        firePropertyChange(BEFORE_CREATE, null, newObject);
+
         validateDomain(newObject);
 
         Domain d = crudRepo.create(newObject);
-        
-        firePropertyChange("post_create", null, d);
-        
+
+        firePropertyChange(AFTER_CREATE, null, d);
+
         return d;
     }
 
     @Licenced
     @Override
     public Domain edit(Domain objectToUpdate) throws RuntimeException {
-        firePropertyChange("pre_edit", null, objectToUpdate);
+        firePropertyChange(BEFORE_EDIT, null, objectToUpdate);
+
         validateDomain(objectToUpdate);
 
         Domain d = crudRepo.edit(objectToUpdate);
-        
-        firePropertyChange("post_edit", null, d);
+
+        firePropertyChange(AFTER_EDIT, null, d);
+
         return d;
     }
 
     @Licenced
     @Override
     public Domain destroy(Domain objectToDestroy) throws RuntimeException {
-        firePropertyChange("pre_destroy", null, objectToDestroy);
-        
+        firePropertyChange(BEFORE_DESTROY, null, objectToDestroy);
+
         Domain d = crudRepo.destroy(objectToDestroy);
-        
-        firePropertyChange("post_destroy", null, d);
+
+        firePropertyChange(AFTER_DESTROY, null, d);
+
         return d;
     }
 
     @Licenced
     @Override
     public Domain destroyById(Object keyId) throws RuntimeException {
-        firePropertyChange("pre_destroyById", null, keyId);
+        firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
+
         Domain d = crudRepo.destroyById(keyId);
-        
-        firePropertyChange("post_destroyById", null, d);
-        
+
+        firePropertyChange(AFTER_DESTROY_BY_ID, null, d);
+
         return d;
     }
 
     @Override
     public Domain findBy(Object keyId) throws RuntimeException {
-        firePropertyChange("pre_findBy", null, keyId);
+        firePropertyChange(BEFORE_FIND_BY, null, keyId);
+
         Domain d = crudRepo.findBy(keyId);
-        
-        firePropertyChange("post_findBy", null, d);
-        
+
+        firePropertyChange(AFTER_FIND_BY, null, d);
+
         return d;
     }
 
     @Override
     public List<Domain> findAll() throws RuntimeException {
-        firePropertyChange("pre_findAll", null, null);
-        
+        firePropertyChange(BEFORE_FIND_ALL, null, null);
+
         List<Domain> d = crudRepo.findAll();
-        
-        firePropertyChange("findAll", null, d);
+
+        firePropertyChange(AFTER_FIND_ALL, null, d);
+
         return d;
     }
 
     @Override
     public int count() throws RuntimeException {
-        firePropertyChange("pre_count", null, null);
-        
+        firePropertyChange(BEFORE_COUNT, null, null);
+
         int c = crudRepo.count();
-        
-        firePropertyChange("count", null, c);
-        
+
+        firePropertyChange(AFTER_COUNT, null, c);
+
         return c;
     }
 
@@ -136,8 +144,8 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
     }
 
     private ValidationResult validateDomain(Domain domain) throws RuntimeException {
-        if (domain instanceof Validable) {
-            return ((Validable) domain).validate().throwException();
+        if (domain instanceof Validable validable) {
+            return validable.validate().throwException();
         }
         return new ValidationResult();
     }

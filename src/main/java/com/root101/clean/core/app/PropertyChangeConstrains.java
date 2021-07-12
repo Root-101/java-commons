@@ -75,4 +75,13 @@ public class PropertyChangeConstrains {
     //count
     public static final String BEFORE_COUNT = "before_count";
     public static final String AFTER_COUNT = "after_count";
+
+    //-----------------------    For Read/Write    -----------------------\\
+    //read
+    public static final String BEFORE_READ = "before_read";
+    public static final String AFTER_READ = "after_read";
+
+    //write
+    public static final String BEFORE_WRITE = "before_write";
+    public static final String AFTER_WRITE = "after_write";
 }

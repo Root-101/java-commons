@@ -28,7 +28,7 @@ public interface CRUDUseCase<T> extends AbstractUseCase {
 
     public T create(T newObject) throws RuntimeException;
 
-    public T edit(T objectToUpdate) throws RuntimeException;
+    public T edit(T objectToEdit) throws RuntimeException;
 
     public T destroy(T objectToDestroy) throws RuntimeException;
 

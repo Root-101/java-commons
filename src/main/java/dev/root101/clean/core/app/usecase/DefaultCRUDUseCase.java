@@ -28,20 +28,22 @@ import java.util.List;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
+ * @param <CRUDRepo>
  */
 @Licenced
-public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
+public class DefaultCRUDUseCase<Domain, CRUDRepo extends CRUDRepository<Domain>> implements CRUDUseCase<Domain> {
 
+    private final boolean doFirePropertyChanges = true;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
-    protected CRUDRepository<Domain> crudRepo;
+    protected final CRUDRepo crudRepo;
 
-    protected CRUDRepository<Domain> getRepo() {
-        return crudRepo;
+    public DefaultCRUDUseCase(CRUDRepo crudRepo) {
+        this.crudRepo = crudRepo;
     }
 
-    protected void setRepo(CRUDRepository<Domain> repo) {//TODO: remove
-        this.crudRepo = repo;
+    protected CRUDRepo repo() {
+        return crudRepo;
     }
 
     @Licenced
@@ -131,16 +133,22 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
 
     @Override
     public void addPropertyChangeListener(java.beans.PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
+        if (doFirePropertyChanges) {
+            propertyChangeSupport.addPropertyChangeListener(listener);
+        }
     }
 
     @Override
     public void removePropertyChangeListener(java.beans.PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
+        if (doFirePropertyChanges) {
+            propertyChangeSupport.removePropertyChangeListener(listener);
+        }
     }
 
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+        if (doFirePropertyChanges) {
+            propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+        }
     }
 
     private ValidationResult validateDomain(Domain domain) throws RuntimeException {

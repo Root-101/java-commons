@@ -35,7 +35,7 @@ public class ValidationException extends IllegalArgumentException {
 
     public ValidationException(String source, String message) {
         super(message);
-        this.validationErrors = new ValidationResult();
+        this.validationErrors = ValidationResult.build();
         this.validationErrors.add(ValidationMessage.from(source, message));
     }
 

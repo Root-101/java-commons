@@ -38,7 +38,8 @@ public interface BasicDomainObject extends DomainObject, Validable {
 
     @Override
     public default ValidationResult validate() throws ValidationException {
-        ValidationResult val = new ValidationResult();
+        //return ValidationResult.build().checkFromAnnotations(this).throwException();
+        ValidationResult val = ValidationResult.build();
         val.checkFromAnnotations(this);
         return val.throwException();
     }

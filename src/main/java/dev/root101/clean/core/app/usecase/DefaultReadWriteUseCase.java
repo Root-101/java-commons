@@ -83,9 +83,9 @@ public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain>
     }
 
     private ValidationResult validateDomain(Domain domain) throws RuntimeException {
-        if (domain instanceof Validable) {
-            return ((Validable) domain).validate().throwException();
+        if (domain instanceof Validable validable) {
+            return validable.validate().throwException();
         }
-        return new ValidationResult();
+        return ValidationResult.build();
     }
 }

@@ -147,6 +147,6 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
         if (domain instanceof Validable validable) {
             return validable.validate().throwException();
         }
-        return new ValidationResult();
+        return ValidationResult.build();
     }
 }

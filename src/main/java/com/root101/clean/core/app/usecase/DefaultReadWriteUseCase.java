@@ -16,6 +16,7 @@
  */
 package com.root101.clean.core.app.usecase;
 
+import static com.root101.clean.core.app.PropertyChangeConstrains.*;
 import com.root101.clean.core.app.repo.ReadWriteRepository;
 import com.root101.clean.core.utils.validation.Validable;
 import com.root101.clean.core.utils.validation.ValidationResult;
@@ -49,22 +50,22 @@ public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain>
 
     @Override
     public Domain read() throws RuntimeException {
-        firePropertyChange("pre_read", null, null);
-        
+        firePropertyChange(BEFORE_READ, null, null);
+
         Domain d = readWriteRepo.read();
-        
-        firePropertyChange("post_read", null, d);
-        
+
+        firePropertyChange(AFTER_READ, null, d);
+
         return d;
     }
 
     @Override
     public void write(Domain object) throws RuntimeException {
-        firePropertyChange("pre_write", null, object);
+        firePropertyChange(BEFORE_WRITE, null, object);
         validateDomain(object);
 
         readWriteRepo.write(object);
-        firePropertyChange("write", null, object);
+        firePropertyChange(AFTER_WRITE, null, object);
     }
 
     @Override

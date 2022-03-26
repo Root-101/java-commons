@@ -16,15 +16,21 @@
  */
 package com.root101.clean.core.app.repo;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public interface AbstractRepository {
+public interface AbstractRepository extends PropertyChangeListener {
 
     public void addPropertyChangeListener(java.beans.PropertyChangeListener listener);
 
     public void removePropertyChangeListener(java.beans.PropertyChangeListener listener);
 
+    @Override
+    public default void propertyChange(PropertyChangeEvent evt) {
+    }
 }

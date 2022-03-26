@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.root101.clean.core.app.usecase;
+package com.root101.clean.core.app.rest;
+
+import com.root101.clean.core.app.usecase.*;
+import java.util.List;
 
 /**
  *
@@ -22,13 +25,28 @@ package com.root101.clean.core.app.usecase;
  * @author JesusHdezWaterloo@Github
  * @param <T>
  */
-public interface CRUDLightweightUseCase<T> extends CRUDUseCase<T> {
+public interface CRUDRestService<T> extends AbstractUseCase {
 
-    public void create_light(T newObject) throws RuntimeException;
+    public T create(T newObject) throws RuntimeException;
 
-    public void edit_light(T objectToUpdate) throws RuntimeException;
+    public T edit(T objectToEdit) throws RuntimeException;
 
-    public void destroy_light(T objectToDestroy) throws RuntimeException;
+    public T destroy(T objectToDestroy) throws RuntimeException;
 
-    public void destroyById_light(Object keyId) throws RuntimeException;
+    public T destroyById(Object keyId) throws RuntimeException;
+
+    public T findBy(Object keyId) throws RuntimeException;
+
+    public List<T> findAll() throws RuntimeException;
+
+    /**
+     * By default return the size of the findAll() list.
+     *
+     * @return findAll().size()
+     * @throws RuntimeException
+     */
+    public default int count() throws RuntimeException {
+        return findAll().size();
+    }
+
 }

@@ -14,38 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.root101.clean.core.app.usecase;
+package com.root101.clean.core.app.rest;
 
-import java.util.List;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @param <T>
  */
-public interface CRUDUseCase<T> extends AbstractUseCase {
+public interface AbstractRestService extends PropertyChangeListener {
 
-    public T create(T newObject) throws RuntimeException;
+    public void addPropertyChangeListener(java.beans.PropertyChangeListener listener);
 
-    public T edit(T objectToEdit) throws RuntimeException;
+    public void removePropertyChangeListener(java.beans.PropertyChangeListener listener);
 
-    public T destroy(T objectToDestroy) throws RuntimeException;
-
-    public T destroyById(Object keyId) throws RuntimeException;
-
-    public T findBy(Object keyId) throws RuntimeException;
-
-    public List<T> findAll() throws RuntimeException;
-
-    /**
-     * By default return the size of the findAll() list.
-     *
-     * @return findAll().size()
-     * @throws RuntimeException
-     */
-    public default int count() throws RuntimeException {
-        return findAll().size();
+    @Override
+    public default void propertyChange(PropertyChangeEvent evt) {
     }
-
 }

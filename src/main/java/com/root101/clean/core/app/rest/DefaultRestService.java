@@ -14,13 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.root101.clean.core.app.usecase;
+package com.root101.clean.core.app.rest;
 
 import static com.root101.clean.core.app.PropertyChangeConstrains.*;
-import com.root101.clean.core.app.repo.CRUDRepository;
+import com.root101.clean.core.app.usecase.*;
 import com.root101.clean.core.utils.Licenced;
-import com.root101.clean.core.utils.validation.Validable;
-import com.root101.clean.core.utils.validation.ValidationResult;
 import java.util.List;
 
 /**
@@ -29,67 +27,50 @@ import java.util.List;
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
  */
-@Licenced
-public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
+public class DefaultRestService<Domain> implements CRUDRestService<Domain> {
 
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
-    protected CRUDRepository<Domain> crudRepo;
+    protected CRUDUseCase<Domain> crudUC;
 
-    protected CRUDRepository<Domain> getRepo() {
-        return crudRepo;
-    }
-
-    protected void setRepo(CRUDRepository<Domain> repo) {//TODO: remove
-        this.crudRepo = repo;
-    }
-
-    @Licenced
     @Override
     public Domain create(Domain newObject) throws RuntimeException {
         firePropertyChange(BEFORE_CREATE, null, newObject);
 
-        validateDomain(newObject);
-
-        Domain d = crudRepo.create(newObject);
+        Domain d = crudUC.create(newObject);
 
         firePropertyChange(AFTER_CREATE, null, d);
 
         return d;
     }
 
-    @Licenced
     @Override
     public Domain edit(Domain objectToUpdate) throws RuntimeException {
         firePropertyChange(BEFORE_EDIT, null, objectToUpdate);
 
-        validateDomain(objectToUpdate);
-
-        Domain d = crudRepo.edit(objectToUpdate);
+        Domain d = crudUC.edit(objectToUpdate);
 
         firePropertyChange(AFTER_EDIT, null, d);
 
         return d;
     }
 
-    @Licenced
     @Override
     public Domain destroy(Domain objectToDestroy) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY, null, objectToDestroy);
 
-        Domain d = crudRepo.destroy(objectToDestroy);
+        Domain d = crudUC.destroy(objectToDestroy);
 
         firePropertyChange(AFTER_DESTROY, null, d);
 
         return d;
     }
 
-    @Licenced
     @Override
     public Domain destroyById(Object keyId) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
-        Domain d = crudRepo.destroyById(keyId);
+        Domain d = crudUC.destroyById(keyId);
 
         firePropertyChange(AFTER_DESTROY_BY_ID, null, d);
 
@@ -100,7 +81,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
     public Domain findBy(Object keyId) throws RuntimeException {
         firePropertyChange(BEFORE_FIND_BY, null, keyId);
 
-        Domain d = crudRepo.findBy(keyId);
+        Domain d = crudUC.findBy(keyId);
 
         firePropertyChange(AFTER_FIND_BY, null, d);
 
@@ -111,7 +92,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
     public List<Domain> findAll() throws RuntimeException {
         firePropertyChange(BEFORE_FIND_ALL, null, null);
 
-        List<Domain> d = crudRepo.findAll();
+        List<Domain> d = crudUC.findAll();
 
         firePropertyChange(AFTER_FIND_ALL, null, d);
 
@@ -122,7 +103,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
     public int count() throws RuntimeException {
         firePropertyChange(BEFORE_COUNT, null, null);
 
-        int c = crudRepo.count();
+        int c = crudUC.count();
 
         firePropertyChange(AFTER_COUNT, null, c);
 
@@ -143,10 +124,4 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    private ValidationResult validateDomain(Domain domain) throws RuntimeException {
-        if (domain instanceof Validable validable) {
-            return validable.validate().throwException();
-        }
-        return new ValidationResult();
-    }
 }

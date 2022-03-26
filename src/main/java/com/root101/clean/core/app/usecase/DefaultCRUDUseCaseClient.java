@@ -17,8 +17,7 @@
 package com.root101.clean.core.app.usecase;
 
 import static com.root101.clean.core.app.PropertyChangeConstrains.*;
-import com.root101.clean.core.app.repo.CRUDRepository;
-import com.root101.clean.core.utils.Licenced;
+import com.root101.clean.core.app.repo.CRUDRepositoryConsume;
 import com.root101.clean.core.utils.validation.Validable;
 import com.root101.clean.core.utils.validation.ValidationResult;
 import java.util.List;
@@ -29,67 +28,62 @@ import java.util.List;
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
  */
-@Licenced
-public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
+public class DefaultCRUDUseCaseClient<Domain> implements CRUDUseCase<Domain> {
 
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
-    protected CRUDRepository<Domain> crudRepo;
+    protected CRUDRepositoryConsume<Domain> crudRepoConsume;
 
-    protected CRUDRepository<Domain> getRepo() {
-        return crudRepo;
+    protected CRUDRepositoryConsume<Domain> getRepo() {
+        return crudRepoConsume;
     }
 
-    protected void setRepo(CRUDRepository<Domain> repo) {//TODO: remove
-        this.crudRepo = repo;
+    protected void setRepo(CRUDRepositoryConsume<Domain> repo) {//TODO: remove
+        this.crudRepoConsume = repo;
     }
 
-    @Licenced
     @Override
     public Domain create(Domain newObject) throws RuntimeException {
         firePropertyChange(BEFORE_CREATE, null, newObject);
 
         validateDomain(newObject);
 
-        Domain d = crudRepo.create(newObject);
+        Domain d = crudRepoConsume.create(newObject);
 
         firePropertyChange(AFTER_CREATE, null, d);
 
         return d;
     }
 
-    @Licenced
     @Override
     public Domain edit(Domain objectToUpdate) throws RuntimeException {
         firePropertyChange(BEFORE_EDIT, null, objectToUpdate);
 
         validateDomain(objectToUpdate);
 
-        Domain d = crudRepo.edit(objectToUpdate);
+        Domain d = crudRepoConsume.edit(objectToUpdate);
 
         firePropertyChange(AFTER_EDIT, null, d);
 
         return d;
     }
 
-    @Licenced
     @Override
     public Domain destroy(Domain objectToDestroy) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY, null, objectToDestroy);
 
-        Domain d = crudRepo.destroy(objectToDestroy);
+        Domain d = crudRepoConsume.destroy(objectToDestroy);
 
         firePropertyChange(AFTER_DESTROY, null, d);
 
         return d;
     }
 
-    @Licenced
     @Override
     public Domain destroyById(Object keyId) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
-        Domain d = crudRepo.destroyById(keyId);
+        Domain d = crudRepoConsume.destroyById(keyId);
 
         firePropertyChange(AFTER_DESTROY_BY_ID, null, d);
 
@@ -100,7 +94,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
     public Domain findBy(Object keyId) throws RuntimeException {
         firePropertyChange(BEFORE_FIND_BY, null, keyId);
 
-        Domain d = crudRepo.findBy(keyId);
+        Domain d = crudRepoConsume.findBy(keyId);
 
         firePropertyChange(AFTER_FIND_BY, null, d);
 
@@ -111,7 +105,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
     public List<Domain> findAll() throws RuntimeException {
         firePropertyChange(BEFORE_FIND_ALL, null, null);
 
-        List<Domain> d = crudRepo.findAll();
+        List<Domain> d = crudRepoConsume.findAll();
 
         firePropertyChange(AFTER_FIND_ALL, null, d);
 
@@ -122,7 +116,7 @@ public class DefaultCRUDUseCase<Domain> implements CRUDUseCase<Domain> {
     public int count() throws RuntimeException {
         firePropertyChange(BEFORE_COUNT, null, null);
 
-        int c = crudRepo.count();
+        int c = crudRepoConsume.count();
 
         firePropertyChange(AFTER_COUNT, null, c);
 

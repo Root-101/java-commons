@@ -16,36 +16,12 @@
  */
 package com.root101.clean.core.app.usecase;
 
-import java.util.List;
-
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <T>
  */
-public interface CRUDUseCase<T> extends AbstractUseCase {
-
-    public T create(T newObject) throws RuntimeException;
-
-    public T edit(T objectToEdit) throws RuntimeException;
-
-    public T destroy(T objectToDestroy) throws RuntimeException;
-
-    public T destroyById(Object keyId) throws RuntimeException;
-
-    public T findBy(Object keyId) throws RuntimeException;
-
-    public List<T> findAll() throws RuntimeException;
-
-    /**
-     * By default return the size of the findAll() list.
-     *
-     * @return findAll().size()
-     * @throws RuntimeException
-     */
-    public default int count() throws RuntimeException {
-        return findAll().size();
-    }
+public interface CRUDUseCaseClient<T> extends CRUDUseCase<T> {
 
 }

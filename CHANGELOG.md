@@ -1,0 +1,2 @@
+* 4.0.0.SNAPSHOT.20220000: Complete review of the plugin.
+    * **IMPROVEMENT** :raised_hands: : 

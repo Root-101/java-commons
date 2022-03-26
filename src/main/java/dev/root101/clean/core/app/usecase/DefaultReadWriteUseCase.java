@@ -18,6 +18,7 @@ package dev.root101.clean.core.app.usecase;
 
 import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
 import dev.root101.clean.core.app.repo.ReadWriteRepository;
+import dev.root101.clean.core.domain.DomainObject;
 import dev.root101.clean.core.utils.validation.Validable;
 import dev.root101.clean.core.utils.validation.ValidationResult;
 
@@ -26,26 +27,21 @@ import dev.root101.clean.core.utils.validation.ValidationResult;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
+ * @param <CRUDRepo>
  */
-public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain> {
+public class DefaultReadWriteUseCase<Domain extends DomainObject, CRUDRepo extends ReadWriteRepository<Domain>> implements ReadWriteUseCase<Domain> {
 
+    private final boolean doFirePropertyChanges = true;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
-    protected ReadWriteRepository<Domain> readWriteRepo;
+    protected CRUDRepo readWriteRepo;
 
-    public DefaultReadWriteUseCase() {
-    }
-
-    public DefaultReadWriteUseCase(ReadWriteRepository<Domain> repo) {
+    public DefaultReadWriteUseCase(CRUDRepo repo) {
         this.readWriteRepo = repo;
     }
 
-    protected ReadWriteRepository<Domain> getRepo() {
+    protected CRUDRepo repo() {
         return readWriteRepo;
-    }
-
-    protected void setRepo(ReadWriteRepository<Domain> repo) {
-        this.readWriteRepo = repo;
     }
 
     @Override
@@ -70,16 +66,22 @@ public class DefaultReadWriteUseCase<Domain> implements ReadWriteUseCase<Domain>
 
     @Override
     public void addPropertyChangeListener(java.beans.PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
+        if (doFirePropertyChanges) {
+            propertyChangeSupport.addPropertyChangeListener(listener);
+        }
     }
 
     @Override
     public void removePropertyChangeListener(java.beans.PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
+        if (doFirePropertyChanges) {
+            propertyChangeSupport.removePropertyChangeListener(listener);
+        }
     }
 
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+        if (doFirePropertyChanges) {
+            propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+        }
     }
 
     private ValidationResult validateDomain(Domain domain) throws RuntimeException {

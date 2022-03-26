@@ -13,9 +13,9 @@
         * **IMPROVEMENT** :raised_hands: : static `DEFAULT_VALIDATOR` in `ValidationResult` to avoid recreated every time a validation occur
     * **USE CASE** :
         * **IMPROVEMENT** :raised_hands: : Removed Clients Use Case.
-        * **IMPROVEMENT** :raised_hands: : Added to `DefaultCRUDUseCase` the `<CRUDRepo>` in signature, enforcing the Repo to the UC. (Easy access to repo). EXTRA: + doFirePropertyChanges = true. To controll in the future if the propertyChange get fired or not.
+        * **IMPROVEMENT** :raised_hands: : Added to `DefaultCRUDUseCase` & `DefaultReadWriteUseCase the `<CRUDRepo>` in signature, enforcing the Repo to the UC. (Easy access to repo). EXTRA: + doFirePropertyChanges = true. To controll in the future if the propertyChange get fired or not.
         * **IMPROVEMENT** :raised_hands: : CRUDUseCase & DefaultCRUDUseCase: Domain signature  to `extends DomainObject`.
-    * **REPO** :
+* **REPO** :
         * **IMPROVEMENT** :raised_hands: : Removed Clients Repo.
         * **IMPROVEMENT** :raised_hands: : Refactor Converter method's signature.
     * **GENERAL** :

@@ -37,7 +37,7 @@ public class SizeExactCheckable implements Checkable<String> {
 
     @Override
     public boolean check() {
-        return source.length() == length;
+        return value.length() == length;
     }
 
     @Override

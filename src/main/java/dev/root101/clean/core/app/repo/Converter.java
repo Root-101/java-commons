@@ -16,8 +16,8 @@
  */
 package dev.root101.clean.core.app.repo;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -28,24 +28,16 @@ import java.util.List;
  */
 public interface Converter<Domain, Entity> {
 
-    public Domain from(Entity object) throws RuntimeException;
+    public Domain toDomain(Entity entity) throws RuntimeException;
 
-    public Entity to(Domain object) throws RuntimeException;
+    public Entity toEntity(Domain domain) throws RuntimeException;
 
-    public default List<Domain> from(List<Entity> list) throws RuntimeException {
-        List<Domain> answ = new ArrayList<>();
-        for (Entity entity : list) {
-            answ.add(from(entity));
-        }
-        return answ;
+    public default List<Domain> toDomainAll(List<Entity> list) throws RuntimeException {
+        return list.stream().map((entity) -> toDomain(entity)).collect(Collectors.toList());
     }
 
-    public default List<Entity> to(List<Domain> list) throws RuntimeException {//convert entities to domain
-        List<Entity> answ = new ArrayList<>();
-        for (Domain domain : list) {
-            answ.add(to(domain));
-        }
-        return answ;
+    public default List<Entity> toEntityAll(List<Domain> list) throws RuntimeException {//convert entities to domain
+        return list.stream().map((domain) -> toEntity(domain)).collect(Collectors.toList());
     }
 
 }

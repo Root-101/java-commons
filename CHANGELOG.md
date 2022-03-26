@@ -12,6 +12,9 @@
         * **IMPROVEMENT** :raised_hands: : static `DEFAULT_VALIDATOR` in `ValidationResult` to avoid recreated every time a validation occur
     * **USE CASE** :
         * **IMPROVEMENT** :raised_hands: : Removed Clients Use Case.
+    * **REPO** :
+        * **IMPROVEMENT** :raised_hands: : Removed Clients Repo.
+        * **IMPROVEMENT** :raised_hands: : Refactor Converter method's signature.
     * **GENERAL** :
         * Fix typos
 

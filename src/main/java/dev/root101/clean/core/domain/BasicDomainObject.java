@@ -16,9 +16,12 @@
  */
 package dev.root101.clean.core.domain;
 
+import dev.root101.clean.core.exceptions.ValidationException;
 import dev.root101.clean.core.utils.validation.Validable;
+import dev.root101.clean.core.utils.validation.ValidationResult;
 
 /**
+ * Default validate by annotations.
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
@@ -26,4 +29,10 @@ import dev.root101.clean.core.utils.validation.Validable;
  */
 public interface BasicDomainObject extends DomainObject, Validable {
 
+    @Override
+    public default ValidationResult validate() throws ValidationException {
+        ValidationResult val = new ValidationResult();
+        val.checkFromAnnotations(this);
+        return val.throwException();
+    }
 }

@@ -28,7 +28,9 @@ public interface ReadWriteUseCase<T> extends AbstractUseCase {
 
     public void write(T object) throws RuntimeException;
 
+    @Override
     public void addPropertyChangeListener(java.beans.PropertyChangeListener listener);
 
+    @Override
     public void removePropertyChangeListener(java.beans.PropertyChangeListener listener);
 }

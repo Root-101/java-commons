@@ -22,7 +22,7 @@ import dev.root101.clean.core.utils.validation.ValidationResult;
 
 /**
  * Default validate by annotations.
- * 
+ *
  * <pre>
  * {@code
  *      public record PersonDomain(@NotEmpty String name) implements BasicDomainObject {
@@ -30,7 +30,7 @@ import dev.root101.clean.core.utils.validation.ValidationResult;
  *      }
  * }
  * </pre>
- * 
+ *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
@@ -38,9 +38,6 @@ public interface BasicDomainObject extends DomainObject, Validable {
 
     @Override
     public default ValidationResult validate() throws ValidationException {
-        //return ValidationResult.build().checkFromAnnotations(this).throwException();
-        ValidationResult val = ValidationResult.build();
-        val.checkFromAnnotations(this);
-        return val.throwException();
+        return ValidationResult.validateForAnnotations(this).throwException();
     }
 }

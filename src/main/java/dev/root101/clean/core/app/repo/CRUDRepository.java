@@ -16,6 +16,7 @@
  */
 package dev.root101.clean.core.app.repo;
 
+import dev.root101.clean.core.domain.DomainObject;
 import java.util.List;
 
 /**
@@ -23,21 +24,21 @@ import java.util.List;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @author jjhurtado@Github
- * @param <T>
+ * @param <Domain>
  */
-public interface CRUDRepository<T> extends AbstractRepository {
+public interface CRUDRepository<Domain extends DomainObject> extends AbstractRepository {
 
-    public T create(T newObject) throws RuntimeException;
+    public Domain create(Domain newObject) throws RuntimeException;
 
-    public T edit(T objectToEdit) throws RuntimeException;
+    public Domain edit(Domain objectToEdit) throws RuntimeException;
 
-    public T destroy(T objectToDestroy) throws RuntimeException;
+    public Domain destroy(Domain objectToDestroy) throws RuntimeException;
 
-    public T destroyById(Object keyId) throws RuntimeException;
+    public Domain destroyById(Object keyId) throws RuntimeException;
 
-    public T findBy(Object keyId) throws RuntimeException;
+    public Domain findBy(Object keyId) throws RuntimeException;
 
-    public List<T> findAll() throws RuntimeException;
+    public List<Domain> findAll() throws RuntimeException;
 
     public default int count() throws RuntimeException {
         return findAll().size();

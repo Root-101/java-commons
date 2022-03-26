@@ -16,17 +16,19 @@
  */
 package dev.root101.clean.core.app.repo;
 
+import dev.root101.clean.core.domain.DomainObject;
+
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @author jjhurtado@Github
- * @param <T>
+ * @param <Domain>
  */
-public interface ReadWriteRepository<T> extends AbstractRepository {
+public interface ReadWriteRepository<Domain extends DomainObject> extends AbstractRepository {
 
-    public T read() throws RuntimeException;
+    public Domain read() throws RuntimeException;
 
-    public void write(T object) throws RuntimeException;
+    public void write(Domain object) throws RuntimeException;
 
 }

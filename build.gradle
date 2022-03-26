@@ -12,12 +12,9 @@ repositories {
 }
 
 dependencies{
-    implementation 'javax.validation:validation-api:2.0.1.Final'
-
+    //validation
     implementation 'org.hibernate.validator:hibernate-validator:7.0.4.Final'
     implementation 'org.hibernate.validator:hibernate-validator-annotation-processor:7.0.4.Final'
-
-    implementation 'javax.el:javax.el-api:3.0.0'
-       
-    implementation 'org.glassfish.web:javax.el:2.2.6'
+    implementation 'org.glassfish:jakarta.el:4.0.1'
+    implementation 'org.hibernate.validator:hibernate-validator-cdi:7.0.4.Final'//shit, not needed int most cases
 }

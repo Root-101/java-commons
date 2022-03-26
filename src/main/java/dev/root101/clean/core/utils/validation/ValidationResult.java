@@ -18,11 +18,13 @@ package dev.root101.clean.core.utils.validation;
 
 import dev.root101.clean.core.exceptions.ValidationException;
 import dev.root101.clean.core.utils.validation.checkables.Checkable;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
+//import javax.validation.ConstraintViolation;
+//import javax.validation.Validation;
 
 /**
  *

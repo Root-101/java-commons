@@ -18,9 +18,8 @@ package dev.root101.clean.core.utils.validation.annotations.registers;
 
 import dev.root101.clean.core.utils.validation.annotations.Digit;
 import dev.root101.clean.core.utils.validation.checkables.CheckerFactory;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)

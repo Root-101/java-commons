@@ -19,6 +19,7 @@
         * **IMPROVEMENT** :raised_hands: : Removed Clients Repo.
         * **IMPROVEMENT** :raised_hands: : Refactor Converter method's signature.
         * **IMPROVEMENT** :raised_hands: : `CRUDRepository` & `ReadWriteRepository`: enforce the DomainObject for the Domain in signature.
+        * **IMPROVEMENT** :raised_hands: : + `DefaultCRUDRepo` with delegate to External Repo. This is the one with the converter logic on.
     * **EXTERNAL REPO** : Created a new layer to handle the actually conection with frameworks, delegating all the convertion responsability to clasic repo.
         * **IMPROVEMENT** :raised_hands: : +AbstractExternalRepository & +CRUDExternalRepository.
     * **GENERAL** :

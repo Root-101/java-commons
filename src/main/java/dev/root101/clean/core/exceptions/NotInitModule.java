@@ -24,7 +24,7 @@ package dev.root101.clean.core.exceptions;
 public class NotInitModule extends RuntimeException {
 
     public static NotInitModule from(String module) {//TODO: a key y resources
-        return new NotInitModule("El mÃ³dulo " + module + " NO se ha inicializado");
+        return new NotInitModule("El módulo " + module + " NO se ha inicializado");
     }
 
     public NotInitModule(String string) {

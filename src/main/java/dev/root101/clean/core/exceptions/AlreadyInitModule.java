@@ -24,7 +24,7 @@ package dev.root101.clean.core.exceptions;
 public class AlreadyInitModule extends RuntimeException {
 
     public static AlreadyInitModule from(String module) {//TODO: a key y resources
-        return new AlreadyInitModule("El mÃ³dulo " + module + " ya se ha inicializado");
+        return new AlreadyInitModule("El módulo " + module + " ya se ha inicializado");
     }
 
     public AlreadyInitModule(String string) {

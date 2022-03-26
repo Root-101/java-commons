@@ -69,6 +69,16 @@ public class ValidationResult {
         }
     }
 
+    public ValidationResult checkFromAnnotations(Object objectToCheck) {
+        add(DEFAULT_VALIDATOR.validate(objectToCheck));
+        return this;
+    }
+
+    public ValidationResult checkFromAnnotations(Object objectToCheck, String field) {
+        add(DEFAULT_VALIDATOR.validateProperty(objectToCheck, field));
+        return this;
+    }
+
     public void add(ValidationMessage validationMessage) {
         this.messages.add(validationMessage);
     }
@@ -81,25 +91,15 @@ public class ValidationResult {
         this.messages.addAll(validationResult.getMessages());
     }
 
-    @Override
-    public String toString() {
-        return messages.isEmpty() ? "" : messages.get(0).toString();
-    }
-
-    public ValidationResult checkFromAnnotations(Object objectToCheck) {
-        add(DEFAULT_VALIDATOR.validate(objectToCheck));
-        return this;
-    }
-
-    public ValidationResult checkFromAnnotations(Object objectToCheck, String field) {
-        add(DEFAULT_VALIDATOR.validateProperty(objectToCheck, field));
-        return this;
-    }
-
     private void add(Set<ConstraintViolation<Object>> validate) {
         for (ConstraintViolation<Object> c : validate) {
             add(ValidationMessage.from(c.getPropertyPath().toString(), c.getInvalidValue(), c.getMessage()));
         }
+    }
+
+    @Override
+    public String toString() {
+        return messages.isEmpty() ? "" : messages.get(0).toString();
     }
 
 }

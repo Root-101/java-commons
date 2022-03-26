@@ -17,7 +17,7 @@
 package dev.root101.clean.core.app.rest;
 
 import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
-import dev.root101.clean.core.utils.Licenced;
+import dev.root101.clean.core.app.usecase.CRUDUseCase;
 import java.util.List;
 
 /**

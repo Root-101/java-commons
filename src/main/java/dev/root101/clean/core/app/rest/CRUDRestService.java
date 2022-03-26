@@ -16,6 +16,7 @@
  */
 package dev.root101.clean.core.app.rest;
 
+import dev.root101.clean.core.app.usecase.AbstractUseCase;
 import java.util.List;
 
 /**

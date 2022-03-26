@@ -23,13 +23,11 @@ import dev.root101.clean.core.utils.validation.ValidationResult;
 /**
  * Default validate by annotations.
  *
- * <pre>
- * {@code
+ * <pre>{@code
  *      public record PersonDomain(@NotEmpty String name) implements BasicDomainObject {
  *
  *      }
- * }
- * </pre>
+ * }</pre>
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github

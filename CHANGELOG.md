@@ -1,6 +1,7 @@
 * 4.0.0.SNAPSHOT.20220000: Complete review of the plugin.
     * **MISSING**:
-        * Validation Message and converters
+        * Validation Message and converters.
+        * Javadoc examples for all.
     * **DOMAIN** :
         * **IMPROVEMENT** :raised_hands: : Renamed `EntityDomainObject` to `BasicDomainObject`.
         * **IMPROVEMENT** :raised_hands: : Removed `VolatileDomainObject`.
@@ -16,6 +17,6 @@
         * **IMPROVEMENT** :raised_hands: : Removed Clients Repo.
         * **IMPROVEMENT** :raised_hands: : Refactor Converter method's signature.
     * **GENERAL** :
-        * Fix typos
+        * Fix typos.
 
 

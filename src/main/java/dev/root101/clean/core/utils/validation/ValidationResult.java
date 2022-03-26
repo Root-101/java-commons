@@ -20,6 +20,7 @@ import dev.root101.clean.core.exceptions.ValidationException;
 import dev.root101.clean.core.utils.validation.checkables.Checkable;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,14 @@ import java.util.Set;
  */
 public class ValidationResult {
 
+    //Created static to avoid recreated every time a validation occur
+    private static Validator DEFAULT_VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
+
+    //in case some other Validator is used
+    public static void setValidator(Validator validator) {
+        DEFAULT_VALIDATOR = validator;
+    }
+    
     private final List<ValidationMessage> messages = new ArrayList<>();
 
     public ValidationResult() {
@@ -81,11 +90,11 @@ public class ValidationResult {
     }
 
     public void checkFromAnnotations(Object objectToCheck) {
-        add(Validation.buildDefaultValidatorFactory().getValidator().validate(objectToCheck));
+        add(DEFAULT_VALIDATOR.validate(objectToCheck));
     }
 
     public void checkFromAnnotations(Object objectToCheck, String field) {
-        add(Validation.buildDefaultValidatorFactory().getValidator().validateProperty(objectToCheck, field));
+        add(DEFAULT_VALIDATOR.validateProperty(objectToCheck, field));
     }
 
     private void add(Set<ConstraintViolation<Object>> validate) {

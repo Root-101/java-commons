@@ -7,6 +7,7 @@
      * **VALIDATION** :       
         * **IMPROVEMENT** :raised_hands: : Migrated Validation logic to [`Hibernate Validator 7.0.4.Final - Jakarta Bean Validation`](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#section-declaring-bean-constraints)
         * **BUG FIX** :raised_bug: : Fix bug in `SizeExactCheckable`'s `check()`.
+        * **IMPROVEMENT** :raised_hands: : static `DEFAULT_VALIDATOR` in `ValidationResult` to avoid recreated every time a validation occur
 
 
 

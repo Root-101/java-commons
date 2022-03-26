@@ -24,6 +24,6 @@ import dev.root101.clean.core.utils.validation.Validable;
  * @author JesusHdezWaterloo@Github
  * @author jjhurtado@Github
  */
-public abstract class EntityDomainObject extends DomainObject implements Validable {
+public interface BasicDomainObject extends DomainObject, Validable {
 
 }

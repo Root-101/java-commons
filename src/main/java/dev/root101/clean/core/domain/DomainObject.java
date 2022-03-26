@@ -24,5 +24,5 @@ import java.io.Serializable;
  * @author JesusHdezWaterloo@Github
  * @author jjhurtado@Github
  */
-public abstract class DomainObject implements Serializable {
+public interface DomainObject extends Serializable {
 }

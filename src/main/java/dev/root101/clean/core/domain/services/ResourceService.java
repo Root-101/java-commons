@@ -27,7 +27,5 @@ public interface ResourceService<T> {
 
     public String getString(String key);
 
-    public T getObject(String key);
-
     public boolean contain(String key);
 }

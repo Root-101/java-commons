@@ -51,11 +51,6 @@ public class DefaultResourceBundleService implements ResourceService {
     }
 
     @Override
-    public Object getObject(String key) {//return only if contain key
-        return getResourceBundle().containsKey(key) ? getResourceBundle().getObject(key) : null;
-    }
-
-    @Override
     public boolean contain(String key) {
         return getResourceBundle().containsKey(key);
     }

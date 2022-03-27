@@ -58,15 +58,6 @@ public class ResourceHandler {
         return resourceService.stream().anyMatch(res -> (res.contain(key)));
     }
 
-    public static Object getObject(String key) {
-        for (ResourceService res : resourceService) {
-            if (res.contain(key)) {
-                return res.getObject(key);
-            }
-        }
-        return key;
-    }
-
     public static ResourceService registerInternal(String internalFile, Locale locale) {
         ResourceService service = DefaultResourceBundleService.buildInternal(internalFile, locale);
         registerResourceService(service);

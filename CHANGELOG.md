@@ -24,9 +24,12 @@
     * **EXTERNAL REPO** : Created a new layer to handle the actually conection with frameworks, delegating all the convertion responsability to clasic repo.
         * **IMPROVEMENT** :raised_hands: : +AbstractExternalRepository & +CRUDExternalRepository.
     * **REST SERVICE** :
-        * **IMPROVEMENT** :raised_hands: : +`DefaultCRUDRestService`, who delegate in UC.
+        * **IMPROVEMENT** :raised_hands: : + `DefaultCRUDRestService`, who delegate in UC.
+        * **IMPROVEMENT** :raised_hands: : + `HttpStatus` with all http codes. Forked from `org.springframework.http`.
     * **SERVICES** :
         * **REMOVED** :-1: : Removed from services: **Converter**, **Authentication**, **Exception**, **Navigation**, **Notification**
+    * **EXEXPTIONS** :
+        * **IMPROVEMENT** :raised_hands: : + `RestException`, with an HttpStatus to map it with external frameworks.
     * **GENERAL** :
         * Fix typos.
 

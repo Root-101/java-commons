@@ -1,5 +1,7 @@
 * 4.1.0.SNAPSHOT.20220000: ReadWriteExternalRepository
-    * **NEW** :+: : Added `ReadWriteExternalRepository`.
+    * **GENERAL** :    
+        * **NEW** :+: : Added `ReadWriteExternalRepository`.
+        * **IMPROVEMENT** :raised_hands: : `CRUDRestService` domain's to `extends Domainbject` & - DefaultCRUDRestService.
 
 * 4.0.0.SNAPSHOT.20220327: Complete review of the plugin. Updated focussed mainly on server side/microservices architecture.
     * **MISSING**:

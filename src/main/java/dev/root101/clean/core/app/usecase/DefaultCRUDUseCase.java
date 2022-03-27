@@ -17,8 +17,8 @@
 package dev.root101.clean.core.app.usecase;
 
 import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
-import dev.root101.clean.core.app.repo.CRUDRepository;
-import dev.root101.clean.core.domain.DomainObject;
+import dev.root101.clean.core.repo.CRUDRepository;
+import dev.root101.clean.core.app.domain.DomainObject;
 import dev.root101.clean.core.utils.Licenced;
 import dev.root101.clean.core.utils.validation.Validable;
 import dev.root101.clean.core.utils.validation.ValidationResult;

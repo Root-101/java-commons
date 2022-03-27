@@ -14,32 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.repo;
+package dev.root101.clean.core.rest;
 
-import dev.root101.clean.core.domain.DomainObject;
+import dev.root101.clean.core.app.usecase.AbstractUseCase;
 import java.util.List;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @author jjhurtado@Github
- * @param <Domain>
+ * @param <T>
  */
-public interface CRUDRepository<Domain extends DomainObject> extends AbstractRepository {
+public interface CRUDRestService<T> extends AbstractUseCase {
 
-    public Domain create(Domain newObject) throws RuntimeException;
+    public T create(T newObject) throws RuntimeException;
 
-    public Domain edit(Domain objectToEdit) throws RuntimeException;
+    public T edit(T objectToEdit) throws RuntimeException;
 
-    public Domain destroy(Domain objectToDestroy) throws RuntimeException;
+    public T destroy(T objectToDestroy) throws RuntimeException;
 
-    public Domain destroyById(Object keyId) throws RuntimeException;
+    public T destroyById(Object keyId) throws RuntimeException;
 
-    public Domain findBy(Object keyId) throws RuntimeException;
+    public T findBy(Object keyId) throws RuntimeException;
 
-    public List<Domain> findAll() throws RuntimeException;
+    public List<T> findAll() throws RuntimeException;
 
+    /**
+     * By default return the size of the findAll() list.
+     *
+     * @return findAll().size()
+     * @throws RuntimeException
+     */
     public default int count() throws RuntimeException {
         return findAll().size();
     }

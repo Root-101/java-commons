@@ -16,7 +16,7 @@
  */
 package dev.root101.clean.core.exceptions;
 
-import dev.root101.clean.core.utils.HttpStatus;
+import dev.root101.clean.core.rest.HttpStatus;
 
 /**
  *

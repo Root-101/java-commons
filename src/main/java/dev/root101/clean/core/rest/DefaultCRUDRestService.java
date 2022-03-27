@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.repo;
+package dev.root101.clean.core.rest;
 
+import dev.root101.clean.core.app.usecase.*;
+import dev.root101.clean.core.utils.validation.*;
 import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
-import dev.root101.clean.core.app.repo.external_repo.CRUDExternalRepository;
-import dev.root101.clean.core.domain.DomainObject;
-import dev.root101.clean.core.utils.Licenced;
+import dev.root101.clean.core.app.domain.DomainObject;
 import java.util.List;
 
 /**
@@ -27,135 +27,98 @@ import java.util.List;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
- * @param <Entity>
- * @param <ExternalRepo>
+ * @param <UseCase>
  */
-@Licenced
-public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ExternalRepo extends CRUDExternalRepository<Entity>> implements CRUDRepository<Domain> {
+public class DefaultCRUDRestService<Domain extends DomainObject, UseCase extends CRUDUseCase<Domain>> implements CRUDRestService<Domain> {
 
     private final boolean doFirePropertyChanges = false;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
-    protected final ExternalRepo externalRepo;
-    protected final Converter<Domain, Entity> converter;
+    protected final UseCase crudUC;
 
-    public DefaultCRUDRepo(ExternalRepo externalRepo, Converter converter) {
-        this.externalRepo = externalRepo;
-        this.converter = converter;
+    public DefaultCRUDRestService(UseCase crudRepo) {
+        this.crudUC = crudRepo;
     }
 
-    protected ExternalRepo repo() {
-        return externalRepo;
+    protected CRUDUseCase useCase() {
+        return crudUC;
     }
 
-    @Licenced
     @Override
     public Domain create(Domain newObject) throws RuntimeException {
         firePropertyChange(BEFORE_CREATE, null, newObject);
 
-        //convert domain to entity
-        Entity entity = converter.toEntity(newObject);
+        Domain domain = crudUC.create(newObject);
 
-        //do the persist
-        entity = externalRepo.create(entity);
+        firePropertyChange(AFTER_CREATE, null, domain);
 
-        //convert the domain back
-        newObject = converter.toDomain(entity);
-
-        firePropertyChange(AFTER_CREATE, null, newObject);
-
-        return newObject;
+        return domain;
     }
 
-    @Licenced
     @Override
     public Domain edit(Domain objectToUpdate) throws RuntimeException {
         firePropertyChange(BEFORE_EDIT, null, objectToUpdate);
 
-        //convert domain to entity
-        Entity entity = converter.toEntity(objectToUpdate);
+        Domain domain = crudUC.edit(objectToUpdate);
 
-        //do the persist
-        entity = externalRepo.edit(entity);
+        firePropertyChange(AFTER_EDIT, null, domain);
 
-        //convert the domain back
-        objectToUpdate = converter.toDomain(entity);
-
-        firePropertyChange(AFTER_CREATE, null, objectToUpdate);
-
-        return objectToUpdate;
+        return domain;
     }
 
-    @Licenced
     @Override
     public Domain destroy(Domain objectToDestroy) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY, null, objectToDestroy);
 
-        //convert domain to entity
-        Entity entity = converter.toEntity(objectToDestroy);
+        Domain domain = crudUC.destroy(objectToDestroy);
 
-        //do the persist
-        entity = externalRepo.destroy(entity);
+        firePropertyChange(AFTER_DESTROY, null, domain);
 
-        //convert the domain back
-        objectToDestroy = converter.toDomain(entity);
-
-        firePropertyChange(AFTER_DESTROY, null, objectToDestroy);
-
-        return objectToDestroy;
+        return domain;
     }
 
-    @Licenced
     @Override
     public Domain destroyById(Object keyId) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
-        //do the destroy by key, returned the entity
-        Entity entity = externalRepo.destroyById(keyId);
+        Domain domain = crudUC.destroyById(keyId);
 
-        //convert the domain back
-        Domain objectDestroyed = converter.toDomain(entity);
+        firePropertyChange(AFTER_DESTROY_BY_ID, null, domain);
 
-        firePropertyChange(AFTER_DESTROY_BY_ID, null, objectDestroyed);
-
-        return objectDestroyed;
+        return domain;
     }
 
     @Override
     public Domain findBy(Object keyId) throws RuntimeException {
         firePropertyChange(BEFORE_FIND_BY, null, keyId);
 
-        //do the findBy, returned the entity
-        Entity entity = externalRepo.findBy(keyId);
+        Domain domain = crudUC.findBy(keyId);
 
-        //convert the domain back
-        Domain objectDestroyed = converter.toDomain(entity);
+        firePropertyChange(AFTER_FIND_BY, null, domain);
 
-        firePropertyChange(AFTER_FIND_BY, null, objectDestroyed);
-
-        return objectDestroyed;
+        return domain;
     }
 
     @Override
     public List<Domain> findAll() throws RuntimeException {
         firePropertyChange(BEFORE_FIND_ALL, null, null);
 
-        List<Domain> d = converter.toDomainAll(externalRepo.findAll());
+        List<Domain> domain = crudUC.findAll();
 
-        firePropertyChange(AFTER_FIND_ALL, null, d);
+        firePropertyChange(AFTER_FIND_ALL, null, domain);
 
-        return d;
+        return domain;
     }
 
     @Override
     public int count() throws RuntimeException {
         firePropertyChange(BEFORE_COUNT, null, null);
 
-        int c = externalRepo.count();
+        int count = crudUC.count();
 
-        firePropertyChange(AFTER_COUNT, null, c);
+        firePropertyChange(AFTER_COUNT, null, count);
 
-        return c;
+        return count;
     }
 
     @Override

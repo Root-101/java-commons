@@ -16,7 +16,7 @@
  */
 package dev.root101.clean.core.utils.validation;
 
-import dev.root101.clean.core.domain.services.ResourceHandler;
+import dev.root101.clean.core.app.domain.services.ResourceHandler;
 
 /**
  *

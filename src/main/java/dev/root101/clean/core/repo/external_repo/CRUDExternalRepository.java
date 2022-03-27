@@ -14,30 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.repo;
+package dev.root101.clean.core.repo.external_repo;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @param <Domain>
+ * @author jjhurtado@Github
  * @param <Entity>
  */
-public interface Converter<Domain, Entity> {
+public interface CRUDExternalRepository<Entity> extends AbstractExternalRepository {
 
-    public Domain toDomain(Entity entity) throws RuntimeException;
+    public Entity create(Entity newObject) throws RuntimeException;
 
-    public Entity toEntity(Domain domain) throws RuntimeException;
+    public Entity edit(Entity objectToEdit) throws RuntimeException;
 
-    public default List<Domain> toDomainAll(List<Entity> list) throws RuntimeException {
-        return list.stream().map((entity) -> toDomain(entity)).collect(Collectors.toList());
-    }
+    public Entity destroy(Entity objectToDestroy) throws RuntimeException;
 
-    public default List<Entity> toEntityAll(List<Domain> list) throws RuntimeException {//convert entities to domain
-        return list.stream().map((domain) -> toEntity(domain)).collect(Collectors.toList());
+    public Entity destroyById(Object keyId) throws RuntimeException;
+
+    public Entity findBy(Object keyId) throws RuntimeException;
+
+    public List<Entity> findAll() throws RuntimeException;
+
+    public default int count() throws RuntimeException {
+        return findAll().size();
     }
 
 }

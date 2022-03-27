@@ -14,33 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.repo.external_repo;
-
-import java.util.List;
+package dev.root101.clean.core.app.domain.services;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @author jjhurtado@Github
- * @param <Entity>
+ * @param <T>
  */
-public interface CRUDExternalRepository<Entity> extends AbstractExternalRepository {
+public interface ResourceService<T> {
 
-    public Entity create(Entity newObject) throws RuntimeException;
+    public String getString(String key);
 
-    public Entity edit(Entity objectToEdit) throws RuntimeException;
-
-    public Entity destroy(Entity objectToDestroy) throws RuntimeException;
-
-    public Entity destroyById(Object keyId) throws RuntimeException;
-
-    public Entity findBy(Object keyId) throws RuntimeException;
-
-    public List<Entity> findAll() throws RuntimeException;
-
-    public default int count() throws RuntimeException {
-        return findAll().size();
-    }
-
+    public boolean contain(String key);
 }

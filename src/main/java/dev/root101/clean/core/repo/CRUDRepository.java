@@ -14,18 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.domain.services;
+package dev.root101.clean.core.repo;
+
+import dev.root101.clean.core.app.domain.DomainObject;
+import java.util.List;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @author jjhurtado@Github
- * @param <T>
+ * @param <Domain>
  */
-public interface ResourceService<T> {
+public interface CRUDRepository<Domain extends DomainObject> extends AbstractRepository {
 
-    public String getString(String key);
+    public Domain create(Domain newObject) throws RuntimeException;
 
-    public boolean contain(String key);
+    public Domain edit(Domain objectToEdit) throws RuntimeException;
+
+    public Domain destroy(Domain objectToDestroy) throws RuntimeException;
+
+    public Domain destroyById(Object keyId) throws RuntimeException;
+
+    public Domain findBy(Object keyId) throws RuntimeException;
+
+    public List<Domain> findAll() throws RuntimeException;
+
+    public default int count() throws RuntimeException {
+        return findAll().size();
+    }
+
 }

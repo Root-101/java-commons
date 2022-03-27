@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.repo;
+package dev.root101.clean.core.repo;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

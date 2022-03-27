@@ -14,28 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.domain;
+package dev.root101.clean.core.rest;
 
-import dev.root101.clean.core.exceptions.ValidationException;
-import dev.root101.clean.core.utils.validation.Validable;
-import dev.root101.clean.core.utils.validation.ValidationResult;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
- * Default validate by annotations.
- *
- * <pre>{@code
- *      public record PersonDomain(@NotEmpty String name) implements BasicDomainObject {
- *
- *      }
- * }</pre>
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public interface BasicDomainObject extends DomainObject, Validable {
+public interface AbstractRestService extends PropertyChangeListener {
+
+    public void addPropertyChangeListener(java.beans.PropertyChangeListener listener);
+
+    public void removePropertyChangeListener(java.beans.PropertyChangeListener listener);
 
     @Override
-    public default ValidationResult validate() throws ValidationException {
-        return ValidationResult.validateForAnnotations(this).throwException();
+    public default void propertyChange(PropertyChangeEvent evt) {
     }
 }

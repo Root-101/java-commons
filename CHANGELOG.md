@@ -23,7 +23,9 @@
     * **EXTERNAL REPO** : Created a new layer to handle the actually conection with frameworks, delegating all the convertion responsability to clasic repo.
         * **IMPROVEMENT** :raised_hands: : +AbstractExternalRepository & +CRUDExternalRepository.
     * **REST SERVICE** :
-        * **IMPROVEMENT** :raised_hands: : +`DefaultCRUDRestService`, who delegate in UC
+        * **IMPROVEMENT** :raised_hands: : +`DefaultCRUDRestService`, who delegate in UC.
+    * **SERVICES** :
+        * **REMOVED** :-1: : Removed from services: **Converter**, **Authentication**, **Exception**, **Navigation**, **Notification**
     * **GENERAL** :
         * Fix typos.
 

@@ -1,12 +1,13 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2021 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
+ * Or read it directly from LICENCE.txt file at the root of this project.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +27,8 @@ package dev.root101.clean.core.utils;
  * @author Arjen Poutsma
  * @author Sebastien Deleuze
  * @author Brian Clozel
- * @since 3.0
+ * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
+ * @author JesusHdezWaterloo@Github
  * @see HttpStatus.Series
  * @see <a href="https://www.iana.org/assignments/http-status-codes">HTTP Status
  * Code Registry</a>

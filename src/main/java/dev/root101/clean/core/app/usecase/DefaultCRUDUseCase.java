@@ -34,6 +34,7 @@ import java.util.List;
 @Licenced
 public class DefaultCRUDUseCase<Domain extends DomainObject, CRUDRepo extends CRUDRepository<Domain>> implements CRUDUseCase<Domain> {
 
+    private final boolean doValidateDomain = true;//for the momento allways enabled
     private final boolean doFirePropertyChanges = true;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
@@ -153,7 +154,7 @@ public class DefaultCRUDUseCase<Domain extends DomainObject, CRUDRepo extends CR
     }
 
     private ValidationResult validateDomain(Domain domain) throws RuntimeException {
-        if (domain instanceof Validable validable) {
+        if (doValidateDomain && domain instanceof Validable validable) {
             return validable.validate().throwException();
         }
         return ValidationResult.build();

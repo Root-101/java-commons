@@ -16,13 +16,10 @@
  */
 package dev.root101.clean.core.app.repo;
 
-import dev.root101.clean.core.app.usecase.*;
 import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
 import dev.root101.clean.core.app.repo.external_repo.CRUDExternalRepository;
 import dev.root101.clean.core.domain.DomainObject;
 import dev.root101.clean.core.utils.Licenced;
-import dev.root101.clean.core.utils.validation.Validable;
-import dev.root101.clean.core.utils.validation.ValidationResult;
 import java.util.List;
 
 /**
@@ -56,8 +53,6 @@ public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ExternalRepo e
     public Domain create(Domain newObject) throws RuntimeException {
         firePropertyChange(BEFORE_CREATE, null, newObject);
 
-        validateDomain(newObject);
-
         //convert domain to entity
         Entity entity = converter.toEntity(newObject);
 
@@ -76,8 +71,6 @@ public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ExternalRepo e
     @Override
     public Domain edit(Domain objectToUpdate) throws RuntimeException {
         firePropertyChange(BEFORE_EDIT, null, objectToUpdate);
-
-        validateDomain(objectToUpdate);
 
         //convert domain to entity
         Entity entity = converter.toEntity(objectToUpdate);
@@ -185,10 +178,4 @@ public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ExternalRepo e
         }
     }
 
-    private ValidationResult validateDomain(Domain domain) throws RuntimeException {
-        if (domain instanceof Validable validable) {
-            return validable.validate().throwException();
-        }
-        return ValidationResult.build();
-    }
 }

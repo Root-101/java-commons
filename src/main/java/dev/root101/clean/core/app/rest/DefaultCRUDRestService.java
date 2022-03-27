@@ -16,8 +16,10 @@
  */
 package dev.root101.clean.core.app.rest;
 
+import dev.root101.clean.core.app.usecase.*;
+import dev.root101.clean.core.utils.validation.*;
 import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
-import dev.root101.clean.core.app.usecase.CRUDUseCase;
+import dev.root101.clean.core.domain.DomainObject;
 import java.util.List;
 
 /**
@@ -25,102 +27,118 @@ import java.util.List;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
+ * @param <UseCase>
  */
-public class DefaultRestService<Domain> implements CRUDRestService<Domain> {
+public class DefaultCRUDRestService<Domain extends DomainObject, UseCase extends CRUDUseCase<Domain>> implements CRUDRestService<Domain> {
 
+    private final boolean doFirePropertyChanges = false;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
-    protected CRUDUseCase<Domain> crudUC;
+    protected final UseCase crudUC;
+
+    public DefaultCRUDRestService(UseCase crudRepo) {
+        this.crudUC = crudRepo;
+    }
+
+    protected CRUDUseCase useCase() {
+        return crudUC;
+    }
 
     @Override
     public Domain create(Domain newObject) throws RuntimeException {
         firePropertyChange(BEFORE_CREATE, null, newObject);
 
-        Domain d = crudUC.create(newObject);
+        Domain domain = crudUC.create(newObject);
 
-        firePropertyChange(AFTER_CREATE, null, d);
+        firePropertyChange(AFTER_CREATE, null, domain);
 
-        return d;
+        return domain;
     }
 
     @Override
     public Domain edit(Domain objectToUpdate) throws RuntimeException {
         firePropertyChange(BEFORE_EDIT, null, objectToUpdate);
 
-        Domain d = crudUC.edit(objectToUpdate);
+        Domain domain = crudUC.edit(objectToUpdate);
 
-        firePropertyChange(AFTER_EDIT, null, d);
+        firePropertyChange(AFTER_EDIT, null, domain);
 
-        return d;
+        return domain;
     }
 
     @Override
     public Domain destroy(Domain objectToDestroy) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY, null, objectToDestroy);
 
-        Domain d = crudUC.destroy(objectToDestroy);
+        Domain domain = crudUC.destroy(objectToDestroy);
 
-        firePropertyChange(AFTER_DESTROY, null, d);
+        firePropertyChange(AFTER_DESTROY, null, domain);
 
-        return d;
+        return domain;
     }
 
     @Override
     public Domain destroyById(Object keyId) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
-        Domain d = crudUC.destroyById(keyId);
+        Domain domain = crudUC.destroyById(keyId);
 
-        firePropertyChange(AFTER_DESTROY_BY_ID, null, d);
+        firePropertyChange(AFTER_DESTROY_BY_ID, null, domain);
 
-        return d;
+        return domain;
     }
 
     @Override
     public Domain findBy(Object keyId) throws RuntimeException {
         firePropertyChange(BEFORE_FIND_BY, null, keyId);
 
-        Domain d = crudUC.findBy(keyId);
+        Domain domain = crudUC.findBy(keyId);
 
-        firePropertyChange(AFTER_FIND_BY, null, d);
+        firePropertyChange(AFTER_FIND_BY, null, domain);
 
-        return d;
+        return domain;
     }
 
     @Override
     public List<Domain> findAll() throws RuntimeException {
         firePropertyChange(BEFORE_FIND_ALL, null, null);
 
-        List<Domain> d = crudUC.findAll();
+        List<Domain> domain = crudUC.findAll();
 
-        firePropertyChange(AFTER_FIND_ALL, null, d);
+        firePropertyChange(AFTER_FIND_ALL, null, domain);
 
-        return d;
+        return domain;
     }
 
     @Override
     public int count() throws RuntimeException {
         firePropertyChange(BEFORE_COUNT, null, null);
 
-        int c = crudUC.count();
+        int count = crudUC.count();
 
-        firePropertyChange(AFTER_COUNT, null, c);
+        firePropertyChange(AFTER_COUNT, null, count);
 
-        return c;
+        return count;
     }
 
     @Override
     public void addPropertyChangeListener(java.beans.PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
+        if (doFirePropertyChanges) {
+            propertyChangeSupport.addPropertyChangeListener(listener);
+        }
     }
 
     @Override
     public void removePropertyChangeListener(java.beans.PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
+        if (doFirePropertyChanges) {
+            propertyChangeSupport.removePropertyChangeListener(listener);
+        }
     }
 
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+        if (doFirePropertyChanges) {
+            propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+        }
     }
 
 }

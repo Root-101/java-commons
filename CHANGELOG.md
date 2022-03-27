@@ -2,6 +2,7 @@
     * **MISSING**:
         * Validation Message and converters.
         * Javadoc examples for all.
+        * Authentication & Authorization.
     * **DOMAIN** :
         * **IMPROVEMENT** :raised_hands: : Clened `domain/services`.
         * **IMPROVEMENT** :raised_hands: : Renamed `EntityDomainObject` to `BasicDomainObject`.

@@ -16,27 +16,28 @@
  */
 package dev.root101.clean.core.exceptions;
 
-import dev.root101.clean.core.rest.HttpStatus;
+import dev.root101.clean.core.rest.ResponseStatus;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class RestException extends RuntimeException {
+public class ApiException extends RuntimeException {
 
-    private final HttpStatus status;
+    private final ResponseStatus status;
 
-    public RestException(HttpStatus status) {
+    public ApiException(ResponseStatus status) {
+        super(status.reasonPhrase());
         this.status = status;
     }
 
-    public RestException(HttpStatus status, String message) {
+    public ApiException(ResponseStatus status, String message) {
         super(message);
         this.status = status;
     }
 
-    public HttpStatus status() {
+    public ResponseStatus status() {
         return status;
     }
 

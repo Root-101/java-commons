@@ -21,7 +21,10 @@ package dev.root101.clean.core.app.services;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public interface LicenceService {
+public interface ExceptionHandlerService {
 
-    public boolean isActive();
+    public void handleException(Throwable ex);
+
+    public boolean contain(Throwable ex);
+
 }

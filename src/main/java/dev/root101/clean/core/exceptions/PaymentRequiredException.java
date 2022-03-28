@@ -14,14 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.services;
+package dev.root101.clean.core.exceptions;
+
+import dev.root101.clean.core.rest.ResponseStatus;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public interface LicenceService {
+public class PaymentRequiredException extends ApiException {
 
-    public boolean isActive();
+    public static ResponseStatus STATUS = ResponseStatus.PAYMENT_REQUIRED;
+
+    public PaymentRequiredException() {
+        super(STATUS, STATUS.reasonPhrase());
+    }
+
+    public PaymentRequiredException(String message) {
+        super(STATUS, message);
+    }
+
 }

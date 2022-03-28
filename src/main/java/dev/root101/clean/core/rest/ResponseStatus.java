@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
+ * Copyright 2022 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ package dev.root101.clean.core.rest;
  * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">List
  * of HTTP status codes - Wikipedia</a>
  */
-public enum HttpStatus {
+public enum ResponseStatus {
 
     // 1xx Informational
     /**
@@ -566,7 +566,7 @@ public enum HttpStatus {
      */
     NETWORK_AUTHENTICATION_REQUIRED(511, Series.SERVER_ERROR, "Network Authentication Required");
 
-    private static final HttpStatus[] VALUES;
+    private static final ResponseStatus[] VALUES;
 
     static {
         VALUES = values();
@@ -578,7 +578,7 @@ public enum HttpStatus {
 
     private final String reasonPhrase;
 
-    HttpStatus(int value, Series series, String reasonPhrase) {
+    ResponseStatus(int value, Series series, String reasonPhrase) {
         this.value = value;
         this.series = series;
         this.reasonPhrase = reasonPhrase;
@@ -603,7 +603,7 @@ public enum HttpStatus {
     /**
      * Return the reason phrase of this status code.
      */
-    public String getReasonPhrase() {
+    public String reasonPhrase() {
         return this.reasonPhrase;
     }
 
@@ -705,8 +705,8 @@ public enum HttpStatus {
      * @throws IllegalArgumentException if this enum has no constant for the
      * specified numeric value
      */
-    public static HttpStatus valueOf(int statusCode) {
-        HttpStatus status = resolve(statusCode);
+    public static ResponseStatus valueOf(int statusCode) {
+        ResponseStatus status = resolve(statusCode);
         if (status == null) {
             throw new IllegalArgumentException("No matching constant for [" + statusCode + "]");
         }
@@ -721,9 +721,9 @@ public enum HttpStatus {
      * found
      * @since 5.0
      */
-    public static HttpStatus resolve(int statusCode) {
+    public static ResponseStatus resolve(int statusCode) {
         // Use cached VALUES instead of values() to prevent array allocation.
-        for (HttpStatus status : VALUES) {
+        for (ResponseStatus status : VALUES) {
             if (status.value == statusCode) {
                 return status;
             }
@@ -734,7 +734,7 @@ public enum HttpStatus {
     /**
      * Enumeration of HTTP status series.
      * <p>
-     * Retrievable via {@link HttpStatus#series()}.
+     * Retrievable via {@link ResponseStatus#series()}.
      */
     public enum Series {
 

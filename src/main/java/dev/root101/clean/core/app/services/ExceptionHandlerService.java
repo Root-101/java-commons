@@ -27,5 +27,4 @@ public interface ExceptionHandlerService {
 
     public boolean contain(Throwable ex);
 
-    public boolean contain(Class type);
 }

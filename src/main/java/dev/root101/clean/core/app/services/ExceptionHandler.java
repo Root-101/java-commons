@@ -17,7 +17,6 @@
 package dev.root101.clean.core.app.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,43 +32,26 @@ public class ExceptionHandler {
 
     private static final List<ExceptionHandlerService> exceptionServices = new ArrayList<>();
 
-    static {//set by default any error in this handler
-        //ver si esto es antes o despues de spring
-        Thread.setDefaultUncaughtExceptionHandler((Thread t, Throwable e) -> {
-            System.out.printf("-----EXCEPTION_HANDLER----- > Error on thread '%s' with throwable message '%s'\n", t.getName(), e.getMessage());
-            ExceptionHandler.handleException(e);
-        });
-    }
-
     private ExceptionHandler() {
     }
 
-    public static void registerExceptionService(ExceptionHandlerService newService) {
+    public static ExceptionHandlerService registerExceptionService(ExceptionHandlerService newService) {
         Objects.requireNonNull(newService, "ExceptionHandlerService can't be null");
 
         exceptionServices.add(newService);
+        
+        return newService;
     }
 
     public static void handleException(Throwable ex) {
         Objects.requireNonNull(ex, "Throwable in handleException can't be null");
 
-        System.out.printf("Handling Exception | Type => '%s' | message => '%s'\n", ex.getClass(), ex.getMessage());
-        System.out.println("Stack Trace: " + Arrays.toString(ex.getStackTrace()));
-        boolean found = false;
+        System.out.printf("Handling Exception in CLEAN ExceptionHandler | Type => '%s' | message => '%s'\n", ex.getClass(), ex.getMessage());
         for (ExceptionHandlerService exc : exceptionServices) {
             if (exc.contain(ex)) {
                 exc.handleException(ex);
-                found = true;
             }
         }
-        //si no se encontro y no es una Exception generica, la convierto a generica y la proceso
-        if (!found && !ex.getClass().toString().equals(Exception.class.toString())) {
-            handleException(new Exception(ex));
-        }
-    }
-
-    public static boolean contain(Class type) {
-        return exceptionServices.stream().anyMatch(excep -> (excep.contain(type)));
     }
 
     public static boolean contain(Exception ex) {

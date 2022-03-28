@@ -3,9 +3,10 @@
         * **NEW** :+: : Added `ReadWriteExternalRepository`.
         * **IMPROVEMENT** :raised_hands: : `CRUDRestService` domain's to `extends Domainbject` & - DefaultCRUDRestService.
     * **EXCEPTION** :    
-        * **IMPROVEMENT** :+: : Renamed `RestException` to `ApiException`.
+        * **IMPROVEMENT** :raised_hands: : Renamed `RestException` to `ApiException`.
         * **NEW** :+: : Created defaults ApiException's: Unauthorized(401), PaymentRequired(402), Forbidden(403) and InternalServerError(500).
-    
+        * **IMPROVEMENT** :raised_hands: : Fix `ExceptionHandler`'s service.
+
 * 4.0.0.SNAPSHOT.20220327: Complete review of the plugin. Updated focussed mainly on server side/microservices architecture.
     * **MISSING**:
         * Validation Message and converters.

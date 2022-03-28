@@ -26,7 +26,7 @@ import java.util.function.Consumer;
  */
 public abstract class ExceptionHandlerServiceFunctional implements ExceptionHandlerService {
 
-    private final HashMap<String, Consumer<Throwable>> exceptionsMap = new HashMap<>();
+    private final HashMap<Class, Consumer<Throwable>> exceptionsMap = new HashMap<>();
 
     public ExceptionHandlerServiceFunctional() {
         addAll();
@@ -34,41 +34,33 @@ public abstract class ExceptionHandlerServiceFunctional implements ExceptionHand
 
     protected abstract void addAll();
 
-    public final void addHandler(String type, Consumer<Throwable> consumer) {
+    public final void addHandler(Consumer<Throwable> consumer, Class type) {
         exceptionsMap.put(type, consumer);
     }
 
-    public final void addHandler(Consumer<Throwable> consumer, String... type) {
-        for (String string : type) {
-            exceptionsMap.put(string, consumer);
+    public final void addHandler(Consumer<Throwable> consumer, Class... types) {
+        for (Class type : types) {
+            exceptionsMap.put(type, consumer);
         }
     }
 
     @Override
     public void handleException(Throwable ex) {
-        handleExceptionInternal(getExceptionType(ex), ex);
-    }
-
-    private void handleExceptionInternal(String type, Throwable ex) {
-        exceptionsMap.get(type).accept(ex);
+        Class type = ex.getClass();
+        
+        exceptionsMap.forEach((t, u) -> {
+            if (t.isAssignableFrom(type)) {
+                u.accept(ex);
+            }
+        });
     }
 
     @Override
     public boolean contain(Throwable ex) {
-        return contain(ex.getClass());
+        Class type = ex.getClass();
+        return exceptionsMap.keySet().stream().anyMatch((t) -> {
+            return t.isAssignableFrom(type);
+        });
     }
 
-    @Override
-    public boolean contain(Class type) {
-        return exceptionsMap.containsKey(getExceptionType(type));
-    }
-
-    public static String getExceptionType(Throwable type) {
-        return getExceptionType(type.getClass());
-    }
-
-    public static String getExceptionType(Class type) {
-        String split[] = type.toString().split(" ");
-        return split[split.length - 1];
-    }
 }

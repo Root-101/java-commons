@@ -13,8 +13,5 @@ repositories {
 
 dependencies{
     //validation
-    implementation 'org.hibernate.validator:hibernate-validator:7.0.4.Final'
-    implementation 'org.hibernate.validator:hibernate-validator-annotation-processor:7.0.4.Final'
-    implementation 'org.glassfish:jakarta.el:4.0.1'
-    implementation 'org.hibernate.validator:hibernate-validator-cdi:7.0.4.Final'//shit, not needed int most cases
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.1'
 }

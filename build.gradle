@@ -13,5 +13,9 @@ repositories {
 
 dependencies{
     //validation
-    implementation 'jakarta.validation:jakarta.validation-api:3.0.1'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    
+    //runtime de validation, si no da error:
+    //javax.validation.NoProviderFoundException: Unable to create a Configuration, because no Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+    implementation 'org.hibernate.validator:hibernate-validator:6.1.0.Final'
 }

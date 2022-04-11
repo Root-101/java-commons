@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
+ * Copyright 2022 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 package dev.root101.clean.core.utils.validation.annotations;
 
 import dev.root101.clean.core.utils.validation.annotations.registers.DigitRegister;
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
+import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

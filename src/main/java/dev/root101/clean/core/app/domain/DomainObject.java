@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
+ * Copyright 2022 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import java.io.Serializable;
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @author jjhurtado@Github
+ * @param <ID>
  */
-public interface DomainObject extends Serializable {
+public interface DomainObject<ID> extends Serializable {
 }

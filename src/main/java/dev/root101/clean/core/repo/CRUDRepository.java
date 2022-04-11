@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
+ * Copyright 2022 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,18 +25,19 @@ import java.util.List;
  * @author JesusHdezWaterloo@Github
  * @author jjhurtado@Github
  * @param <Domain>
+ * @param <ID>
  */
-public interface CRUDRepository<Domain extends DomainObject> extends AbstractRepository {
+public interface CRUDRepository<Domain extends DomainObject<ID>, ID> extends AbstractRepository {
 
     public Domain create(Domain newObject) throws RuntimeException;
 
     public Domain edit(Domain objectToEdit) throws RuntimeException;
 
-    public Domain destroy(Domain objectToDestroy) throws RuntimeException;
+    public void destroy(Domain objectToDestroy) throws RuntimeException;
 
-    public Domain destroyById(Object keyId) throws RuntimeException;
+    public void destroyById(ID keyId) throws RuntimeException;
 
-    public Domain findBy(Object keyId) throws RuntimeException;
+    public Domain findBy(ID keyId) throws RuntimeException;
 
     public List<Domain> findAll() throws RuntimeException;
 

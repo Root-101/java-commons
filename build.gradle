@@ -4,7 +4,7 @@ plugins {
 
 group = 'dev.root101.clean'
 
-version = '4.0.0.SNAPSHOT.20220327'
+version = '4.1.0.SNAPSHOT.20220410'
 
 repositories {
     jcenter()
@@ -13,8 +13,9 @@ repositories {
 
 dependencies{
     //validation
-    implementation 'org.hibernate.validator:hibernate-validator:7.0.4.Final'
-    implementation 'org.hibernate.validator:hibernate-validator-annotation-processor:7.0.4.Final'
-    implementation 'org.glassfish:jakarta.el:4.0.1'
-    implementation 'org.hibernate.validator:hibernate-validator-cdi:7.0.4.Final'//shit, not needed int most cases
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    
+    //runtime de validation, si no da error:
+    //javax.validation.NoProviderFoundException: Unable to create a Configuration, because no Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+    implementation 'org.hibernate.validator:hibernate-validator:6.1.0.Final'
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
+ * Copyright 2022 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import java.util.List;
  * @param <ExternalRepo>
  */
 @Licenced
-public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ExternalRepo extends CRUDExternalRepository<Entity>> implements CRUDRepository<Domain> {
+public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, ExternalRepo extends CRUDExternalRepository<Entity, ID>> implements CRUDRepository<Domain, ID> {
 
     private final boolean doFirePropertyChanges = false;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
@@ -88,41 +88,31 @@ public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ExternalRepo e
 
     @Licenced
     @Override
-    public Domain destroy(Domain objectToDestroy) throws RuntimeException {
+    public void destroy(Domain objectToDestroy) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY, null, objectToDestroy);
 
         //convert domain to entity
         Entity entity = converter.toEntity(objectToDestroy);
 
         //do the persist
-        entity = externalRepo.destroy(entity);
-
-        //convert the domain back
-        objectToDestroy = converter.toDomain(entity);
+        externalRepo.destroy(entity);
 
         firePropertyChange(AFTER_DESTROY, null, objectToDestroy);
-
-        return objectToDestroy;
     }
 
     @Licenced
     @Override
-    public Domain destroyById(Object keyId) throws RuntimeException {
+    public void destroyById(ID keyId) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
         //do the destroy by key, returned the entity
-        Entity entity = externalRepo.destroyById(keyId);
+        externalRepo.destroyById(keyId);
 
-        //convert the domain back
-        Domain objectDestroyed = converter.toDomain(entity);
-
-        firePropertyChange(AFTER_DESTROY_BY_ID, null, objectDestroyed);
-
-        return objectDestroyed;
+        firePropertyChange(AFTER_DESTROY_BY_ID, null, keyId);
     }
 
     @Override
-    public Domain findBy(Object keyId) throws RuntimeException {
+    public Domain findBy(ID keyId) throws RuntimeException {
         firePropertyChange(BEFORE_FIND_BY, null, keyId);
 
         //do the findBy, returned the entity

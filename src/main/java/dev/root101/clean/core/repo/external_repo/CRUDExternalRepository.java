@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
+ * Copyright 2022 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,20 +22,20 @@ import java.util.List;
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @author jjhurtado@Github
  * @param <Entity>
+ * @param <ID>
  */
-public interface CRUDExternalRepository<Entity> extends AbstractExternalRepository {
+public interface CRUDExternalRepository<Entity, ID> extends AbstractExternalRepository {
 
     public Entity create(Entity newObject) throws RuntimeException;
 
     public Entity edit(Entity objectToEdit) throws RuntimeException;
 
-    public Entity destroy(Entity objectToDestroy) throws RuntimeException;
+    public void destroy(Entity objectToDestroy) throws RuntimeException;
 
-    public Entity destroyById(Object keyId) throws RuntimeException;
+    public void destroyById(ID keyId) throws RuntimeException;
 
-    public Entity findBy(Object keyId) throws RuntimeException;
+    public Entity findBy(ID keyId) throws RuntimeException;
 
     public List<Entity> findAll() throws RuntimeException;
 

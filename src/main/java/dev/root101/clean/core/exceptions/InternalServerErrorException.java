@@ -14,29 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.domain;
+package dev.root101.clean.core.exceptions;
 
-import dev.root101.clean.core.exceptions.ValidationException;
-import dev.root101.clean.core.utils.validation.Validable;
-import dev.root101.clean.core.utils.validation.ValidationResult;
+import dev.root101.clean.core.rest.ResponseStatus;
 
 /**
- * Default validate by annotations.
- *
- * <pre>{@code
- *      public record PersonDomain(@NotEmpty String name) implements BasicDomainObject {
- *
- *      }
- * }</pre>
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @param <ID>
  */
-public interface BasicDomainObject<ID> extends DomainObject<ID>, Validable {
+public class InternalServerErrorException extends ApiException {
 
-    @Override
-    public default ValidationResult validate() throws ValidationException {
-        return ValidationResult.validateForAnnotations(this).throwException();
+    public static ResponseStatus STATUS = ResponseStatus.INTERNAL_SERVER_ERROR;
+
+    public InternalServerErrorException() {
+        super(STATUS, STATUS.reasonPhrase());
     }
+
+    public InternalServerErrorException(String message) {
+        super(STATUS, message);
+    }
+
 }

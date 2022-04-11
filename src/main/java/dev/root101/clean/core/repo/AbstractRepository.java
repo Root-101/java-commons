@@ -26,9 +26,11 @@ import java.beans.PropertyChangeListener;
  */
 public interface AbstractRepository extends PropertyChangeListener {
 
-    public void addPropertyChangeListener(java.beans.PropertyChangeListener listener);
+    public default void addPropertyChangeListener(java.beans.PropertyChangeListener listener) {
+    }
 
-    public void removePropertyChangeListener(java.beans.PropertyChangeListener listener);
+    public default void removePropertyChangeListener(java.beans.PropertyChangeListener listener) {
+    }
 
     @Override
     public default void propertyChange(PropertyChangeEvent evt) {

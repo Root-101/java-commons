@@ -31,9 +31,9 @@ public interface CRUDUseCase<Domain extends DomainObject> extends AbstractUseCas
 
     public Domain edit(Domain objectToEdit) throws RuntimeException;
 
-    public Domain destroy(Domain objectToDestroy) throws RuntimeException;
+    public void destroy(Domain objectToDestroy) throws RuntimeException;
 
-    public Domain destroyById(Object keyId) throws RuntimeException;
+    public void destroyById(Object keyId) throws RuntimeException;
 
     public Domain findBy(Object keyId) throws RuntimeException;
 

@@ -1,4 +1,4 @@
-* 4.1.0.SNAPSHOT.20220000: ReadWriteExternalRepository
+* 4.1.0.SNAPSHOT.20220410:
     * **GENERAL** :
         * **IMPROVEMENT** :raised: : Return type of `destroy` & `destroyById` set to void.
         * **IMPROVEMENT** :raised: : Added ID type to superclasses, `findBy` & `destroyById` receive the ID.

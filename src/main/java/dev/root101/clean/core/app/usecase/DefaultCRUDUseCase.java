@@ -78,26 +78,22 @@ public class DefaultCRUDUseCase<Domain extends DomainObject, CRUDRepo extends CR
 
     @Licenced
     @Override
-    public Domain destroy(Domain objectToDestroy) throws RuntimeException {
+    public void destroy(Domain objectToDestroy) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY, null, objectToDestroy);
 
-        Domain d = crudRepo.destroy(objectToDestroy);
+        crudRepo.destroy(objectToDestroy);
 
-        firePropertyChange(AFTER_DESTROY, null, d);
-
-        return d;
+        firePropertyChange(AFTER_DESTROY, null, objectToDestroy);
     }
 
     @Licenced
     @Override
-    public Domain destroyById(Object keyId) throws RuntimeException {
+    public void destroyById(Object keyId) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
-        Domain d = crudRepo.destroyById(keyId);
-
-        firePropertyChange(AFTER_DESTROY_BY_ID, null, d);
-
-        return d;
+        crudRepo.destroyById(keyId);
+        
+        firePropertyChange(AFTER_DESTROY_BY_ID, null, keyId);
     }
 
     @Override

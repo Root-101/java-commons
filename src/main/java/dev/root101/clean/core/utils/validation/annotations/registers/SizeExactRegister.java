@@ -18,8 +18,8 @@ package dev.root101.clean.core.utils.validation.annotations.registers;
 
 import dev.root101.clean.core.utils.validation.annotations.SizeExact;
 import dev.root101.clean.core.utils.validation.checkables.CheckerFactory;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
  *

@@ -31,9 +31,9 @@ public interface CRUDExternalRepository<Entity> extends AbstractExternalReposito
 
     public Entity edit(Entity objectToEdit) throws RuntimeException;
 
-    public Entity destroy(Entity objectToDestroy) throws RuntimeException;
+    public void destroy(Entity objectToDestroy) throws RuntimeException;
 
-    public Entity destroyById(Object keyId) throws RuntimeException;
+    public void destroyById(Object keyId) throws RuntimeException;
 
     public Entity findBy(Object keyId) throws RuntimeException;
 

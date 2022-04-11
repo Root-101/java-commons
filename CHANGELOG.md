@@ -1,7 +1,9 @@
 * 4.1.0.SNAPSHOT.20220000: ReadWriteExternalRepository
     * **GENERAL** :
+        * **IMPROVEMENT** :raised: : Return type of `destroy` & `destroyById` set to void.
         * **NEW** :+: : Added `ReadWriteExternalRepository`.
         * **IMPROVEMENT** :raised_hands: : `CRUDRestService` domain's to `extends Domainbject` & - DefaultCRUDRestService.
+        * **BUG FIX** :bug: : Fix Validation's dependencies according to latest version of spring.
     * **EXCEPTION** :    
         * **IMPROVEMENT** :raised_hands: : Renamed `RestException` to `ApiException`.
         * **NEW** :+: : Created defaults ApiException's: Unauthorized(401), PaymentRequired(402), Forbidden(403) and InternalServerError(500).

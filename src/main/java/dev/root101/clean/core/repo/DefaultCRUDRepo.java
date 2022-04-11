@@ -88,37 +88,27 @@ public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ExternalRepo e
 
     @Licenced
     @Override
-    public Domain destroy(Domain objectToDestroy) throws RuntimeException {
+    public void destroy(Domain objectToDestroy) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY, null, objectToDestroy);
 
         //convert domain to entity
         Entity entity = converter.toEntity(objectToDestroy);
 
         //do the persist
-        entity = externalRepo.destroy(entity);
-
-        //convert the domain back
-        objectToDestroy = converter.toDomain(entity);
+        externalRepo.destroy(entity);
 
         firePropertyChange(AFTER_DESTROY, null, objectToDestroy);
-
-        return objectToDestroy;
     }
 
     @Licenced
     @Override
-    public Domain destroyById(Object keyId) throws RuntimeException {
+    public void destroyById(Object keyId) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
         //do the destroy by key, returned the entity
-        Entity entity = externalRepo.destroyById(keyId);
+        externalRepo.destroyById(keyId);
 
-        //convert the domain back
-        Domain objectDestroyed = converter.toDomain(entity);
-
-        firePropertyChange(AFTER_DESTROY_BY_ID, null, objectDestroyed);
-
-        return objectDestroyed;
+        firePropertyChange(AFTER_DESTROY_BY_ID, null, keyId);
     }
 
     @Override

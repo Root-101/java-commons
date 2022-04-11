@@ -31,7 +31,7 @@ import java.util.List;
  * @param <ExternalRepo>
  */
 @Licenced
-public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ExternalRepo extends CRUDExternalRepository<Entity>> implements CRUDRepository<Domain> {
+public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ID, ExternalRepo extends CRUDExternalRepository<Entity, ID>> implements CRUDRepository<Domain, ID> {
 
     private final boolean doFirePropertyChanges = false;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
@@ -102,7 +102,7 @@ public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ExternalRepo e
 
     @Licenced
     @Override
-    public void destroyById(Object keyId) throws RuntimeException {
+    public void destroyById(ID keyId) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
         //do the destroy by key, returned the entity
@@ -112,7 +112,7 @@ public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ExternalRepo e
     }
 
     @Override
-    public Domain findBy(Object keyId) throws RuntimeException {
+    public Domain findBy(ID keyId) throws RuntimeException {
         firePropertyChange(BEFORE_FIND_BY, null, keyId);
 
         //do the findBy, returned the entity

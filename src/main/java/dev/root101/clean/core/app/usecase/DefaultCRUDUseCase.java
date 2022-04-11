@@ -29,10 +29,11 @@ import java.util.List;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
+ * @param <ID>
  * @param <CRUDRepo>
  */
 @Licenced
-public class DefaultCRUDUseCase<Domain extends DomainObject, CRUDRepo extends CRUDRepository<Domain>> implements CRUDUseCase<Domain> {
+public class DefaultCRUDUseCase<Domain extends DomainObject, ID, CRUDRepo extends CRUDRepository<Domain, ID>> implements CRUDUseCase<Domain, ID> {
 
     private final boolean doValidateDomain = true;//for the momento allways enabled
     private final boolean doFirePropertyChanges = true;//for the momento allways enabled
@@ -88,16 +89,16 @@ public class DefaultCRUDUseCase<Domain extends DomainObject, CRUDRepo extends CR
 
     @Licenced
     @Override
-    public void destroyById(Object keyId) throws RuntimeException {
+    public void destroyById(ID keyId) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
         crudRepo.destroyById(keyId);
-        
+
         firePropertyChange(AFTER_DESTROY_BY_ID, null, keyId);
     }
 
     @Override
-    public Domain findBy(Object keyId) throws RuntimeException {
+    public Domain findBy(ID keyId) throws RuntimeException {
         firePropertyChange(BEFORE_FIND_BY, null, keyId);
 
         Domain d = crudRepo.findBy(keyId);

@@ -24,8 +24,9 @@ import java.util.List;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
+ * @param <ID>
  */
-public interface CRUDUseCase<Domain extends DomainObject> extends AbstractUseCase {
+public interface CRUDUseCase<Domain extends DomainObject, ID> extends AbstractUseCase {
 
     public Domain create(Domain newObject) throws RuntimeException;
 
@@ -33,9 +34,9 @@ public interface CRUDUseCase<Domain extends DomainObject> extends AbstractUseCas
 
     public void destroy(Domain objectToDestroy) throws RuntimeException;
 
-    public void destroyById(Object keyId) throws RuntimeException;
+    public void destroyById(ID keyId) throws RuntimeException;
 
-    public Domain findBy(Object keyId) throws RuntimeException;
+    public Domain findBy(ID keyId) throws RuntimeException;
 
     public List<Domain> findAll() throws RuntimeException;
 

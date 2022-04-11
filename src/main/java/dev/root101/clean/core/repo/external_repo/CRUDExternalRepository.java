@@ -22,10 +22,10 @@ import java.util.List;
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @author jjhurtado@Github
  * @param <Entity>
+ * @param <ID>
  */
-public interface CRUDExternalRepository<Entity> extends AbstractExternalRepository {
+public interface CRUDExternalRepository<Entity, ID> extends AbstractExternalRepository {
 
     public Entity create(Entity newObject) throws RuntimeException;
 
@@ -33,9 +33,9 @@ public interface CRUDExternalRepository<Entity> extends AbstractExternalReposito
 
     public void destroy(Entity objectToDestroy) throws RuntimeException;
 
-    public void destroyById(Object keyId) throws RuntimeException;
+    public void destroyById(ID keyId) throws RuntimeException;
 
-    public Entity findBy(Object keyId) throws RuntimeException;
+    public Entity findBy(ID keyId) throws RuntimeException;
 
     public List<Entity> findAll() throws RuntimeException;
 

@@ -33,7 +33,7 @@ import java.util.List;
  * @param <CRUDRepo>
  */
 @Licenced
-public class DefaultCRUDUseCase<Domain extends DomainObject, ID, CRUDRepo extends CRUDRepository<Domain, ID>> implements CRUDUseCase<Domain, ID> {
+public class DefaultCRUDUseCase<Domain extends DomainObject<ID>, ID, CRUDRepo extends CRUDRepository<Domain, ID>> implements CRUDUseCase<Domain, ID> {
 
     private final boolean doValidateDomain = true;//for the momento allways enabled
     private final boolean doFirePropertyChanges = true;//for the momento allways enabled

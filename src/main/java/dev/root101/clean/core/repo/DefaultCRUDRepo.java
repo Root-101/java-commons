@@ -31,7 +31,7 @@ import java.util.List;
  * @param <ExternalRepo>
  */
 @Licenced
-public class DefaultCRUDRepo<Domain extends DomainObject, Entity, ID, ExternalRepo extends CRUDExternalRepository<Entity, ID>> implements CRUDRepository<Domain, ID> {
+public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, ExternalRepo extends CRUDExternalRepository<Entity, ID>> implements CRUDRepository<Domain, ID> {
 
     private final boolean doFirePropertyChanges = false;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);

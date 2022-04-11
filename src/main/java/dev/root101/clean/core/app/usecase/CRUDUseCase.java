@@ -26,7 +26,7 @@ import java.util.List;
  * @param <Domain>
  * @param <ID>
  */
-public interface CRUDUseCase<Domain extends DomainObject, ID> extends AbstractUseCase {
+public interface CRUDUseCase<Domain extends DomainObject<ID>, ID> extends AbstractUseCase {
 
     public Domain create(Domain newObject) throws RuntimeException;
 

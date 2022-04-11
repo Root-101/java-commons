@@ -24,18 +24,19 @@ import java.util.List;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
+ * @param <ID>
  */
-public interface CRUDRestService<Domain extends DomainObject> extends AbstractRestService {
+public interface CRUDRestService<Domain extends DomainObject<ID>, ID> extends AbstractRestService {
 
     public Domain create(Domain newObject) throws RuntimeException;
 
     public Domain edit(Domain objectToEdit) throws RuntimeException;
 
-    public Domain destroy(Domain objectToDestroy) throws RuntimeException;
+    public void destroy(Domain objectToDestroy) throws RuntimeException;
 
-    public Domain destroyById(Object keyId) throws RuntimeException;
+    public void destroyById(ID keyId) throws RuntimeException;
 
-    public Domain findBy(Object keyId) throws RuntimeException;
+    public Domain findBy(ID keyId) throws RuntimeException;
 
     public List<Domain> findAll() throws RuntimeException;
 

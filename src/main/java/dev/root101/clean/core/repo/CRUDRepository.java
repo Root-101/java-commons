@@ -27,7 +27,7 @@ import java.util.List;
  * @param <Domain>
  * @param <ID>
  */
-public interface CRUDRepository<Domain extends DomainObject, ID> extends AbstractRepository {
+public interface CRUDRepository<Domain extends DomainObject<ID>, ID> extends AbstractRepository {
 
     public Domain create(Domain newObject) throws RuntimeException;
 

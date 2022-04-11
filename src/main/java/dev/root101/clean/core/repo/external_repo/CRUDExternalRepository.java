@@ -39,7 +39,7 @@ public interface CRUDExternalRepository<Entity, ID> extends AbstractExternalRepo
 
     public List<Entity> findAll() throws RuntimeException;
 
-    public default int count() throws RuntimeException {
+    public default long count() throws RuntimeException {
         return findAll().size();
     }
 

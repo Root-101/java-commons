@@ -1,3 +1,7 @@
+* 4.1.1.SNAPSHOT.20220000:
+    * **GENERAL** :
+        * **IMPROVEMENT** :raised: : Change `count()` to type `long`.
+
 * 4.1.0.SNAPSHOT.20220410:
     * **GENERAL** :
         * **IMPROVEMENT** :raised: : Return type of `destroy` & `destroyById` set to void.

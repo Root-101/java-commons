@@ -46,7 +46,7 @@ public interface CRUDRestService<Domain extends DomainObject<ID>, ID> extends Ab
      * @return findAll().size()
      * @throws RuntimeException
      */
-    public default int count() throws RuntimeException {
+    public default long count() throws RuntimeException {
         return findAll().size();
     }
 

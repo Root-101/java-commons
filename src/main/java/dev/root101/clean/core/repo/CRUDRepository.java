@@ -41,7 +41,7 @@ public interface CRUDRepository<Domain extends DomainObject<ID>, ID> extends Abs
 
     public List<Domain> findAll() throws RuntimeException;
 
-    public default int count() throws RuntimeException {
+    public default long count() throws RuntimeException {
         return findAll().size();
     }
 

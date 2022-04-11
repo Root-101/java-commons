@@ -120,10 +120,10 @@ public class DefaultCRUDUseCase<Domain extends DomainObject<ID>, ID, CRUDRepo ex
     }
 
     @Override
-    public int count() throws RuntimeException {
+    public long count() throws RuntimeException {
         firePropertyChange(BEFORE_COUNT, null, null);
 
-        int c = crudRepo.count();
+        long c = crudRepo.count();
 
         firePropertyChange(AFTER_COUNT, null, c);
 

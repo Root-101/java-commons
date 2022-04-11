@@ -7,7 +7,7 @@
         * **BUG FIX** :bug: : Fix Validation's dependencies according to latest version of spring.
     * **EXCEPTION** :    
         * **IMPROVEMENT** :raised_hands: : Renamed `RestException` to `ApiException`.
-        * **NEW** :+: : Created defaults ApiException's: Unauthorized(401), PaymentRequired(402), Forbidden(403) and InternalServerError(500).
+        * **NEW** :+: : Created defaults ApiException's: Unauthorized(401), PaymentRequired(402), Forbidden(403) and InternalServerError(500) ...
         * **IMPROVEMENT** :raised_hands: : Fix `ExceptionHandler`'s service.
 
 * 4.0.0.SNAPSHOT.20220327: Complete review of the plugin. Updated focussed mainly on server side/microservices architecture.

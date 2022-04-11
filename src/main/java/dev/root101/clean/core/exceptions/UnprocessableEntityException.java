@@ -16,38 +16,23 @@
  */
 package dev.root101.clean.core.exceptions;
 
-import dev.root101.clean.core.utils.validation.ValidationMessage;
-import dev.root101.clean.core.utils.validation.ValidationResult;
+import dev.root101.clean.core.rest.ResponseStatus;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class ValidationException extends UnprocessableEntityException {
+public class UnprocessableEntityException extends ApiException {
 
-    private final ValidationResult validationErrors;
+    public static ResponseStatus STATUS = ResponseStatus.UNPROCESSABLE_ENTITY;
 
-    public ValidationException(String string) {
-        this(null, string);
+    public UnprocessableEntityException() {
+        super(STATUS, STATUS.reasonPhrase());
     }
 
-    public ValidationException(String source, String message) {
-        super(message);
-        this.validationErrors = ValidationResult.build();
-        this.validationErrors.add(ValidationMessage.from(source, message));
+    public UnprocessableEntityException(String message) {
+        super(STATUS, message);
     }
 
-    public ValidationException(ValidationResult validationErrors) {
-        this.validationErrors = validationErrors;
-    }
-
-    public ValidationResult getValidationErrors() {
-        return validationErrors;
-    }
-
-    @Override
-    public String getMessage() {
-        return validationErrors.toString();
-    }
 }

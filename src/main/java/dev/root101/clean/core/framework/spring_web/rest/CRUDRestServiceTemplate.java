@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.*;
  * @param <ID>
  * @param <UseCase>
  */
-@RestController
 public class CRUDRestServiceTemplate<Domain extends DomainObject<ID>, ID, UseCase extends CRUDUseCase<Domain, ID>> implements CRUDRestService<Domain, ID> {
 
     private final boolean doFirePropertyChanges = false;//for the moment allways disabled

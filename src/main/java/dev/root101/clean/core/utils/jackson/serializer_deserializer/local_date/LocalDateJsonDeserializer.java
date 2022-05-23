@@ -14,25 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.modules;
+package dev.root101.clean.core.utils.jackson.serializer_deserializer.local_date;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import java.io.IOException;
+import java.time.LocalDate;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public interface AbstractModule {
+public class LocalDateJsonDeserializer extends JsonDeserializer<LocalDate> {
 
-    public String getModuleName();
-
-    public <T> T getImplementation(Class<T> classType);
-
-    public <T> T getImplementation(String moduleName, Class<T> classType);
-
-    public void registerModule(AbstractModule classType);
-
-    public void removeModule(AbstractModule classType);
-
-    public void removeModule(String moduleName);
-
+    @Override
+    public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        String toString = p.getCodec().readValue(p, String.class).replace(" ", "");
+        return LocalDate.parse(toString, LocalDateJsonSerializer.LOCAL_DATE_FORMATTER);
+    }
 }

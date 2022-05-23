@@ -16,7 +16,7 @@
  */
 package dev.root101.clean.core.exceptions;
 
-import dev.root101.clean.core.rest.ResponseStatus;
+import org.springframework.http.HttpStatus;;
 
 /**
  *
@@ -25,10 +25,10 @@ import dev.root101.clean.core.rest.ResponseStatus;
  */
 public class UnprocessableEntityException extends ApiException {
 
-    public static ResponseStatus STATUS = ResponseStatus.UNPROCESSABLE_ENTITY;
+    public static HttpStatus STATUS = HttpStatus.UNPROCESSABLE_ENTITY;
 
     public UnprocessableEntityException() {
-        super(STATUS, STATUS.reasonPhrase());
+        super(STATUS, STATUS.getReasonPhrase());
     }
 
     public UnprocessableEntityException(String message) {

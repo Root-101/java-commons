@@ -16,19 +16,23 @@
  */
 package dev.root101.clean.core.exceptions;
 
+import org.springframework.http.HttpStatus;;
+
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class AlreadyInitModule extends RuntimeException {
+public class ConflictException extends ApiException {
 
-    public static AlreadyInitModule from(String module) {//TODO: a key y resources
-        return new AlreadyInitModule("El módulo " + module + " ya se ha inicializado");
+    public static HttpStatus STATUS = HttpStatus.CONFLICT;
+
+    public ConflictException() {
+        super(STATUS, STATUS.getReasonPhrase());
     }
 
-    public AlreadyInitModule(String string) {
-        super(string);
+    public ConflictException(String message) {
+        super(STATUS, message);
     }
 
 }

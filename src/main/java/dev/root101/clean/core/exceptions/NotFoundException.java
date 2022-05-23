@@ -16,7 +16,7 @@
  */
 package dev.root101.clean.core.exceptions;
 
-import dev.root101.clean.core.rest.ResponseStatus;
+import org.springframework.http.HttpStatus;;
 
 /**
  *
@@ -25,10 +25,10 @@ import dev.root101.clean.core.rest.ResponseStatus;
  */
 public class NotFoundException extends ApiException {
 
-    public static ResponseStatus STATUS = ResponseStatus.NOT_FOUND;
+    public static HttpStatus STATUS = HttpStatus.NOT_FOUND;
 
     public NotFoundException() {
-        super(STATUS, STATUS.reasonPhrase());
+        super(STATUS, STATUS.getReasonPhrase());
     }
 
     public NotFoundException(String message) {

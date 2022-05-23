@@ -16,7 +16,7 @@
  */
 package dev.root101.clean.core.exceptions;
 
-import dev.root101.clean.core.rest.ResponseStatus;
+import org.springframework.http.HttpStatus;;
 
 /**
  *
@@ -25,10 +25,10 @@ import dev.root101.clean.core.rest.ResponseStatus;
  */
 public class PaymentRequiredException extends ApiException {
 
-    public static ResponseStatus STATUS = ResponseStatus.PAYMENT_REQUIRED;
+    public static HttpStatus STATUS = HttpStatus.PAYMENT_REQUIRED;
 
     public PaymentRequiredException() {
-        super(STATUS, STATUS.reasonPhrase());
+        super(STATUS, STATUS.getReasonPhrase());
     }
 
     public PaymentRequiredException(String message) {

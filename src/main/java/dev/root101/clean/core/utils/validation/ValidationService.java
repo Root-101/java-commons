@@ -1,9 +1,9 @@
 package dev.root101.clean.core.utils.validation;
 
 import dev.root101.clean.core.exceptions.ValidationException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -18,16 +18,17 @@ public class ValidationService {
     }
 
     public static void validateAndThrow(Object... objects) throws ValidationException {
-        Set<ConstraintViolation<Object>> errors = new TreeSet<>();
+        List<ConstraintViolation<Object>> errors = new ArrayList<>();
         List.of(objects).forEach((object) -> {
-            errors.addAll(DEFAULT_VALIDATOR.validate(object));
+            Set<ConstraintViolation<Object>> aaa = DEFAULT_VALIDATOR.validate(object);
+            errors.addAll(aaa);
         });
         if (!errors.isEmpty()) {
             throw new ValidationException(convertMessages(errors));
         }
     }
 
-    private static List<ValidationException.ValidationErrorMessage> convertMessages(Set<ConstraintViolation<Object>> violation) {
+    private static List<ValidationException.ValidationErrorMessage> convertMessages(List<ConstraintViolation<Object>> violation) {
         return violation.stream().map((viol) -> {
             return new ValidationException.ValidationErrorMessage(viol.getPropertyPath().toString(), viol.getInvalidValue().toString(), viol.getMessage());
         }).collect(Collectors.toList());

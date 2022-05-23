@@ -17,5 +17,10 @@ dependencies{
     
     //runtime de validation, si no da error:
     //javax.validation.NoProviderFoundException: Unable to create a Configuration, because no Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
-    implementation 'org.hibernate.validator:hibernate-validator:6.1.0.Final'
+    implementation 'org.hibernate.validator:hibernate-validator:6.2.3.Final'
+
+    //integration with spring
+    implementation 'org.springframework:spring-web:5.3.20'
+    implementation 'org.springframework:spring-webmvc:5.3.20'
+    implementation 'org.springframework:spring-context:5.3.20'
 }

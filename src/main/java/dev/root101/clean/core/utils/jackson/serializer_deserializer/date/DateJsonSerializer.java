@@ -14,38 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.services;
+package dev.root101.clean.core.utils.jackson.serializer_deserializer.date;
 
-import java.util.Objects;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import java.io.IOException;
+import java.util.Date;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class LicenceHandler {
+public class DateJsonSerializer extends JsonSerializer<Date> {
 
-    private static LicenceService licenceService;
+    @Override
+    public void serialize(Date value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        gen.writeStartObject();
 
-    private LicenceHandler() {
+        gen.writeFieldName("dia");
+        gen.writeString(String.valueOf(value.getDate()));
+
+        gen.writeFieldName("mes");
+        gen.writeString(String.valueOf(value.getMonth()));
+
+        gen.writeFieldName("anno");
+        gen.writeString(String.valueOf(value.getYear() + 1900));
+
+        gen.writeEndObject();
     }
-
-    public static void registerLicenceService(LicenceService newService) {
-        if (licenceService != null) {
-            System.out.println("Already registered LicenceService");
-        }
-        Objects.requireNonNull(newService, "LicenceService can't be null");
-
-        licenceService = newService;
-    }
-
-    public static LicenceService getLicenceService() {
-        Objects.requireNonNull(licenceService, "LicenceService can't be null");
-        return licenceService;
-    }
-
-    public static boolean isActive() {
-        return getLicenceService().isActive();
-    }
-
 }

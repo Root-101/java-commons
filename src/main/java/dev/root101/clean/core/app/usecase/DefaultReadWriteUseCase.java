@@ -19,8 +19,7 @@ package dev.root101.clean.core.app.usecase;
 import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
 import dev.root101.clean.core.repo.ReadWriteRepository;
 import dev.root101.clean.core.app.domain.DomainObject;
-import dev.root101.clean.core.utils.validation.Validable;
-import dev.root101.clean.core.utils.validation.ValidationResult;
+import dev.root101.clean.core.utils.validation.ValidationService;
 
 /**
  *
@@ -31,6 +30,7 @@ import dev.root101.clean.core.utils.validation.ValidationResult;
  */
 public class DefaultReadWriteUseCase<Domain extends DomainObject, CRUDRepo extends ReadWriteRepository<Domain>> implements ReadWriteUseCase<Domain> {
 
+    private final boolean doValidateDomain = true;//for the momento allways enabled
     private final boolean doFirePropertyChanges = true;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
@@ -84,10 +84,9 @@ public class DefaultReadWriteUseCase<Domain extends DomainObject, CRUDRepo exten
         }
     }
 
-    private ValidationResult validateDomain(Domain domain) throws RuntimeException {
-        if (domain instanceof Validable validable) {
-            return validable.validate().throwException();
+    private void validateDomain(Domain domain) throws RuntimeException {
+        if (doValidateDomain) {
+            ValidationService.validateAndThrow(domain);
         }
-        return ValidationResult.build();
     }
 }

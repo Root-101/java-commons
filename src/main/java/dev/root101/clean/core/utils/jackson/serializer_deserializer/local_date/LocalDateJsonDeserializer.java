@@ -14,21 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.exceptions;
+package dev.root101.clean.core.utils.jackson.serializer_deserializer.local_date;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import java.io.IOException;
+import java.time.LocalDate;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class AlreadyInitModule extends RuntimeException {
+public class LocalDateJsonDeserializer extends JsonDeserializer<LocalDate> {
 
-    public static AlreadyInitModule from(String module) {//TODO: a key y resources
-        return new AlreadyInitModule("El módulo " + module + " ya se ha inicializado");
+    @Override
+    public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        String toString = p.getCodec().readValue(p, String.class).replace(" ", "");
+        return LocalDate.parse(toString, LocalDateJsonSerializer.LOCAL_DATE_FORMATTER);
     }
-
-    public AlreadyInitModule(String string) {
-        super(string);
-    }
-
 }

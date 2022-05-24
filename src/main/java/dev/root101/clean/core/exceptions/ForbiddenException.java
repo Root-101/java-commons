@@ -16,7 +16,7 @@
  */
 package dev.root101.clean.core.exceptions;
 
-import dev.root101.clean.core.rest.ResponseStatus;
+import org.springframework.http.HttpStatus;;
 
 /**
  *
@@ -25,10 +25,10 @@ import dev.root101.clean.core.rest.ResponseStatus;
  */
 public class ForbiddenException extends ApiException {
 
-    public static ResponseStatus STATUS = ResponseStatus.FORBIDDEN;
+    public static HttpStatus STATUS = HttpStatus.FORBIDDEN;
 
     public ForbiddenException() {
-        super(STATUS, STATUS.reasonPhrase());
+        super(STATUS, STATUS.getReasonPhrase());
     }
 
     public ForbiddenException(String message) {

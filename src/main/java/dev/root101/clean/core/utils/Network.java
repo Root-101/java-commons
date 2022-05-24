@@ -14,18 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils.validation;
+package dev.root101.clean.core.utils;
 
-import dev.root101.clean.core.exceptions.ValidationException;
+import java.net.Socket;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @author jjhurtado@Github
  */
-public interface Validable {
+public class Network {
 
-    public ValidationResult validate() throws ValidationException;
-
+    /**
+     * Check if some service is running in //ip:port
+     *
+     * @param ip
+     * @param port
+     * @return
+     */
+    public static boolean isRunning(String ip, int port) {
+        Socket socket = null;
+        try {
+            socket = new Socket(ip, port);
+            return true;//socket.isConnected();
+        } catch (Exception e) {
+        } finally {
+            if (socket != null) {
+                try {
+                    socket.close();
+                    socket = null;
+                } catch (Exception e) {
+                }
+            }
+        }
+        return false;
+    }
 }

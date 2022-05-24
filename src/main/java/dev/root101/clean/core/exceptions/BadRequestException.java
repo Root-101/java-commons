@@ -16,7 +16,7 @@
  */
 package dev.root101.clean.core.exceptions;
 
-import dev.root101.clean.core.rest.ResponseStatus;
+import org.springframework.http.HttpStatus;;
 
 /**
  *
@@ -25,10 +25,10 @@ import dev.root101.clean.core.rest.ResponseStatus;
  */
 public class BadRequestException extends ApiException {
 
-    public static ResponseStatus STATUS = ResponseStatus.BAD_REQUEST;
+    public static HttpStatus STATUS = HttpStatus.BAD_REQUEST;
 
     public BadRequestException() {
-        super(STATUS, STATUS.reasonPhrase());
+        super(STATUS, STATUS.getReasonPhrase());
     }
 
     public BadRequestException(String message) {

@@ -20,8 +20,7 @@ import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
 import dev.root101.clean.core.repo.CRUDRepository;
 import dev.root101.clean.core.app.domain.DomainObject;
 import dev.root101.clean.core.utils.Licenced;
-import dev.root101.clean.core.utils.validation.Validable;
-import dev.root101.clean.core.utils.validation.ValidationResult;
+import dev.root101.clean.core.utils.validation.ValidationService;
 import java.util.List;
 
 /**
@@ -120,10 +119,10 @@ public class DefaultCRUDUseCase<Domain extends DomainObject<ID>, ID, CRUDRepo ex
     }
 
     @Override
-    public int count() throws RuntimeException {
+    public long count() throws RuntimeException {
         firePropertyChange(BEFORE_COUNT, null, null);
 
-        int c = crudRepo.count();
+        long c = crudRepo.count();
 
         firePropertyChange(AFTER_COUNT, null, c);
 
@@ -150,10 +149,9 @@ public class DefaultCRUDUseCase<Domain extends DomainObject<ID>, ID, CRUDRepo ex
         }
     }
 
-    private ValidationResult validateDomain(Domain domain) throws RuntimeException {
-        if (doValidateDomain && domain instanceof Validable validable) {
-            return validable.validate().throwException();
+    private void validateDomain(Domain domain) throws RuntimeException {
+        if (doValidateDomain) {
+            ValidationService.validateAndThrow(domain);
         }
-        return ValidationResult.build();
     }
 }

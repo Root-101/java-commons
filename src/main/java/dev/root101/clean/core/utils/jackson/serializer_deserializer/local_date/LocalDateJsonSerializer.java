@@ -14,25 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.modules;
+package dev.root101.clean.core.utils.jackson.serializer_deserializer.local_date;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public interface AbstractModule {
+public class LocalDateJsonSerializer extends JsonSerializer<LocalDate> {
 
-    public String getModuleName();
+    //Formato por defecto, si se cambia a otro da error
+    public static final DateTimeFormatter LOCAL_DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;//DateTimeFormatter.ofPattern("uuuu-MM-dd");
 
-    public <T> T getImplementation(Class<T> classType);
-
-    public <T> T getImplementation(String moduleName, Class<T> classType);
-
-    public void registerModule(AbstractModule classType);
-
-    public void removeModule(AbstractModule classType);
-
-    public void removeModule(String moduleName);
-
+    @Override
+    public void serialize(LocalDate value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        gen.writeString(LOCAL_DATE_FORMATTER.format(value));
+    }
 }

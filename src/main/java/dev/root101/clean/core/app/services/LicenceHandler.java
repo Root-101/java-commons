@@ -16,8 +16,6 @@
  */
 package dev.root101.clean.core.app.services;
 
-import dev.root101.clean.core.exceptions.AlreadyRegisteredService;
-import dev.root101.clean.core.exceptions.NoneRegisteredService;
 import java.util.Objects;
 
 /**
@@ -34,7 +32,7 @@ public class LicenceHandler {
 
     public static void registerLicenceService(LicenceService newService) {
         if (licenceService != null) {
-            throw new AlreadyRegisteredService("Licence");
+            System.out.println("Already registered LicenceService");
         }
         Objects.requireNonNull(newService, "LicenceService can't be null");
 
@@ -42,9 +40,7 @@ public class LicenceHandler {
     }
 
     public static LicenceService getLicenceService() {
-        if (licenceService == null) {
-            throw new NoneRegisteredService("Licence");
-        }
+        Objects.requireNonNull(licenceService, "LicenceService can't be null");
         return licenceService;
     }
 

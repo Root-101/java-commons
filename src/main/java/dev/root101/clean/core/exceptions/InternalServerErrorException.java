@@ -16,7 +16,7 @@
  */
 package dev.root101.clean.core.exceptions;
 
-import dev.root101.clean.core.rest.ResponseStatus;
+import org.springframework.http.HttpStatus;;
 
 /**
  *
@@ -25,10 +25,10 @@ import dev.root101.clean.core.rest.ResponseStatus;
  */
 public class InternalServerErrorException extends ApiException {
 
-    public static ResponseStatus STATUS = ResponseStatus.INTERNAL_SERVER_ERROR;
+    public static HttpStatus STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
 
     public InternalServerErrorException() {
-        super(STATUS, STATUS.reasonPhrase());
+        super(STATUS, STATUS.getReasonPhrase());
     }
 
     public InternalServerErrorException(String message) {

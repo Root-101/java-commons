@@ -16,7 +16,7 @@
  */
 package dev.root101.clean.core.exceptions;
 
-import dev.root101.clean.core.rest.ResponseStatus;
+import org.springframework.http.HttpStatus;
 
 /**
  *
@@ -25,19 +25,19 @@ import dev.root101.clean.core.rest.ResponseStatus;
  */
 public class ApiException extends RuntimeException {
 
-    private final ResponseStatus status;
+    private final HttpStatus status;
 
-    public ApiException(ResponseStatus status) {
-        super(status.reasonPhrase());
+    public ApiException(HttpStatus status) {
+        super(status.getReasonPhrase());
         this.status = status;
     }
 
-    public ApiException(ResponseStatus status, String message) {
+    public ApiException(HttpStatus status, String message) {
         super(message);
         this.status = status;
     }
 
-    public ResponseStatus status() {
+    public HttpStatus status() {
         return status;
     }
 

@@ -28,6 +28,7 @@ import java.util.List;
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
  * @param <Entity>
+ * @param <ID>
  * @param <ExternalRepo>
  */
 @Licenced
@@ -138,10 +139,10 @@ public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, Extern
     }
 
     @Override
-    public int count() throws RuntimeException {
+    public long count() throws RuntimeException {
         firePropertyChange(BEFORE_COUNT, null, null);
 
-        int c = externalRepo.count();
+        long c = externalRepo.count();
 
         firePropertyChange(AFTER_COUNT, null, c);
 

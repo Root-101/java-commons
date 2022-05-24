@@ -16,10 +16,6 @@
  */
 package dev.root101.clean.core.app.domain;
 
-import dev.root101.clean.core.exceptions.ValidationException;
-import dev.root101.clean.core.utils.validation.Validable;
-import dev.root101.clean.core.utils.validation.ValidationResult;
-
 /**
  * Default validate by annotations.
  *
@@ -33,10 +29,6 @@ import dev.root101.clean.core.utils.validation.ValidationResult;
  * @author JesusHdezWaterloo@Github
  * @param <ID>
  */
-public interface BasicDomainObject<ID> extends DomainObject<ID>, Validable {
+public interface BasicDomainObject<ID> extends DomainObject<ID> {
 
-    @Override
-    public default ValidationResult validate() throws ValidationException {
-        return ValidationResult.validateForAnnotations(this).throwException();
-    }
 }

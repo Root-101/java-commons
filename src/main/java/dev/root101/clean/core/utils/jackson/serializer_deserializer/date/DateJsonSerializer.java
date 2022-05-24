@@ -14,35 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.repo;
+package dev.root101.clean.core.utils.jackson.serializer_deserializer.date;
 
-import dev.root101.clean.core.app.domain.DomainObject;
-import java.util.List;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import java.io.IOException;
+import java.util.Date;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @author jjhurtado@Github
- * @param <Domain>
- * @param <ID>
  */
-public interface CRUDRepository<Domain extends DomainObject<ID>, ID> extends AbstractRepository {
+public class DateJsonSerializer extends JsonSerializer<Date> {
 
-    public Domain create(Domain newObject) throws RuntimeException;
+    @Override
+    public void serialize(Date value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        gen.writeStartObject();
 
-    public Domain edit(Domain objectToEdit) throws RuntimeException;
+        gen.writeFieldName("dia");
+        gen.writeString(String.valueOf(value.getDate()));
 
-    public void destroy(Domain objectToDestroy) throws RuntimeException;
+        gen.writeFieldName("mes");
+        gen.writeString(String.valueOf(value.getMonth()));
 
-    public void destroyById(ID keyId) throws RuntimeException;
+        gen.writeFieldName("anno");
+        gen.writeString(String.valueOf(value.getYear() + 1900));
 
-    public Domain findBy(ID keyId) throws RuntimeException;
-
-    public List<Domain> findAll() throws RuntimeException;
-
-    public default long count() throws RuntimeException {
-        return findAll().size();
+        gen.writeEndObject();
     }
-
 }

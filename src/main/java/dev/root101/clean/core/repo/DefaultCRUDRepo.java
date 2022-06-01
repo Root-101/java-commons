@@ -29,18 +29,19 @@ import java.util.List;
  * @param <Domain>
  * @param <Entity>
  * @param <ID>
+ * @param <GeneralConverter>
  * @param <ExternalRepo>
  */
 @Licenced
-public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, ExternalRepo extends CRUDExternalRepository<Entity, ID>> implements CRUDRepository<Domain, ID> {
+public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, GeneralConverter extends Converter<Domain, Entity>, ExternalRepo extends CRUDExternalRepository<Entity, ID>> implements CRUDRepository<Domain, ID> {
 
     private final boolean doFirePropertyChanges = false;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
     protected final ExternalRepo externalRepo;
-    protected final Converter<Domain, Entity> converter;
+    protected final GeneralConverter converter;
 
-    public DefaultCRUDRepo(ExternalRepo externalRepo, Converter converter) {
+    public DefaultCRUDRepo(ExternalRepo externalRepo, GeneralConverter converter) {
         this.externalRepo = externalRepo;
         this.converter = converter;
     }

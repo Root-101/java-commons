@@ -47,7 +47,7 @@ public abstract class ExceptionHandlerServiceFunctional implements ExceptionHand
     @Override
     public void handleException(Throwable ex) {
         Class type = ex.getClass();
-        
+
         exceptionsMap.forEach((t, u) -> {
             if (t.isAssignableFrom(type)) {
                 u.accept(ex);

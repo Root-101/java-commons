@@ -61,7 +61,7 @@ public class ValidationService {
         }
     }
 
-    private static List<ValidationException.ValidationErrorMessage> convertMessages(List<ConstraintViolation<Object>> violation) {
+    public static List<ValidationException.ValidationErrorMessage> convertMessages(List<ConstraintViolation<Object>> violation) {
         return violation.stream().map((viol) -> {
             return new ValidationException.ValidationErrorMessage(viol.getPropertyPath().toString(), viol.getInvalidValue() == null ? "null" : viol.getInvalidValue().toString(), viol.getMessage());
         }).collect(Collectors.toList());
@@ -70,7 +70,7 @@ public class ValidationService {
     private static List<ConstraintViolation<Object>> validateRecursive(List<ConstraintViolation<Object>> currentViolations, Object... objects) {
         //recorro la lista de objetos a validar
         for (Object object : objects) {
-            //si es null lo valido directamtene, no tiene hijos ni nada
+            //si NO es null lo proceso. Null no tiene sentido validarlo(DEFAULT_VALIDATOR.validate(null) lanza excepcion), se deberia haber validado una capa arriba.
             if (object != null) {
                 //si no es null compruebo si:
                 if (object instanceof Object[] arr) {

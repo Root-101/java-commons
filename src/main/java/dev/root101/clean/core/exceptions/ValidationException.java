@@ -1,5 +1,6 @@
 package dev.root101.clean.core.exceptions;
 
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 
@@ -29,5 +30,10 @@ public class ValidationException extends RuntimeException {
             String invalid_value,
             String mensaje) {
 
+    }
+
+    @Override
+    public String toString() {
+        return "ValidationException{" + "statusCode=" + statusCode + ", messages=" + Arrays.toString(messages.toArray()) + '}';
     }
 }

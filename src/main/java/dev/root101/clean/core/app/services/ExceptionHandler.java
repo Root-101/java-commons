@@ -22,8 +22,7 @@ import java.util.Objects;
 
 /**
  * La idea es almacenar todas las excepciones o similar como un stack trace en
- * la bd para acceder remoto. De igual manera ese módulo recivir posibles
- * errores del cliente
+ * la bd para acceder remoto.
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github

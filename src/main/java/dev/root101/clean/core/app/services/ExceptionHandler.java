@@ -38,7 +38,7 @@ public class ExceptionHandler {
         Objects.requireNonNull(newService, "ExceptionHandlerService can't be null");
 
         exceptionServices.add(newService);
-        
+
         return newService;
     }
 

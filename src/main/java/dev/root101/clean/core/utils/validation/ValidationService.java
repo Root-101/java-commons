@@ -1,6 +1,5 @@
 package dev.root101.clean.core.utils.validation;
 
-import dev.root101.clean.core.MyMessageInterpolator;
 import dev.root101.clean.core.exceptions.ValidationException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;

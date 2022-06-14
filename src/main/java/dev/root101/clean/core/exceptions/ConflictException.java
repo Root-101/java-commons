@@ -16,7 +16,9 @@
  */
 package dev.root101.clean.core.exceptions;
 
-import org.springframework.http.HttpStatus;;
+import org.springframework.http.HttpStatus;
+
+;
 
 /**
  *

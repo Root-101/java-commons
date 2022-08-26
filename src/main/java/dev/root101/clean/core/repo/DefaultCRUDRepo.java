@@ -120,23 +120,37 @@ public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, Genera
         //do the findBy, returned the entity
         Entity entity = externalRepo.findBy(keyId);
 
+        //check if entity exists
+        if (entity == null) {
+            firePropertyChange(AFTER_FIND_BY, null, null);
+
+            return null;
+        }
+
         //convert the domain back
-        Domain objectDestroyed = converter.toDomain(entity);
+        Domain objectFinded = converter.toDomain(entity);
 
-        firePropertyChange(AFTER_FIND_BY, null, objectDestroyed);
+        firePropertyChange(AFTER_FIND_BY, null, objectFinded);
 
-        return objectDestroyed;
+        return objectFinded;
     }
 
     @Override
     public List<Domain> findAll() throws RuntimeException {
         firePropertyChange(BEFORE_FIND_ALL, null, null);
 
-        List<Domain> d = converter.toDomainAll(externalRepo.findAll());
+        List<Entity> allEntities = externalRepo.findAll();
+        
+        if (allEntities == null) {
+            firePropertyChange(AFTER_FIND_ALL, null, null);
+            return null;
+        }
+        
+        List<Domain> list = converter.toDomainAll(externalRepo.findAll());
 
-        firePropertyChange(AFTER_FIND_ALL, null, d);
+        firePropertyChange(AFTER_FIND_ALL, null, list);
 
-        return d;
+        return list;
     }
 
     @Override

@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 public class RESTUrlConstants {
 
+    public static final String ID = "id";
+
     public static final String CREATE_PATH = "/create";
     public static final RequestMethod CREATE_METHOD = RequestMethod.POST;
 
@@ -34,13 +36,12 @@ public class RESTUrlConstants {
     public static final String DESTROY_PATH = "/destroy";
     public static final RequestMethod DESTROY_METHOD = RequestMethod.POST;
 
-    public static final String DESTROY_ID_PATH = "/destroy_id";
+    public static final String DESTROY_ID_PATH = "/destroy_id/{" + ID + "}";
     public static final RequestMethod DESTROY_ID_METHOD = RequestMethod.POST;
 
     public static final String FIND_ALL_PATH = "/find_all";
     public static final RequestMethod DFIND_ALL_METHOD = RequestMethod.GET;
 
-    public static final String ID = "id";
     public static final String FIND_BY_PATH = "/find_by/{" + ID + "}";
     public static final RequestMethod FIND_BY_METHOD = RequestMethod.GET;
 

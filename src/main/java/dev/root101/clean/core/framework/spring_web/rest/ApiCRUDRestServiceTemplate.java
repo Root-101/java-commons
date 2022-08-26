@@ -66,7 +66,7 @@ public class ApiCRUDRestServiceTemplate<Domain extends DomainObject<ID>, ID, Use
 
     @Override
     @PostMapping(RESTUrlConstants.DESTROY_ID_PATH)
-    public ApiResponse destroyById(@RequestBody ID id) throws RuntimeException {
+    public ApiResponse destroyById(@PathVariable(RESTUrlConstants.ID) ID id) throws RuntimeException {
         return crudUC.destroyById(id);
     }
 

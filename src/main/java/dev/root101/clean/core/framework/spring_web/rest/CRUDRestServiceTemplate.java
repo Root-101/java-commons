@@ -65,7 +65,7 @@ public class CRUDRestServiceTemplate<Domain extends DomainObject<ID>, ID, UseCas
 
     @Override
     @PostMapping(RESTUrlConstants.DESTROY_ID_PATH)
-    public void destroyById(@RequestBody ID id) throws RuntimeException {
+    public void destroyById(@PathVariable(RESTUrlConstants.ID) ID id) throws RuntimeException {
         crudUC.destroyById(id);
     }
 

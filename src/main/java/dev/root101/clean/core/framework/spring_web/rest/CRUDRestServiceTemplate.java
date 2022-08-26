@@ -37,8 +37,8 @@ public class CRUDRestServiceTemplate<Domain extends DomainObject<ID>, ID, UseCas
 
     protected final UseCase crudUC;
 
-    public CRUDRestServiceTemplate(UseCase crudRepo) {
-        this.crudUC = crudRepo;
+    public CRUDRestServiceTemplate(UseCase crudUc) {
+        this.crudUC = crudUc;
     }
 
     protected CRUDUseCase useCase() {

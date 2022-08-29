@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+	id 'java'
 }
 
 group = 'dev.root101.clean'
@@ -18,15 +18,17 @@ dependencies{
     //javax.validation.NoProviderFoundException: Unable to create a Configuration, because no Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
     implementation 'org.hibernate.validator:hibernate-validator:6.2.3.Final'
 
-    //integration with spring
-    implementation 'org.springframework:spring-web:5.3.20'
-    implementation 'org.springframework:spring-webmvc:5.3.20'
-    implementation 'org.springframework:spring-context:5.3.20'
-    //repo
-    implementation 'org.springframework.data:spring-data-jpa:2.7.0'
+    //spring
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.3'
 
     //Jackson
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
+
+    //lombok
+    implementation 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
 }

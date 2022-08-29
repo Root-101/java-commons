@@ -14,28 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils.validation.checkables;
+package dev.root101.clean.core.utils.validation.annotations;
 
-import dev.root101.clean.core.utils.validation.checkables.impl.DigitCheckable;
-import dev.root101.clean.core.utils.validation.checkables.impl.NeverCheckable;
-import dev.root101.clean.core.utils.validation.checkables.impl.SizeExactCheckable;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class CheckerFactory {
+public class SizeExactRegister_ArrayString implements ConstraintValidator<SizeExact, Object[]> {
 
-    public static Checkable buildDigitCheckable(String source, Character value) {
-        return new DigitCheckable(source, value);
+    private int length;
+
+    @Override
+    public void initialize(SizeExact a) {
+        ConstraintValidator.super.initialize(a);
+        this.length = a.length();
     }
 
-    public static Checkable buildLengthExactCheckable(String source, String value, int length) {
-        return new SizeExactCheckable(source, value, length);
+    @Override
+    public boolean isValid(Object[] array, ConstraintValidatorContext cvc) {
+        return array.length == length;
     }
 
-    public static Checkable buildNeverCheckable(String source, Object value) {
-        return new NeverCheckable(source, value);
-    }
 }

@@ -25,20 +25,37 @@ import org.springframework.http.HttpStatus;
  */
 public class ApiException extends RuntimeException {
 
-    private final HttpStatus status;
+    private final int rawStatusCode;
+    private final String message;
 
     public ApiException(HttpStatus status) {
         super(status.getReasonPhrase());
-        this.status = status;
+        this.rawStatusCode = status.value();
+        this.message = status.getReasonPhrase();
     }
 
     public ApiException(HttpStatus status, String message) {
         super(message);
-        this.status = status;
+        this.rawStatusCode = status.value();
+        this.message = message;
+    }
+
+    public ApiException(int rawStatusCode, String message) {
+        super(message);
+        this.rawStatusCode = rawStatusCode;
+        this.message = message;
     }
 
     public HttpStatus status() {
-        return status;
+        return HttpStatus.resolve(rawStatusCode);
+    }
+
+    public int getRawStatusCode() {
+        return rawStatusCode;
+    }
+
+    public String getReasonPhrase() {
+        return message;
     }
 
 }

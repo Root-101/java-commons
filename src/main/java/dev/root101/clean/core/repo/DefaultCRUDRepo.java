@@ -19,7 +19,6 @@ package dev.root101.clean.core.repo;
 import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
 import dev.root101.clean.core.repo.external_repo.CRUDExternalRepository;
 import dev.root101.clean.core.app.domain.DomainObject;
-import dev.root101.clean.core.exceptions.NotFoundException;
 import dev.root101.clean.core.utils.Licenced;
 import java.util.List;
 

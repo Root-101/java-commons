@@ -59,13 +59,13 @@ public class ApiCRUDRestServiceTemplate<Domain extends DomainObject<ID>, ID, Use
     }
 
     @Override
-    @PostMapping(RESTUrlConstants.DESTROY_PATH)
+    @DeleteMapping(RESTUrlConstants.DESTROY_PATH)
     public ApiResponse destroy(@RequestBody Domain t) throws RuntimeException {
         return crudUC.destroy(t);
     }
 
     @Override
-    @PostMapping(RESTUrlConstants.DESTROY_ID_PATH)
+    @DeleteMapping(RESTUrlConstants.DESTROY_ID_PATH)
     public ApiResponse destroyById(@PathVariable(RESTUrlConstants.ID) ID id) throws RuntimeException {
         return crudUC.destroyById(id);
     }

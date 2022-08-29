@@ -14,21 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils.validation.checkables;
+package dev.root101.clean.core.utils.validation.annotations;
+
+import java.util.Map;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
- * @author jjhurtado@Github
- * @param <T>
  */
-public interface Checkable<T> {
+public class SizeExactRegister_MapString implements ConstraintValidator<SizeExact, Map> {
 
-    public boolean check();
+    private int length;
 
-    public String getSource();
+    @Override
+    public void initialize(SizeExact a) {
+        ConstraintValidator.super.initialize(a);
+        this.length = a.length();
+    }
 
-    public T getValue();
+    @Override
+    public boolean isValid(Map map, ConstraintValidatorContext cvc) {
+        return map.size() == length;
+    }
 
 }

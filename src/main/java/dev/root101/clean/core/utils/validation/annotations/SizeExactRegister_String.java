@@ -14,38 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils.validation.checkables.impl;
+package dev.root101.clean.core.utils.validation.annotations;
 
-import dev.root101.clean.core.utils.validation.checkables.Checkable;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class NeverCheckable implements Checkable {
+public class SizeExactRegister_String implements ConstraintValidator<SizeExact, String> {
 
-    private final String source;
-    private final Object value;
+    private int length;
 
-    public NeverCheckable(String source, Object value) {
-        this.source = source;
-        this.value = value;
+    @Override
+    public void initialize(SizeExact a) {
+        ConstraintValidator.super.initialize(a);
+        this.length = a.length();
     }
 
     @Override
-    public boolean check() {
-        return false;
-    }
-
-    @Override
-    public String getSource() {
-        return source;
-    }
-
-    @Override
-    public Object getValue() {
-        return value;
+    public boolean isValid(String text, ConstraintValidatorContext cvc) {
+        return text.length() == length;
     }
 
 }

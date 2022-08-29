@@ -14,40 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils.validation.checkables.impl;
+package dev.root101.clean.core.utils.validation.annotations;
 
-import dev.root101.clean.core.utils.validation.checkables.Checkable;
+import dev.root101.clean.core.utils.validation.annotations.Digit;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class SizeExactCheckable implements Checkable<String> {
+public class DigitRegister_Character implements ConstraintValidator<Digit, Character> {
 
-    private final String source;
-    private final String value;
-    private final int length;
-
-    public SizeExactCheckable(String source, String value, int length) {
-        this.source = source;
-        this.value = value;
-        this.length = length;
+    @Override
+    public void initialize(Digit a) {
+        ConstraintValidator.super.initialize(a);
     }
 
     @Override
-    public boolean check() {
-        return value.length() == length;
-    }
-
-    @Override
-    public String getSource() {
-        return source;
-    }
-
-    @Override
-    public String getValue() {
-        return value;
+    public boolean isValid(Character digit, ConstraintValidatorContext cvc) {
+        return Character.isDigit(digit);
     }
 
 }

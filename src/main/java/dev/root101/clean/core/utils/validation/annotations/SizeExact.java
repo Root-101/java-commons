@@ -16,7 +16,6 @@
  */
 package dev.root101.clean.core.utils.validation.annotations;
 
-import dev.root101.clean.core.utils.validation.annotations.registers.SizeExactRegister;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;
@@ -31,7 +30,7 @@ import java.lang.annotation.Target;
  */
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = SizeExactRegister.class)
+@Constraint(validatedBy = {SizeExactRegister_String.class})
 public @interface SizeExact {
 
     int length();

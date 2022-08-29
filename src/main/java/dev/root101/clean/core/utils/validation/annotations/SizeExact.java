@@ -24,18 +24,26 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * * The annotated element must not have a sizeequal to 'length'. Supported
+ * types are:
+ * <ul>
+ * <li>{@code CharSequence} (length of char sequence is evaluated)</li>
+ * <li>{@code Collection} (collection size is evaluated)</li>
+ * <li>{@code Map} (map size is evaluated)</li>
+ * <li>Array (array length is evaluated)</li>
+ * </ul>
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {SizeExactRegister_String.class})
+@Constraint(validatedBy = {SizeExactRegister_CharSequence.class, SizeExactRegister_CollectionString.class, SizeExactRegister_ArrayString.class, SizeExactRegister_MapString.class})
 public @interface SizeExact {
 
     int length();
 
-    String message() default "";
+    String message() default "Size dont match specific length.";
 
     Class<?>[] groups() default {};
 

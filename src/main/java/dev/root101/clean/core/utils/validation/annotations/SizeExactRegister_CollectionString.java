@@ -16,6 +16,7 @@
  */
 package dev.root101.clean.core.utils.validation.annotations;
 
+import java.util.Collection;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -24,7 +25,7 @@ import javax.validation.ConstraintValidatorContext;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class SizeExactRegister_String implements ConstraintValidator<SizeExact, String> {
+public class SizeExactRegister_CollectionString implements ConstraintValidator<SizeExact, Collection> {
 
     private int length;
 
@@ -35,8 +36,8 @@ public class SizeExactRegister_String implements ConstraintValidator<SizeExact, 
     }
 
     @Override
-    public boolean isValid(String text, ConstraintValidatorContext cvc) {
-        return text.length() == length;
+    public boolean isValid(Collection list, ConstraintValidatorContext cvc) {
+        return list.size() == length;
     }
 
 }

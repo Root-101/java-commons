@@ -16,8 +16,6 @@
  */
 package dev.root101.clean.core.utils.validation.annotations;
 
-import java.util.List;
-import java.util.Set;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -26,7 +24,7 @@ import javax.validation.ConstraintValidatorContext;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class SizeExactRegister_SetString implements ConstraintValidator<SizeExact, Set> {
+public class SizeExactRegister_CharSequence implements ConstraintValidator<SizeExact, CharSequence> {
 
     private int length;
 
@@ -37,8 +35,8 @@ public class SizeExactRegister_SetString implements ConstraintValidator<SizeExac
     }
 
     @Override
-    public boolean isValid(Set list, ConstraintValidatorContext cvc) {
-        return list.size() == length;
+    public boolean isValid(CharSequence text, ConstraintValidatorContext cvc) {
+        return text.length() == length;
     }
 
 }

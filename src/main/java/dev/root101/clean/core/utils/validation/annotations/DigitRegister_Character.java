@@ -16,7 +16,6 @@
  */
 package dev.root101.clean.core.utils.validation.annotations;
 
-import dev.root101.clean.core.utils.validation.annotations.Digit;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

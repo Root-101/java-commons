@@ -36,8 +36,8 @@ import javax.validation.Payload;
  *      public boolean equals(String statusName) {
  *          return this.toString().equalsIgnoreCase(statusName.trim().toLowerCase());
  *      }
- *      
- *      
+ *
+ *
  *      public static boolean isPresent(String event) {
  *          return List.of(Type.values()
  *          ).stream().anyMatch((Type t) -> {
@@ -48,7 +48,14 @@ import javax.validation.Payload;
  *
  * </pre>
  *
- * @author Yo
+ * The annotated element must be one of the values in 'target' enum. Supported
+ * types are:
+ * <ul>
+ * <li>{@code String}</li>
+ * </ul>
+ *
+ * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
+ * @author JesusHdezWaterloo@Github
  */
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)

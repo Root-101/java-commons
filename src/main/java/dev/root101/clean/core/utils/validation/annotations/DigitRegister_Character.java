@@ -14,38 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils.validation.checkables.impl;
+package dev.root101.clean.core.utils.validation.annotations;
 
-import dev.root101.clean.core.utils.validation.checkables.Checkable;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public class NeverCheckable implements Checkable {
+public class DigitRegister_Character implements ConstraintValidator<Digit, Character> {
 
-    private final String source;
-    private final Object value;
-
-    public NeverCheckable(String source, Object value) {
-        this.source = source;
-        this.value = value;
+    @Override
+    public void initialize(Digit a) {
+        ConstraintValidator.super.initialize(a);
     }
 
     @Override
-    public boolean check() {
-        return false;
-    }
-
-    @Override
-    public String getSource() {
-        return source;
-    }
-
-    @Override
-    public Object getValue() {
-        return value;
+    public boolean isValid(Character digit, ConstraintValidatorContext cvc) {
+        return Character.isDigit(digit);
     }
 
 }

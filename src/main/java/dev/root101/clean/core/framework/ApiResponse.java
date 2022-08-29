@@ -23,6 +23,11 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> buildSucces(T data) {
         return new ApiResponse<>("200", "Success", data);
     }
+
+    public static <T> ApiResponse<T> buildSucces(String msg, T data) {
+        return new ApiResponse<>("200", msg, data);
+    }
+
     private String status;
     private String msg;
     private T data;

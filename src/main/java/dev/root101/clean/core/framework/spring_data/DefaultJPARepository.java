@@ -6,6 +6,7 @@ package dev.root101.clean.core.framework.spring_data;
 
 import dev.root101.clean.core.repo.external_repo.CRUDExternalRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -49,7 +50,8 @@ public class DefaultJPARepository<Entity, ID, SpringJpaRepo extends JpaRepositor
 
     @Override
     public Entity findBy(ID keyId) throws RuntimeException {
-        return repo.findById(keyId).get();
+        Optional<Entity> finded = repo.findById(keyId);
+        return finded.isPresent() ? finded.get() : null;
     }
 
     @Override

@@ -1,3 +1,7 @@
+* 4.4.1.RELEASE.20220919:
+    * **GENERAL** :
+        * **IMPROVEMENT** :raised: : Fixed JACKSON configuration. Now it support Time Api.
+
 * 4.4.0.RELEASE.20220919:
     * **VALIDATION** :
         * **IMPROVEMENT** :raised: : Fixed EnumValidaton logic with interface to generalize behavior.
@@ -6,7 +10,7 @@
     * **VALIDATION** :
         * **BUG FIX** :raised_bug: : Filter primitive values for not validate.
     * **GENERAL** :
-        * **IMPROVEMENT** :raised: : Created Api UC & Api Controllee, an UC and a Controller wich return ApiResponse by default.
+        * **IMPROVEMENT** :raised: : Created Api UC & Api Controller, an UC and a Controller wich return ApiResponse by default.
         * **IMPROVEMENT** :raised: : Find by return null if id not found.
         * **IMPROVEMENT** :raised: : Created builder factory in ApiResponse for message.
         * **IMPROVEMENT** :raised: : Created ResponseExtractor.

@@ -1,3 +1,7 @@
+* 4.4.1.RELEASE.20220919:
+    * **GENERAL** :
+        * **IMPROVEMENT** :raised: : Fixed JACKSON configuration. Now it support Time Api.
+
 * 4.4.0.RELEASE.20220919:
     * **VALIDATION** :
         * **IMPROVEMENT** :raised: : Fixed EnumValidaton logic with interface to generalize behavior.

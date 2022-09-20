@@ -1,3 +1,7 @@
+* 4.4.0.RELEASE.20220919:
+    * **VALIDATION** :
+        * **IMPROVEMENT** :raised: : Fixed EnumValidaton logic with interface to generalize behavior.
+
 * 4.3.0.SNAPSHOT.20220829:
     * **VALIDATION** :
         * **BUG FIX** :raised_bug: : Filter primitive values for not validate.

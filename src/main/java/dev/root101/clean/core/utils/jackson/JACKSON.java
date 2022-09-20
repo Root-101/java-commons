@@ -20,19 +20,16 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import dev.root101.clean.core.utils.jackson.serializer_deserializer.date.*;
-import dev.root101.clean.core.utils.jackson.serializer_deserializer.local_date.*;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,15 +42,10 @@ public class JACKSON {
     private static ObjectMapper om;
 
     public static void configureObjectMapper(ObjectMapper om) {
-        SimpleModule dateModule = new SimpleModule("Date Module");
-        dateModule.addSerializer(Date.class, new DateJsonSerializer());
-        dateModule.addDeserializer(Date.class, new DateJsonDeserializer());
-        om.registerModule(dateModule);
-
-        SimpleModule localDateModule = new SimpleModule("Local Date Module");
-        localDateModule.addSerializer(LocalDate.class, new LocalDateJsonSerializer());
-        localDateModule.addDeserializer(LocalDate.class, new LocalDateJsonDeserializer());
-        om.registerModule(localDateModule);
+        om
+                .findAndRegisterModules()
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public static ObjectMapper om() {

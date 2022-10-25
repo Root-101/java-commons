@@ -1,3 +1,7 @@
+* 4.4.2.RELEASE.20221025:
+    * **GENERAL** :
+        * **NEW** :+: : Add EnumMappeable for convert Enum into a list an expose it via api easily.
+
 * 4.4.1.RELEASE.20220919:
     * **GENERAL** :
         * **IMPROVEMENT** :raised: : Fixed JACKSON configuration. Now it support Time Api.

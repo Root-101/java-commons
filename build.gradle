@@ -4,7 +4,7 @@ plugins {
 
 group = 'dev.root101.clean'
 
-version = '4.4.1.RELEASE.20220919'
+version = '4.4.2.RELEASE.20221025'
 
 repositories {
     jcenter()

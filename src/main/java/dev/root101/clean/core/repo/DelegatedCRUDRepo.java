@@ -14,84 +14,95 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.usecase;
+package dev.root101.clean.core.repo;
 
 import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
-import dev.root101.clean.core.repo.CRUDRepository;
 import dev.root101.clean.core.app.domain.DomainObject;
-import dev.root101.clean.core.utils.Licenced;
-import dev.root101.clean.core.utils.validation.ValidationService;
 import java.util.List;
+import dev.root101.clean.core.repo.framework.CRUDFrameworkRepository;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
+ * @param <Entity>
  * @param <ID>
- * @param <CRUDRepo>
+ * @param <GeneralConverter>
+ * @param <ExternalRepo>
  */
-@Licenced
-public class DefaultCRUDUseCase<Domain extends DomainObject<ID>, ID, CRUDRepo extends CRUDRepository<Domain, ID>> implements CRUDUseCase<Domain, ID> {
+public class DelegatedCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, GeneralConverter extends Converter<Domain, Entity>, ExternalRepo extends CRUDFrameworkRepository<Entity, ID>> implements CRUDRepository<Domain, ID> {
 
-    private final boolean doValidateDomain = true;//for the momento allways enabled
-    private final boolean doFirePropertyChanges = true;//for the momento allways enabled
+    private final boolean doFirePropertyChanges = false;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
-    protected final CRUDRepo crudRepo;
+    protected final ExternalRepo externalRepo;
+    protected final GeneralConverter converter;
 
-    public DefaultCRUDUseCase(CRUDRepo crudRepo) {
-        this.crudRepo = crudRepo;
+    public DelegatedCRUDRepo(ExternalRepo externalRepo, GeneralConverter converter) {
+        this.externalRepo = externalRepo;
+        this.converter = converter;
     }
 
-    protected CRUDRepo repo() {
-        return crudRepo;
+    protected ExternalRepo repo() {
+        return externalRepo;
     }
 
-    @Licenced
     @Override
     public Domain create(Domain newObject) throws RuntimeException {
         firePropertyChange(BEFORE_CREATE, null, newObject);
 
-        validateDomain(newObject);
+        //convert domain to entity
+        Entity entity = converter.toEntity(newObject);
 
-        Domain d = crudRepo.create(newObject);
+        //do the persist
+        entity = externalRepo.create(entity);
 
-        firePropertyChange(AFTER_CREATE, null, d);
+        //convert the domain back
+        newObject = converter.toDomain(entity);
 
-        return d;
+        firePropertyChange(AFTER_CREATE, null, newObject);
+
+        return newObject;
     }
 
-    @Licenced
     @Override
     public Domain edit(Domain objectToUpdate) throws RuntimeException {
         firePropertyChange(BEFORE_EDIT, null, objectToUpdate);
 
-        validateDomain(objectToUpdate);
+        //convert domain to entity
+        Entity entity = converter.toEntity(objectToUpdate);
 
-        Domain d = crudRepo.edit(objectToUpdate);
+        //do the persist
+        entity = externalRepo.edit(entity);
 
-        firePropertyChange(AFTER_EDIT, null, d);
+        //convert the domain back
+        objectToUpdate = converter.toDomain(entity);
 
-        return d;
+        firePropertyChange(AFTER_CREATE, null, objectToUpdate);
+
+        return objectToUpdate;
     }
 
-    @Licenced
     @Override
     public void destroy(Domain objectToDestroy) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY, null, objectToDestroy);
 
-        crudRepo.destroy(objectToDestroy);
+        //convert domain to entity
+        Entity entity = converter.toEntity(objectToDestroy);
+
+        //do the persist
+        externalRepo.destroy(entity);
 
         firePropertyChange(AFTER_DESTROY, null, objectToDestroy);
     }
 
-    @Licenced
     @Override
     public void destroyById(ID keyId) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
-        crudRepo.destroyById(keyId);
+        //do the destroy by key, returned the entity
+        externalRepo.destroyById(keyId);
 
         firePropertyChange(AFTER_DESTROY_BY_ID, null, keyId);
     }
@@ -100,29 +111,47 @@ public class DefaultCRUDUseCase<Domain extends DomainObject<ID>, ID, CRUDRepo ex
     public Domain findBy(ID keyId) throws RuntimeException {
         firePropertyChange(BEFORE_FIND_BY, null, keyId);
 
-        Domain d = crudRepo.findBy(keyId);
+        //do the findBy, returned the entity
+        Entity entity = externalRepo.findBy(keyId);
 
-        firePropertyChange(AFTER_FIND_BY, null, d);
+        //check if entity exists
+        if (entity == null) {
+            firePropertyChange(AFTER_FIND_BY, null, null);
 
-        return d;
+            return null;
+        }
+
+        //convert the domain back
+        Domain objectFinded = converter.toDomain(entity);
+
+        firePropertyChange(AFTER_FIND_BY, null, objectFinded);
+
+        return objectFinded;
     }
 
     @Override
     public List<Domain> findAll() throws RuntimeException {
         firePropertyChange(BEFORE_FIND_ALL, null, null);
 
-        List<Domain> d = crudRepo.findAll();
+        List<Entity> allEntities = externalRepo.findAll();
 
-        firePropertyChange(AFTER_FIND_ALL, null, d);
+        if (allEntities == null) {
+            firePropertyChange(AFTER_FIND_ALL, null, null);
+            return null;
+        }
 
-        return d;
+        List<Domain> list = converter.toDomainAll(externalRepo.findAll());
+
+        firePropertyChange(AFTER_FIND_ALL, null, list);
+
+        return list;
     }
 
     @Override
     public long count() throws RuntimeException {
         firePropertyChange(BEFORE_COUNT, null, null);
 
-        long c = crudRepo.count();
+        long c = externalRepo.count();
 
         firePropertyChange(AFTER_COUNT, null, c);
 
@@ -149,9 +178,4 @@ public class DefaultCRUDUseCase<Domain extends DomainObject<ID>, ID, CRUDRepo ex
         }
     }
 
-    private void validateDomain(Domain domain) throws RuntimeException {
-        if (doValidateDomain) {
-            ValidationService.validateAndThrow(domain);
-        }
-    }
 }

@@ -22,13 +22,14 @@ import dev.root101.clean.core.app.domain.DomainObject;
 import dev.root101.clean.core.utils.validation.ValidationService;
 
 /**
+ * Delega las operaciones basicas del crud en el repo.
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @param <Domain>
  * @param <CRUDRepo>
  */
-public class DefaultReadWriteUseCase<Domain extends DomainObject, CRUDRepo extends ReadWriteRepository<Domain>> implements ReadWriteUseCase<Domain> {
+public class DelegatedReadWriteUseCase<Domain extends DomainObject, CRUDRepo extends ReadWriteRepository<Domain>> implements ReadWriteUseCase<Domain> {
 
     private final boolean doValidateDomain = true;//for the momento allways enabled
     private final boolean doFirePropertyChanges = true;//for the momento allways enabled
@@ -36,7 +37,7 @@ public class DefaultReadWriteUseCase<Domain extends DomainObject, CRUDRepo exten
 
     protected CRUDRepo readWriteRepo;
 
-    public DefaultReadWriteUseCase(CRUDRepo repo) {
+    public DelegatedReadWriteUseCase(CRUDRepo repo) {
         this.readWriteRepo = repo;
     }
 

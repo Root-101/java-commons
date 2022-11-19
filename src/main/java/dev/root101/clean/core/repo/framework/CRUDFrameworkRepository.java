@@ -14,20 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils;
+package dev.root101.clean.core.repo.framework;
 
-import static java.lang.annotation.ElementType.*;
-import java.lang.annotation.Retention;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import java.lang.annotation.Target;
+import java.util.List;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
+ * @param <Entity>
+ * @param <ID>
  */
-@Retention(RUNTIME)
-@Target({TYPE, METHOD})
-public @interface Licenced {
+public interface CRUDFrameworkRepository<Entity, ID> extends AbstractFrameworkRepository {
+
+    public Entity create(Entity newObject) throws RuntimeException;
+
+    public Entity edit(Entity objectToEdit) throws RuntimeException;
+
+    public void destroy(Entity objectToDestroy) throws RuntimeException;
+
+    public void destroyById(ID keyId) throws RuntimeException;
+
+    public Entity findBy(ID keyId) throws RuntimeException;
+
+    public List<Entity> findAll() throws RuntimeException;
+
+    public default long count() throws RuntimeException {
+        return findAll().size();
+    }
 
 }

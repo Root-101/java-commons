@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dev.root101.clean.core.framework.spring_data;
+package dev.root101.clean.core.spring_boot.data;
 
-import dev.root101.clean.core.repo.external_repo.CRUDExternalRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import dev.root101.clean.core.repo.framework.CRUDFrameworkRepository;
 
 /**
  *
@@ -16,11 +16,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @param <ID>
  * @param <SpringJpaRepo>
  */
-public class DefaultJPARepository<Entity, ID, SpringJpaRepo extends JpaRepository<Entity, ID>> implements CRUDExternalRepository<Entity, ID> {
+public class DelegatedJPAExternalRepo<Entity, ID, SpringJpaRepo extends JpaRepository<Entity, ID>> implements CRUDFrameworkRepository<Entity, ID> {
 
     private final SpringJpaRepo repo;
 
-    public DefaultJPARepository(SpringJpaRepo repo) {
+    public DelegatedJPAExternalRepo(SpringJpaRepo repo) {
         this.repo = repo;
     }
 

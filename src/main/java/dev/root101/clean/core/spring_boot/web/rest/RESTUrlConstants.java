@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.framework.spring_web.rest;
+package dev.root101.clean.core.spring_boot.web.rest;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 

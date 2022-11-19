@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.framework.spring_web.rest;
+package dev.root101.clean.core.spring_boot.web.rest;
 
 import dev.root101.clean.core.app.domain.DomainObject;
-import dev.root101.clean.core.app.usecase.CRUDUseCase;
-import dev.root101.clean.core.rest.CRUDRestService;
+import dev.root101.clean.core.app.usecase.ApiCRUDUseCase;
+import dev.root101.clean.core.rest.ApiResponse;
+import dev.root101.clean.core.rest.ApiCRUDRestService;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,60 +31,60 @@ import org.springframework.web.bind.annotation.*;
  * @param <ID>
  * @param <UseCase>
  */
-public class CRUDRestServiceTemplate<Domain extends DomainObject<ID>, ID, UseCase extends CRUDUseCase<Domain, ID>> implements CRUDRestService<Domain, ID> {
+public class ApiCRUDRestServiceTemplate<Domain extends DomainObject<ID>, ID, UseCase extends ApiCRUDUseCase<Domain, ID>> implements ApiCRUDRestService<Domain, ID> {
 
     private final boolean doFirePropertyChanges = false;//for the moment allways disabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
     protected final UseCase crudUC;
 
-    public CRUDRestServiceTemplate(UseCase crudUc) {
+    public ApiCRUDRestServiceTemplate(UseCase crudUc) {
         this.crudUC = crudUc;
     }
 
-    protected CRUDUseCase useCase() {
+    protected ApiCRUDUseCase useCase() {
         return crudUC;
     }
 
     @Override
     @PostMapping(path = RESTUrlConstants.CREATE_PATH)
-    public Domain create(@RequestBody Domain domain) throws RuntimeException {
+    public ApiResponse<Domain> create(@RequestBody Domain domain) throws RuntimeException {
         return crudUC.create(domain);
     }
 
     @Override
     @PostMapping(RESTUrlConstants.EDIT_PATH)
-    public Domain edit(@RequestBody Domain domain) throws RuntimeException {
+    public ApiResponse<Domain> edit(@RequestBody Domain domain) throws RuntimeException {
         return crudUC.edit(domain);
     }
 
     @Override
-    @PostMapping(RESTUrlConstants.DESTROY_PATH)
-    public void destroy(@RequestBody Domain t) throws RuntimeException {
-        crudUC.destroy(t);
+    @DeleteMapping(RESTUrlConstants.DESTROY_PATH)
+    public ApiResponse destroy(@RequestBody Domain t) throws RuntimeException {
+        return crudUC.destroy(t);
     }
 
     @Override
-    @PostMapping(RESTUrlConstants.DESTROY_ID_PATH)
-    public void destroyById(@PathVariable(RESTUrlConstants.ID) ID id) throws RuntimeException {
-        crudUC.destroyById(id);
+    @DeleteMapping(RESTUrlConstants.DESTROY_ID_PATH)
+    public ApiResponse destroyById(@PathVariable(RESTUrlConstants.ID) ID id) throws RuntimeException {
+        return crudUC.destroyById(id);
     }
 
     @Override
     @GetMapping(RESTUrlConstants.FIND_ALL_PATH)
-    public List<Domain> findAll() throws RuntimeException {
+    public ApiResponse<List<Domain>> findAll() throws RuntimeException {
         return crudUC.findAll();
     }
 
     @Override
     @GetMapping(RESTUrlConstants.FIND_BY_PATH)
-    public Domain findBy(@PathVariable(RESTUrlConstants.ID) ID id) throws RuntimeException {
+    public ApiResponse<Domain> findBy(@PathVariable(RESTUrlConstants.ID) ID id) throws RuntimeException {
         return crudUC.findBy(id);
     }
 
     @Override
     @GetMapping(RESTUrlConstants.COUNT_PATH)
-    public long count() throws RuntimeException {
+    public ApiResponse<Long> count() throws RuntimeException {
         return crudUC.count();
     }
 

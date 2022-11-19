@@ -17,7 +17,6 @@
 package dev.root101.clean.core.rest;
 
 import dev.root101.clean.core.app.domain.DomainObject;
-import dev.root101.clean.core.framework.ApiResponse;
 import java.util.List;
 
 /**

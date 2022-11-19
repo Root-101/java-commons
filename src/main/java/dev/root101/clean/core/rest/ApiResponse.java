@@ -1,4 +1,4 @@
-package dev.root101.clean.core.framework;
+package dev.root101.clean.core.rest;
 
 import org.springframework.http.ResponseEntity;
 

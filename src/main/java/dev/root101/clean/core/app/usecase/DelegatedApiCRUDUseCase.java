@@ -1,16 +1,24 @@
 package dev.root101.clean.core.app.usecase;
 
 import dev.root101.clean.core.app.domain.DomainObject;
-import dev.root101.clean.core.framework.ApiResponse;
+import dev.root101.clean.core.rest.ApiResponse;
 import dev.root101.clean.core.repo.CRUDRepository;
 import java.util.List;
 
-public class ApiDefaultCRUDUseCase<Domain extends DomainObject<ID>, ID, CRUDRepo extends CRUDRepository<Domain, ID>> implements ApiCRUDUseCase<Domain, ID> {
+/**
+ * Delega las operaciones basicas del crud en el repo.
+ *
+ * @author Yo
+ * @param <Domain>
+ * @param <ID>
+ * @param <CRUDRepo>
+ */
+public class DelegatedApiCRUDUseCase<Domain extends DomainObject<ID>, ID, CRUDRepo extends CRUDRepository<Domain, ID>> implements ApiCRUDUseCase<Domain, ID> {
 
-    private final DefaultCRUDUseCase<Domain, ID, CRUDRepo> crudUC;
+    private final DelegatedCRUDUseCase<Domain, ID, CRUDRepo> crudUC;
 
-    public ApiDefaultCRUDUseCase(CRUDRepo crudRepo) {
-        this.crudUC = new DefaultCRUDUseCase(crudRepo);
+    public DelegatedApiCRUDUseCase(CRUDRepo crudRepo) {
+        this.crudUC = new DelegatedCRUDUseCase(crudRepo);
     }
 
     @Override

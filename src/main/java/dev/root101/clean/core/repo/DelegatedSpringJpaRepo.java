@@ -17,10 +17,10 @@
 package dev.root101.clean.core.repo;
 
 import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
-import dev.root101.clean.core.repo.external_repo.CRUDExternalRepository;
 import dev.root101.clean.core.app.domain.DomainObject;
-import dev.root101.clean.core.utils.Licenced;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
@@ -30,27 +30,25 @@ import java.util.List;
  * @param <Entity>
  * @param <ID>
  * @param <GeneralConverter>
- * @param <ExternalRepo>
+ * @param <SpringJpaRepo>
  */
-@Licenced
-public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, GeneralConverter extends Converter<Domain, Entity>, ExternalRepo extends CRUDExternalRepository<Entity, ID>> implements CRUDRepository<Domain, ID> {
+public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID, GeneralConverter extends Converter<Domain, Entity>, SpringJpaRepo extends JpaRepository<Entity, ID>> implements CRUDRepository<Domain, ID> {
 
     private final boolean doFirePropertyChanges = false;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
-    protected final ExternalRepo externalRepo;
+    protected final SpringJpaRepo externalRepo;
     protected final GeneralConverter converter;
 
-    public DefaultCRUDRepo(ExternalRepo externalRepo, GeneralConverter converter) {
+    public DelegatedSpringJpaRepo(SpringJpaRepo externalRepo, GeneralConverter converter) {
         this.externalRepo = externalRepo;
         this.converter = converter;
     }
 
-    protected ExternalRepo repo() {
+    protected SpringJpaRepo repo() {
         return externalRepo;
     }
 
-    @Licenced
     @Override
     public Domain create(Domain newObject) throws RuntimeException {
         firePropertyChange(BEFORE_CREATE, null, newObject);
@@ -59,7 +57,7 @@ public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, Genera
         Entity entity = converter.toEntity(newObject);
 
         //do the persist
-        entity = externalRepo.create(entity);
+        entity = externalRepo.save(entity);
 
         //convert the domain back
         newObject = converter.toDomain(entity);
@@ -69,7 +67,6 @@ public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, Genera
         return newObject;
     }
 
-    @Licenced
     @Override
     public Domain edit(Domain objectToUpdate) throws RuntimeException {
         firePropertyChange(BEFORE_EDIT, null, objectToUpdate);
@@ -78,7 +75,7 @@ public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, Genera
         Entity entity = converter.toEntity(objectToUpdate);
 
         //do the persist
-        entity = externalRepo.edit(entity);
+        entity = externalRepo.save(entity);
 
         //convert the domain back
         objectToUpdate = converter.toDomain(entity);
@@ -88,7 +85,6 @@ public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, Genera
         return objectToUpdate;
     }
 
-    @Licenced
     @Override
     public void destroy(Domain objectToDestroy) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY, null, objectToDestroy);
@@ -97,18 +93,17 @@ public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, Genera
         Entity entity = converter.toEntity(objectToDestroy);
 
         //do the persist
-        externalRepo.destroy(entity);
+        externalRepo.delete(entity);
 
         firePropertyChange(AFTER_DESTROY, null, objectToDestroy);
     }
 
-    @Licenced
     @Override
     public void destroyById(ID keyId) throws RuntimeException {
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
         //do the destroy by key, returned the entity
-        externalRepo.destroyById(keyId);
+        externalRepo.deleteById(keyId);
 
         firePropertyChange(AFTER_DESTROY_BY_ID, null, keyId);
     }
@@ -118,7 +113,8 @@ public class DefaultCRUDRepo<Domain extends DomainObject<ID>, Entity, ID, Genera
         firePropertyChange(BEFORE_FIND_BY, null, keyId);
 
         //do the findBy, returned the entity
-        Entity entity = externalRepo.findBy(keyId);
+        Optional<Entity> finded = externalRepo.findById(keyId);
+        Entity entity = finded.isPresent() ? finded.get() : null;
 
         //check if entity exists
         if (entity == null) {

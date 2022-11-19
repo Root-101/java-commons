@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.repo.external_repo;
+package dev.root101.clean.core.repo.framework;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * @param <Entity>
  * @param <ID>
  */
-public interface CRUDExternalRepository<Entity, ID> extends AbstractExternalRepository {
+public interface CRUDFrameworkRepository<Entity, ID> extends AbstractFrameworkRepository {
 
     public Entity create(Entity newObject) throws RuntimeException;
 

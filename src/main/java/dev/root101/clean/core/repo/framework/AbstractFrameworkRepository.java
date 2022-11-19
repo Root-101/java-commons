@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.repo.external_repo;
+package dev.root101.clean.core.repo.framework;
 
 import dev.root101.clean.core.repo.AbstractRepository;
 
@@ -23,6 +23,6 @@ import dev.root101.clean.core.repo.AbstractRepository;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  */
-public interface AbstractExternalRepository extends AbstractRepository {
+public interface AbstractFrameworkRepository extends AbstractRepository {
 
 }

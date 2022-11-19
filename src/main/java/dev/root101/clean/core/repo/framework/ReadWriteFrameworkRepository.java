@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.repo.external_repo;
+package dev.root101.clean.core.repo.framework;
 
 /**
  *
@@ -23,7 +23,7 @@ package dev.root101.clean.core.repo.external_repo;
  * @author jjhurtado@Github
  * @param <Entity>
  */
-public interface ReadWriteExternalRepository<Entity> extends AbstractExternalRepository {
+public interface ReadWriteFrameworkRepository<Entity> extends AbstractFrameworkRepository {
 
     public Entity read() throws RuntimeException;
 

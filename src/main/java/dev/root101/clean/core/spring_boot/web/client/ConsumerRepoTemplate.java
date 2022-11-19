@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.framework.spring_web.client;
+package dev.root101.clean.core.spring_boot.web.client;
 
-import dev.root101.clean.core.repo.external_repo.CRUDExternalRepository;
-import dev.root101.clean.core.framework.spring_web.rest.RESTUrlConstants;
+import dev.root101.clean.core.spring_boot.web.rest.RESTUrlConstants;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 import org.springframework.web.client.RestOperations;
+import dev.root101.clean.core.repo.framework.CRUDFrameworkRepository;
 
 /**
  *
@@ -31,7 +31,7 @@ import org.springframework.web.client.RestOperations;
  * @param <Entity>
  * @param <ID>
  */
-public abstract class ConsumerRepoTemplate<Entity, ID> implements CRUDExternalRepository<Entity, ID> {
+public abstract class ConsumerRepoTemplate<Entity, ID> implements CRUDFrameworkRepository<Entity, ID> {
 
     private final boolean doFirePropertyChanges = false;//for the moment allways disabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);

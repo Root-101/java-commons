@@ -1,3 +1,12 @@
+* 4.5.0.RELEASE.20221119:
+    * **GENERAL** :
+        * **REFACTOR** :building: : Renamed:
+            - Defaults UC & Repos to Delegated. Example: 'dev.root101.clean.core.app.usecase.DefaultCRUDUseCase' to 'dev.root101.clean.core.app.usecase.DelegatedCRUDUseCase'.
+            - 'framework' layer to 'spring_boot'.
+            - External repo layer to 'Framework'.
+        * **REFACTOR** :building: : Moved 'ApiResponse' from old 'framework' layer to 'rest' layer.
+        * **REMOVED** :-: : Removed @Licenced annotation.
+
 * 4.4.2.RELEASE.20221025:
     * **GENERAL** :
         * **NEW** :+: : Add EnumMappeable for convert Enum into a list an expose it via api easily.

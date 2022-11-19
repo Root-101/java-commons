@@ -17,7 +17,7 @@
 package dev.root101.clean.core.app.usecase;
 
 import dev.root101.clean.core.app.domain.DomainObject;
-import dev.root101.clean.core.framework.ApiResponse;
+import dev.root101.clean.core.rest.ApiResponse;
 import java.util.List;
 
 /**

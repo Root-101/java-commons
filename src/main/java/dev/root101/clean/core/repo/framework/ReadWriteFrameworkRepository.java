@@ -14,18 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.app.domain.services;
+package dev.root101.clean.core.repo.framework;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdezWaterloo@Github
  * @author jjhurtado@Github
- * @param <T>
+ * @param <Entity>
  */
-public interface ResourceService<T> {
+public interface ReadWriteFrameworkRepository<Entity> extends AbstractFrameworkRepository {
 
-    public String getString(String key);
+    public Entity read() throws RuntimeException;
 
-    public boolean contain(String key);
+    public void write(Entity object) throws RuntimeException;
+
 }

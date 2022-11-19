@@ -37,16 +37,16 @@ public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID,
     private final boolean doFirePropertyChanges = false;//for the momento allways enabled
     protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
-    protected final SpringJpaRepo externalRepo;
+    protected final SpringJpaRepo jpaRepo;
     protected final GeneralConverter converter;
 
     public DelegatedSpringJpaRepo(SpringJpaRepo externalRepo, GeneralConverter converter) {
-        this.externalRepo = externalRepo;
+        this.jpaRepo = externalRepo;
         this.converter = converter;
     }
 
     protected SpringJpaRepo repo() {
-        return externalRepo;
+        return jpaRepo;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID,
         Entity entity = converter.toEntity(newObject);
 
         //do the persist
-        entity = externalRepo.save(entity);
+        entity = jpaRepo.save(entity);
 
         //convert the domain back
         newObject = converter.toDomain(entity);
@@ -75,7 +75,7 @@ public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID,
         Entity entity = converter.toEntity(objectToUpdate);
 
         //do the persist
-        entity = externalRepo.save(entity);
+        entity = jpaRepo.save(entity);
 
         //convert the domain back
         objectToUpdate = converter.toDomain(entity);
@@ -93,7 +93,7 @@ public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID,
         Entity entity = converter.toEntity(objectToDestroy);
 
         //do the persist
-        externalRepo.delete(entity);
+        jpaRepo.delete(entity);
 
         firePropertyChange(AFTER_DESTROY, null, objectToDestroy);
     }
@@ -103,7 +103,7 @@ public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID,
         firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
 
         //do the destroy by key, returned the entity
-        externalRepo.deleteById(keyId);
+        jpaRepo.deleteById(keyId);
 
         firePropertyChange(AFTER_DESTROY_BY_ID, null, keyId);
     }
@@ -113,7 +113,7 @@ public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID,
         firePropertyChange(BEFORE_FIND_BY, null, keyId);
 
         //do the findBy, returned the entity
-        Optional<Entity> finded = externalRepo.findById(keyId);
+        Optional<Entity> finded = jpaRepo.findById(keyId);
         Entity entity = finded.isPresent() ? finded.get() : null;
 
         //check if entity exists
@@ -135,14 +135,14 @@ public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID,
     public List<Domain> findAll() throws RuntimeException {
         firePropertyChange(BEFORE_FIND_ALL, null, null);
 
-        List<Entity> allEntities = externalRepo.findAll();
+        List<Entity> allEntities = jpaRepo.findAll();
 
         if (allEntities == null) {
             firePropertyChange(AFTER_FIND_ALL, null, null);
             return null;
         }
 
-        List<Domain> list = converter.toDomainAll(externalRepo.findAll());
+        List<Domain> list = converter.toDomainAll(jpaRepo.findAll());
 
         firePropertyChange(AFTER_FIND_ALL, null, list);
 
@@ -153,7 +153,7 @@ public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID,
     public long count() throws RuntimeException {
         firePropertyChange(BEFORE_COUNT, null, null);
 
-        long c = externalRepo.count();
+        long c = jpaRepo.count();
 
         firePropertyChange(AFTER_COUNT, null, c);
 

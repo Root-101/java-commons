@@ -9,7 +9,10 @@ import javax.validation.Payload;
 
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {EnumValidatorRegister_String.class})
+@Constraint(validatedBy = {
+    EnumValidatorRegister_String.class,
+    EnumValidatorRegister_ListOfString.class
+})
 public @interface EnumValidator {
 
     String message() default "Value is not present in enum list.";

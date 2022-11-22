@@ -1,3 +1,7 @@
+* 4.5.1.RELEASE.20221122:
+    * **VALIDATIONS** :
+        * **NEW** :+: : Created validator for List for 'EnumValidator'.
+
 * 4.5.0.RELEASE.20221119:
     * **GENERAL** :
         * **REFACTOR** :building: : Renamed:

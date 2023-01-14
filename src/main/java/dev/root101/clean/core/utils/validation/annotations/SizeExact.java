@@ -34,7 +34,7 @@ import java.lang.annotation.Target;
  * </ul>
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
- * @author JesusHdezWaterloo@Github
+ * @author JesusHdez960717@Github
  */
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)

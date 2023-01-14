@@ -1,5 +1,6 @@
 package dev.root101.clean.core.utils.validation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.root101.clean.core.exceptions.ValidationException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -62,7 +63,17 @@ public class ValidationService {
 
     public static List<ValidationException.ValidationErrorMessage> convertMessages(List<ConstraintViolation<Object>> violation) {
         return violation.stream().map((viol) -> {
-            return new ValidationException.ValidationErrorMessage(viol.getPropertyPath().toString(), viol.getInvalidValue() == null ? "null" : viol.getInvalidValue().toString(), viol.getMessage());
+            String fieldName = viol.getPropertyPath().toString();
+            try {
+                Field field = viol.getRootBeanClass().getDeclaredField(fieldName);
+                ValidationFieldName fieldNameAnnotation = field.getDeclaredAnnotation(ValidationFieldName.class);
+                if (fieldNameAnnotation != null) {
+                    fieldName = fieldNameAnnotation.value();
+                }
+            } catch (NoSuchFieldException | SecurityException e) {
+                System.out.println("Error convirtiendo los mensajes de las validaciones. " + e.getMessage());
+            }
+            return new ValidationException.ValidationErrorMessage(fieldName, viol.getInvalidValue() == null ? "null" : viol.getInvalidValue().toString(), viol.getMessage());
         }).collect(Collectors.toList());
     }
 

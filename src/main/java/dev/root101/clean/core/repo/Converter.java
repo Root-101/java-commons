@@ -17,12 +17,11 @@
 package dev.root101.clean.core.repo;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
- * @author JesusHdezWaterloo@Github
+ * @author JesusHdez960717@Github
  * @param <Domain>
  * @param <Entity>
  */
@@ -33,11 +32,11 @@ public interface Converter<Domain, Entity> {
     public Entity toEntity(Domain domain) throws RuntimeException;
 
     public default List<Domain> toDomainAll(List<Entity> list) throws RuntimeException {
-        return list.stream().map((entity) -> toDomain(entity)).collect(Collectors.toList());
+        return list.stream().map((entity) -> toDomain(entity)).toList();
     }
 
     public default List<Entity> toEntityAll(List<Domain> list) throws RuntimeException {//convert entities to domain
-        return list.stream().map((domain) -> toEntity(domain)).collect(Collectors.toList());
+        return list.stream().map((domain) -> toEntity(domain)).toList();
     }
 
 }

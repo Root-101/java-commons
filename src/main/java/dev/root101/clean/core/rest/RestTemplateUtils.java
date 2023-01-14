@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.spring_boot.web.client;
+package dev.root101.clean.core.rest;
 
 import dev.root101.clean.core.utils.jackson.JACKSON;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import org.springframework.web.client.RestOperations;
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
- * @author JesusHdezWaterloo@Github
+ * @author JesusHdez960717@Github
  */
 public class RestTemplateUtils {
 

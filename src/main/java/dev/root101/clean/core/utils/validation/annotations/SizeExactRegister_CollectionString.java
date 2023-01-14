@@ -23,7 +23,7 @@ import javax.validation.ConstraintValidatorContext;
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
- * @author JesusHdezWaterloo@Github
+ * @author JesusHdez960717@Github
  */
 public class SizeExactRegister_CollectionString implements ConstraintValidator<SizeExact, Collection> {
 

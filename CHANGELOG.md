@@ -1,3 +1,10 @@
+* 4.6.0.SNAPSHOT.202220113:
+    * **GENERAL** :
+        * **REFACTOR** :building: : Removed all standars for REST & UC layer.
+        * **REFACTOR** :building: : Refactor 'ApiResponse' success's builders.
+        * **IMPROVEMENT** :raised: : 'CRUDRepo' & 'DelegatedSpringJpaRepo' incresed methods availables (createAll, findAllById...).
+        * **NEW** :+: : Created @Annotation 'ValidationFieldName' for speccify the name the field will display if a validation is throw.
+
 * 4.5.1.RELEASE.20221122:
     * **VALIDATIONS** :
         * **NEW** :+: : Created validator for List for 'EnumValidator'.

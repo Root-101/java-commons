@@ -16,8 +16,6 @@
  */
 package dev.root101.clean.core.repo;
 
-import static dev.root101.clean.core.app.PropertyChangeConstrains.*;
-import dev.root101.clean.core.app.domain.DomainObject;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,17 +23,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
- * @author JesusHdezWaterloo@Github
+ * @author JesusHdez960717@Github
  * @param <Domain>
  * @param <Entity>
  * @param <ID>
  * @param <GeneralConverter>
  * @param <SpringJpaRepo>
  */
-public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID, GeneralConverter extends Converter<Domain, Entity>, SpringJpaRepo extends JpaRepository<Entity, ID>> implements CRUDRepository<Domain, ID> {
-
-    private final boolean doFirePropertyChanges = false;//for the momento allways enabled
-    protected transient final java.beans.PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
+public class DelegatedSpringJpaRepo<Domain, Entity, ID, GeneralConverter extends Converter<Domain, Entity>, SpringJpaRepo extends JpaRepository<Entity, ID>> implements CRUDRepository<Domain, ID> {
 
     protected final SpringJpaRepo jpaRepo;
     protected final GeneralConverter converter;
@@ -51,8 +46,6 @@ public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID,
 
     @Override
     public Domain create(Domain newObject) throws RuntimeException {
-        firePropertyChange(BEFORE_CREATE, null, newObject);
-
         //convert domain to entity
         Entity entity = converter.toEntity(newObject);
 
@@ -60,124 +53,94 @@ public class DelegatedSpringJpaRepo<Domain extends DomainObject<ID>, Entity, ID,
         entity = jpaRepo.save(entity);
 
         //convert the domain back
-        newObject = converter.toDomain(entity);
+        return converter.toDomain(entity);
+    }
 
-        firePropertyChange(AFTER_CREATE, null, newObject);
+    @Override
+    public List<Domain> createAll(List<Domain> newObjects) throws RuntimeException {
+        //convert domain to entity
+        List<Entity> entities = converter.toEntityAll(newObjects);
 
-        return newObject;
+        //do the persist
+        entities = jpaRepo.saveAll(entities);
+
+        //convert the domain back
+        return converter.toDomainAll(entities);
     }
 
     @Override
     public Domain edit(Domain objectToUpdate) throws RuntimeException {
-        firePropertyChange(BEFORE_EDIT, null, objectToUpdate);
-
-        //convert domain to entity
-        Entity entity = converter.toEntity(objectToUpdate);
-
-        //do the persist
-        entity = jpaRepo.save(entity);
-
-        //convert the domain back
-        objectToUpdate = converter.toDomain(entity);
-
-        firePropertyChange(AFTER_CREATE, null, objectToUpdate);
-
-        return objectToUpdate;
+        return create(objectToUpdate);
     }
 
     @Override
-    public void destroy(Domain objectToDestroy) throws RuntimeException {
-        firePropertyChange(BEFORE_DESTROY, null, objectToDestroy);
+    public List<Domain> editAll(List<Domain> objectsToUpdate) throws RuntimeException {
+        return createAll(objectsToUpdate);
+    }
 
+    @Override
+    public void delete(Domain objectToDestroy) throws RuntimeException {
         //convert domain to entity
         Entity entity = converter.toEntity(objectToDestroy);
 
         //do the persist
         jpaRepo.delete(entity);
-
-        firePropertyChange(AFTER_DESTROY, null, objectToDestroy);
     }
 
     @Override
-    public void destroyById(ID keyId) throws RuntimeException {
-        firePropertyChange(BEFORE_DESTROY_BY_ID, null, keyId);
-
+    public void deleteById(ID keyId) throws RuntimeException {
         //do the destroy by key, returned the entity
         jpaRepo.deleteById(keyId);
-
-        firePropertyChange(AFTER_DESTROY_BY_ID, null, keyId);
     }
 
     @Override
-    public Domain findBy(ID keyId) throws RuntimeException {
-        firePropertyChange(BEFORE_FIND_BY, null, keyId);
+    public void deleteAllById(List<ID> keyIds) throws RuntimeException {
+        jpaRepo.deleteAllById(keyIds);
+    }
 
+    @Override
+    public Domain findById(ID keyId) throws RuntimeException {
         //do the findBy, returned the entity
         Optional<Entity> finded = jpaRepo.findById(keyId);
         Entity entity = finded.isPresent() ? finded.get() : null;
 
         //check if entity exists
         if (entity == null) {
-            firePropertyChange(AFTER_FIND_BY, null, null);
-
             return null;
         }
 
         //convert the domain back
-        Domain objectFinded = converter.toDomain(entity);
+        return converter.toDomain(entity);
+    }
 
-        firePropertyChange(AFTER_FIND_BY, null, objectFinded);
+    @Override
+    public List<Domain> findAllById(List<ID> keyId) throws RuntimeException {
+        //do the findBy, returned the entity
+        List<Entity> entities = jpaRepo.findAllById(keyId);
 
-        return objectFinded;
+        //check if entity exists
+        if (entities == null) {
+            return null;
+        }
+
+        //convert the domain back
+        return converter.toDomainAll(entities);
     }
 
     @Override
     public List<Domain> findAll() throws RuntimeException {
-        firePropertyChange(BEFORE_FIND_ALL, null, null);
-
         List<Entity> allEntities = jpaRepo.findAll();
 
         if (allEntities == null) {
-            firePropertyChange(AFTER_FIND_ALL, null, null);
             return null;
         }
 
-        List<Domain> list = converter.toDomainAll(jpaRepo.findAll());
-
-        firePropertyChange(AFTER_FIND_ALL, null, list);
-
-        return list;
+        return converter.toDomainAll(allEntities);
     }
 
     @Override
     public long count() throws RuntimeException {
-        firePropertyChange(BEFORE_COUNT, null, null);
-
-        long c = jpaRepo.count();
-
-        firePropertyChange(AFTER_COUNT, null, c);
-
-        return c;
-    }
-
-    @Override
-    public void addPropertyChangeListener(java.beans.PropertyChangeListener listener) {
-        if (doFirePropertyChanges) {
-            propertyChangeSupport.addPropertyChangeListener(listener);
-        }
-    }
-
-    @Override
-    public void removePropertyChangeListener(java.beans.PropertyChangeListener listener) {
-        if (doFirePropertyChanges) {
-            propertyChangeSupport.removePropertyChangeListener(listener);
-        }
-    }
-
-    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        if (doFirePropertyChanges) {
-            propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
-        }
+        return jpaRepo.count();
     }
 
 }

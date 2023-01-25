@@ -109,7 +109,9 @@ public class ValidationService {
                                     })
                                     //filtro de todos los valores los que NO sean primitivos
                                     .filter((t) -> {
-                                        return t != null && !(ClassUtils.isPrimitiveOrWrapper(t.getClass()) || t.getClass().getName().startsWith("java"));
+                                        return t != null
+                                                && (!(ClassUtils.isPrimitiveOrWrapper(t.getClass()) || t.getClass().getName().startsWith("java"))
+                                                || List.class.isAssignableFrom(t.getClass()));
                                     })
                                     .toArray();
                     //de todos los campos que no son promitivos los valido

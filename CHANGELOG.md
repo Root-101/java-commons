@@ -1,3 +1,7 @@
+* 4.6.1.RELEASE.202220125:
+    * **REPO** :
+        * **IMPROVEMENT** :raised: : `findById` with id=null return null. Don't throw exception.
+
 * 4.6.0.SNAPSHOT.202220113:
     * **GENERAL** :
         * **REFACTOR** :building: : Removed all standars for REST & UC layer.

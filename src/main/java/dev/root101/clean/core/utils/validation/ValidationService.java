@@ -14,11 +14,14 @@ import org.springframework.util.ClassUtils;
 
 public class ValidationService {
 
-    public record TreeTracedViolation(
+    public static final String PARENT_TREE_SEPARATOR = ".";
+
+    public record TracedViolation(
             Set<ConstraintViolation<Object>> currentViolations,
             String parentTree) {
 
     }
+
     //store the config
     private static final Configuration<?> CONFIG = Validation.byDefaultProvider().configure();
 
@@ -36,40 +39,64 @@ public class ValidationService {
     }
 
     public static void validateAndThrow(Object... objects) throws ValidationException {
-        List<TreeTracedViolation> errors = validate(objects);
+        List<TracedViolation> errors = validate(objects);
         if (!errors.isEmpty()) {
             throw new ValidationException(convertMessages(errors));
         }
     }
 
-    public static List<TreeTracedViolation> validate(Object... objects) {
-        List<TreeTracedViolation> errors = new ArrayList<>();
+    public static List<TracedViolation> validate(Object... objects) {
+        List<TracedViolation> errors = new ArrayList<>();
 
-        for (Object object : objects) {
-            errors.add(new TreeTracedViolation(
-                            DEFAULT_VALIDATOR.validate(object),
+        if (objects.length == 1) {
+            errors.add(
+                    new TracedViolation(
+                            DEFAULT_VALIDATOR.validate(objects[0]),
                             ""
                     )
             );
+        } else {
+            for (int i = 0; i < objects.length; i++) {
+                errors.add(
+                        new TracedViolation(
+                                DEFAULT_VALIDATOR.validate(objects[i]),
+                                "[%s]".formatted(i)
+                        )
+                );
+            }
         }
 
         return errors;
     }
 
     public static void validateRecursiveAndThrow(Object... objects) throws ValidationException {
-        List<TreeTracedViolation> errors = validateRecursive(objects);
+        List<TracedViolation> errors = validateRecursive(objects);
         if (!errors.isEmpty()) {
             throw new ValidationException(convertMessages(errors));
         }
     }
 
-    public static List<TreeTracedViolation> validateRecursive(Object... objects) {
-        return validateRecursive(new ArrayList<>(), "", objects);
+    public static List<TracedViolation> validateRecursive(Object... objects) {
+        if (objects.length == 1) {
+            return validateRecursive(new ArrayList<>(), "", objects[0]);
+        } else {
+            List<TracedViolation> errors = new ArrayList<>();
+            for (int i = 0; i < objects.length; i++) {
+                errors.addAll(
+                        validateRecursive(
+                                new ArrayList<>(),
+                                "[%s]".formatted(i),
+                                objects[i]
+                        )
+                );
+            }
+            return errors;
+        }
     }
 
-    public static List<ValidationException.ValidationErrorMessage> convertMessages(List<TreeTracedViolation> violation) {
+    public static List<ValidationException.ValidationErrorMessage> convertMessages(List<TracedViolation> violation) {
         List<ValidationException.ValidationErrorMessage> messages = new ArrayList<>();
-        for (TreeTracedViolation general : violation) {
+        for (TracedViolation general : violation) {
             for (ConstraintViolation<Object> viol : general.currentViolations) {
 
                 String fieldName = viol.getPropertyPath().toString();
@@ -83,9 +110,11 @@ public class ValidationService {
                     System.out.println("Error convirtiendo los mensajes de las validaciones. " + e.getMessage());
                 }
 
-                String source = general.parentTree + "." + fieldName;
-                if (source.startsWith(".")) {
+                String source = general.parentTree + PARENT_TREE_SEPARATOR + fieldName;
+                if (source.startsWith(PARENT_TREE_SEPARATOR)) {
                     source = source.substring(1, source.length());
+                } else if (source.startsWith("[")) {
+                    source = "root" + source;
                 }
 
                 messages.add(
@@ -103,7 +132,7 @@ public class ValidationService {
         return messages;
     }
 
-    private static List<TreeTracedViolation> validateRecursive(List<TreeTracedViolation> violations, String parentTree, Object... objects) {
+    private static List<TracedViolation> validateRecursive(List<TracedViolation> violations, String parentTree, Object... objects) {
         //recorro la lista de objetos a validar
         for (Object object : objects) {
             //si NO es null lo proceso. Null no tiene sentido validarlo(DEFAULT_VALIDATOR.validate(null) lanza excepcion), se deberia haber validado una capa arriba.
@@ -121,17 +150,17 @@ public class ValidationService {
                     }
                 } else {
                     //no es ni una lista ni un arreglo, valido el objeto como objeto
-                    violations.add(new TreeTracedViolation(
-                                    DEFAULT_VALIDATOR.validate(object),
-                                    parentTree
-                            )
+                    violations.add(new TracedViolation(
+                            DEFAULT_VALIDATOR.validate(object),
+                            parentTree
+                    )
                     );
 
                     //luego recorro todos sus campos a ver si alguno no es primitivo
                     Field fields[] = object.getClass().getDeclaredFields();
                     for (Field field : fields) {
-                        field.setAccessible(true);
                         try {
+                            field.setAccessible(true);
                             Object t = field.get(object);
 
                             if (t != null
@@ -145,11 +174,11 @@ public class ValidationService {
                                     fieldName = fieldNameAnnotation.value();
                                 }
 
-                                //de todos los campos que no son promitivos los valido
-                                validateRecursive(violations, parentTree + "." + fieldName, t);
+                                //de todos los campos que no son primitivos los valido
+                                validateRecursive(violations, parentTree + PARENT_TREE_SEPARATOR + fieldName, t);
                             }
-                        } catch (IllegalAccessException | IllegalArgumentException e) {
-                            System.out.println("Nunca debe entrar aqui");
+                        } catch (Exception e) {
+                            System.out.println("Nunca debe entrar aqui, si entra IGNORAR, es un problema de acceso a los fields del objeto. " + e.getMessage());
                         }
 
                     }

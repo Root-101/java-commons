@@ -150,11 +150,15 @@ public class ValidationService {
                     }
                 } else {
                     //no es ni una lista ni un arreglo, valido el objeto como objeto
-                    violations.add(new TracedViolation(
-                            DEFAULT_VALIDATOR.validate(object),
-                            parentTree
-                    )
-                    );
+                    Set<ConstraintViolation<Object>> validations = DEFAULT_VALIDATOR.validate(object);
+                    if (!validations.isEmpty()) {
+                        violations.add(
+                                new TracedViolation(
+                                        validations,
+                                        parentTree
+                                )
+                        );
+                    }
 
                     //luego recorro todos sus campos a ver si alguno no es primitivo
                     Field fields[] = object.getClass().getDeclaredFields();

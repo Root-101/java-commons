@@ -100,6 +100,9 @@ public class DelegatedSpringJpaRepo<Domain, Entity, ID, GeneralConverter extends
 
     @Override
     public Domain findById(ID keyId) throws RuntimeException {
+        if (keyId == null) {
+            return null;
+        }
         //do the findBy, returned the entity
         Optional<Entity> finded = jpaRepo.findById(keyId);
         Entity entity = finded.isPresent() ? finded.get() : null;

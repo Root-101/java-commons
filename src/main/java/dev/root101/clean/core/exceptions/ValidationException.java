@@ -28,7 +28,7 @@ public class ValidationException extends RuntimeException {
     public record ValidationErrorMessage(
             String source,
             String invalid_value,
-            String mensaje) {
+            String message) {
 
     }
 

@@ -1,3 +1,7 @@
+* 4.6.4.RELEASE.20230128:
+    * **DOCS** :
+        * **IMPROVEMENT** :raised: : Fixed version number.
+
 * 4.6.3.RELEASE.202220128:
     * **DOCS** :
         * **IMPROVEMENT** :raised: : Added 4.6.2 and 4.6.3 to changelog.

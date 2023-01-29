@@ -1,3 +1,11 @@
+* 4.6.3.RELEASE.202220128:
+    * **DOCS** :
+        * **IMPROVEMENT** :raised: : Added 4.6.2 and 4.6.3 to changelog.
+
+* 4.6.2.RELEASE.202220128:
+    * **VALIDATIONS** :
+        * **IMPROVEMENT** :raised: : Fixed validation in list running double.
+
 * 4.6.1.RELEASE.202220125:
     * **REPO** :
         * **IMPROVEMENT** :raised: : `findById` with id=null return null. Don't throw exception.

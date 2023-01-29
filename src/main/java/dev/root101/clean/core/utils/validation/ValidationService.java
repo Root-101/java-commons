@@ -85,7 +85,7 @@ public class ValidationService {
                 errors.addAll(
                         validateRecursive(
                                 new ArrayList<>(),
-                                "[%s]".formatted(i),
+                                "[%s]".formatted(i),//se le agrega el roort en la conversion
                                 objects[i]
                         )
                 );
@@ -132,60 +132,57 @@ public class ValidationService {
         return messages;
     }
 
-    private static List<TracedViolation> validateRecursive(List<TracedViolation> violations, String parentTree, Object... objects) {
-        //recorro la lista de objetos a validar
-        for (Object object : objects) {
-            //si NO es null lo proceso. Null no tiene sentido validarlo(DEFAULT_VALIDATOR.validate(null) lanza excepcion), se deberia haber validado una capa arriba.
-            if (object != null) {
-                //si no es null compruebo si:
-                if (object instanceof Object[] arr) {
-                    //es una instancia de arreglo, llamo a la recursividad con el arreglo
-                    for (int i = 0; i < arr.length; i++) {
-                        validateRecursive(violations, parentTree + "[%s]".formatted(i), arr);
-                    }
-                } else if (object instanceof List list) {
-                    //es una instancia de lista, la convierto en arreglo y llamo a la recursividad con el arreglo
-                    for (int i = 0; i < list.size(); i++) {
-                        validateRecursive(violations, parentTree + "[%s]".formatted(i), list.toArray());
-                    }
-                } else {
-                    //no es ni una lista ni un arreglo, valido el objeto como objeto
-                    Set<ConstraintViolation<Object>> validations = DEFAULT_VALIDATOR.validate(object);
-                    if (!validations.isEmpty()) {
-                        violations.add(
-                                new TracedViolation(
-                                        validations,
-                                        parentTree
-                                )
-                        );
-                    }
+    private static List<TracedViolation> validateRecursive(List<TracedViolation> violations, String parentTree, Object object) {
+        //si NO es null lo proceso. Null no tiene sentido validarlo(DEFAULT_VALIDATOR.validate(null) lanza excepcion), se deberia haber validado una capa arriba.
+        if (object != null) {
+            //si no es null compruebo si:
+            if (object instanceof Object[] arr) {
+                //es una instancia de arreglo, llamo a la recursividad con el arreglo
+                for (int i = 0; i < arr.length; i++) {
+                    validateRecursive(violations, parentTree + "[%s]".formatted(i), arr[i]);
+                }
+            } else if (object instanceof List list) {
+                //es una instancia de lista, la convierto en arreglo y llamo a la recursividad con el arreglo
+                for (int i = 0; i < list.size(); i++) {
+                    validateRecursive(violations, parentTree + "[%s]".formatted(i), list.get(i));
+                }
+            } else {
+                //no es ni una lista ni un arreglo, valido el objeto como objeto
+                Set<ConstraintViolation<Object>> validations = DEFAULT_VALIDATOR.validate(object);
+                if (!validations.isEmpty()) {
+                    violations.add(
+                            new TracedViolation(
+                                    validations,
+                                    parentTree
+                            )
+                    );
+                }
 
-                    //luego recorro todos sus campos a ver si alguno no es primitivo
-                    Field fields[] = object.getClass().getDeclaredFields();
-                    for (Field field : fields) {
-                        try {
-                            field.setAccessible(true);
-                            Object t = field.get(object);
+                //luego recorro todos sus campos a ver si alguno no es primitivo
+                Field fields[] = object.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    try {
+                        field.setAccessible(true);
+                        Object t = field.get(object);
 
-                            if (t != null
-                                    && (!(ClassUtils.isPrimitiveOrWrapper(t.getClass()) || t.getClass().getName().startsWith("java"))
-                                    || List.class.isAssignableFrom(t.getClass()))) {
+                        if (t != null
+                                && (!(ClassUtils.isPrimitiveOrWrapper(t.getClass()) || t.getClass().getName().startsWith("java"))
+                                || List.class.isAssignableFrom(t.getClass()))) {
 
-                                String fieldName = field.getName();
+                            String fieldName = field.getName();
 
-                                ValidationFieldName fieldNameAnnotation = field.getDeclaredAnnotation(ValidationFieldName.class);
-                                if (fieldNameAnnotation != null) {
-                                    fieldName = fieldNameAnnotation.value();
-                                }
-
-                                //de todos los campos que no son primitivos los valido
-                                validateRecursive(violations, parentTree + PARENT_TREE_SEPARATOR + fieldName, t);
+                            ValidationFieldName fieldNameAnnotation = field.getDeclaredAnnotation(ValidationFieldName.class);
+                            if (fieldNameAnnotation != null) {
+                                fieldName = fieldNameAnnotation.value();
                             }
-                        } catch (Exception e) {
-                            System.out.println("Nunca debe entrar aqui, si entra IGNORAR, es un problema de acceso a los fields del objeto. " + e.getMessage());
-                        }
 
+                            //de todos los campos que no son primitivos los valido
+                            validateRecursive(violations, parentTree + PARENT_TREE_SEPARATOR + fieldName, t);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Nunca debe entrar aqui, si entra IGNORAR, es un problema de acceso a los fields del objeto. " + e.getMessage());
                     }
+
                 }
             }
         }

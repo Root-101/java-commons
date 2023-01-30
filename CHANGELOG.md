@@ -1,3 +1,7 @@
+* 4.6.5.RELEASE.20230130:
+    * **VALIDATIONS** :
+        * **IMPROVEMENT** :raised: : Fix empty list & enum skips.
+
 * 4.6.4.RELEASE.20230128:
     * **DOCS** :
         * **IMPROVEMENT** :raised: : Fixed version number.

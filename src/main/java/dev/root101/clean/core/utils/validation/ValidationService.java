@@ -172,10 +172,15 @@ public class ValidationService {
                     try {
                         field.setAccessible(true);
                         Object t = field.get(object);
+                        if (t == null) {
+                            continue;
+                        }
+                        Class tClass = t.getClass();
 
                         if (t != null
-                                && (!(ClassUtils.isPrimitiveOrWrapper(t.getClass()) || t.getClass().getName().startsWith("java"))
-                                || List.class.isAssignableFrom(t.getClass()))) {
+                                && (!(ClassUtils.isPrimitiveOrWrapper(tClass)
+                                || tClass.getName().startsWith("java") || Enum.class.isAssignableFrom(tClass))
+                                || List.class.isAssignableFrom(tClass))) {
 
                             String fieldName = field.getName();
 

@@ -49,20 +49,26 @@ public class ValidationService {
         List<TracedViolation> errors = new ArrayList<>();
 
         if (objects.length == 1) {
-            errors.add(
-                    new TracedViolation(
-                            DEFAULT_VALIDATOR.validate(objects[0]),
-                            ""
-                    )
-            );
-        } else {
-            for (int i = 0; i < objects.length; i++) {
+            Set<ConstraintViolation<Object>> violations = DEFAULT_VALIDATOR.validate(objects[0]);
+            if (!violations.isEmpty()) {
                 errors.add(
                         new TracedViolation(
-                                DEFAULT_VALIDATOR.validate(objects[i]),
-                                "[%s]".formatted(i)
+                                violations,
+                                ""
                         )
                 );
+            }
+        } else {
+            for (int i = 0; i < objects.length; i++) {
+                Set<ConstraintViolation<Object>> violations = DEFAULT_VALIDATOR.validate(objects[i]);
+                if (!violations.isEmpty()) {
+                    errors.add(
+                            new TracedViolation(
+                                    violations,
+                                    "[%s]".formatted(i)
+                            )
+                    );
+                }
             }
         }
 
@@ -97,36 +103,38 @@ public class ValidationService {
     public static List<ValidationException.ValidationErrorMessage> convertMessages(List<TracedViolation> violation) {
         List<ValidationException.ValidationErrorMessage> messages = new ArrayList<>();
         for (TracedViolation general : violation) {
-            for (ConstraintViolation<Object> viol : general.currentViolations) {
+            if (!general.currentViolations.isEmpty()) {
+                for (ConstraintViolation<Object> viol : general.currentViolations) {
 
-                String fieldName = viol.getPropertyPath().toString();
-                try {
-                    Field field = viol.getRootBeanClass().getDeclaredField(fieldName);
-                    ValidationFieldName fieldNameAnnotation = field.getDeclaredAnnotation(ValidationFieldName.class);
-                    if (fieldNameAnnotation != null) {
-                        fieldName = fieldNameAnnotation.value();
+                    String fieldName = viol.getPropertyPath().toString();
+                    try {
+                        Field field = viol.getRootBeanClass().getDeclaredField(fieldName);
+                        ValidationFieldName fieldNameAnnotation = field.getDeclaredAnnotation(ValidationFieldName.class);
+                        if (fieldNameAnnotation != null) {
+                            fieldName = fieldNameAnnotation.value();
+                        }
+                    } catch (NoSuchFieldException | SecurityException e) {
+                        System.out.println("Error convirtiendo los mensajes de las validaciones. " + e.getMessage());
                     }
-                } catch (NoSuchFieldException | SecurityException e) {
-                    System.out.println("Error convirtiendo los mensajes de las validaciones. " + e.getMessage());
+
+                    String source = general.parentTree + PARENT_TREE_SEPARATOR + fieldName;
+                    if (source.startsWith(PARENT_TREE_SEPARATOR)) {
+                        source = source.substring(1, source.length());
+                    } else if (source.startsWith("[")) {
+                        source = "root" + source;
+                    }
+
+                    messages.add(
+                            new ValidationException.ValidationErrorMessage(
+                                    source,
+                                    viol.getInvalidValue() == null
+                                    ? "null"
+                                    : viol.getInvalidValue().toString(),
+                                    viol.getMessage()
+                            )
+                    );
+
                 }
-
-                String source = general.parentTree + PARENT_TREE_SEPARATOR + fieldName;
-                if (source.startsWith(PARENT_TREE_SEPARATOR)) {
-                    source = source.substring(1, source.length());
-                } else if (source.startsWith("[")) {
-                    source = "root" + source;
-                }
-
-                messages.add(
-                        new ValidationException.ValidationErrorMessage(
-                                source,
-                                viol.getInvalidValue() == null
-                                ? "null"
-                                : viol.getInvalidValue().toString(),
-                                viol.getMessage()
-                        )
-                );
-
             }
         }
         return messages;

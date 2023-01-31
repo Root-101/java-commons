@@ -47,14 +47,14 @@ public class ResponseExtractor<T> {
         if (logs) {
             log.info(response.toString());
         }
-        throw new ApiException(response.getStatusCode(), response.getStatusCode().getReasonPhrase());
+        throw ApiException.build(response.getStatusCode());
     };
 
     private Function<org.springframework.web.client.HttpStatusCodeException, T> onHttpStatusCodeException = (exc) -> {
         if (logs) {
             log.error(exc.toString());
         }
-        throw new ApiException(exc.getStatusCode(), exc.getStatusCode().getReasonPhrase());
+        throw ApiException.build(exc.getStatusCode());
     };
 
     private Function<ApiException, T> onApiException = (apiExc) -> {

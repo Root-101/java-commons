@@ -16,6 +16,7 @@
  */
 package dev.root101.clean.core.exceptions;
 
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -28,13 +29,21 @@ public class ApiException extends RuntimeException {
     private final int rawStatusCode;
     private final String message;
 
+    public static ApiException build(HttpStatusCode statusCode) {
+        HttpStatus status = HttpStatus.resolve(statusCode.value());
+        if (status == null) {
+            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ApiException(status);
+    }
+
     public ApiException(HttpStatus status) {
         super(status.getReasonPhrase());
         this.rawStatusCode = status.value();
         this.message = status.getReasonPhrase();
     }
 
-    public ApiException(HttpStatus status, String message) {
+    public ApiException(HttpStatusCode status, String message) {
         super(message);
         this.rawStatusCode = status.value();
         this.message = message;

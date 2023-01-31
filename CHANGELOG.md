@@ -1,3 +1,7 @@
+* 4.7.0.SNAPSHOT.20230131:
+    * **GENERAL** :
+        * **IMPROVEMENT** :raised: : Update all dependencies, include Spring, Jakarta, Validations....
+
 * 4.6.5.RELEASE.20230130:
     * **VALIDATIONS** :
         * **IMPROVEMENT** :raised: : Fix empty list & enum skips.

@@ -3,7 +3,7 @@
 Clean core pretende ser un framework para 
 
 ## Table of Contents
-- [Clean Core Full](#clean-core)
+- [Clean Core Full](#clean-core-full)
 - [Table of Contents](#table-of-contents)
 - [Application](#application)
   - [Modules](#modules)
@@ -21,6 +21,10 @@ Clean core pretende ser un framework para
     - [Resource Service](#resource-service)
 - [~~UI~~](#ui)
 - [Utils](#utils)
+- [Releases](#releases)
+  - [Improvements](#improvements)
+  - [Improvements](#improvements-1)
+  - [Improvements](#improvements-2)
 
 ## Application
 La capa de aplicacion (app de ahora en adelante) está conformada por los elementos internos del sistema, nuestra logica de negocio, y la manera en que esta se integra con otros sistema.

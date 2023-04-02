@@ -1,3 +1,7 @@
+* 4.7.1.SNAPSHOT.20230402:
+    * **GENERAL** :
+        * **IMPROVEMENT** :raised: : Update all dependencies....
+
 * 4.7.0.SNAPSHOT.20230131:
     * **GENERAL** :
         * **IMPROVEMENT** :raised: : Update all dependencies, include Spring, Jakarta, Validations....

@@ -1,3 +1,7 @@
+* 4.7.2.SNAPSHOT.20230913:
+    * **DOCS** :
+        * **IMPROVEMENT** :raised: : Update all docs & examples
+
 * 4.7.1.SNAPSHOT.20230402:
     * **GENERAL** :
         * **IMPROVEMENT** :raised: : Update all dependencies....

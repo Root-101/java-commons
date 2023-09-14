@@ -4,7 +4,7 @@
 
 ###### (En proceso de renombrarlo 'utils' o algo asi)
 
-Esta biblioteca pretende dar estándares y utilidades que faliciten el trabajo a la hora de hacer microservicio.
+This library aims to provide standards and utilities that make work easier when creating microservices.
 
 ## Table of Contents
 - [1 - Validations](#1)
@@ -17,37 +17,37 @@ Esta biblioteca pretende dar estándares y utilidades que faliciten el trabajo a 
         - [1.6.1 - Digit](#1.6.1)
         - [1.6.2 - Enum (Simple String y Lista de Strings)](#1.6.2)
         - [1.6.3 - Size Exact](#1.6.3)
-- [2 - Exceptions](#exceptions)
-- [3 - repo](#repo)
-- [4 - rest](#rest)
-    - [api response](#) 
-    - [response extractor](#) TODO
-    - [rest template utils](#) TODO
-- [5 - utils](#jackson)
-    - [JACKSON](#jackson)
-    - [Enum mappeable](#jackson)
-    - [Network](#jackson)
-    - [Security Algos](#jackson)
+- [2 - Exceptions](#2)
+- [3 - Repo](#3)
+- [4 - Rest](#4)
+    - [4.1 - Api response](#4.1) 
+    - [4.2 - Response Extractor (Next)](#4.2)
+    - [4.3 - Rest Template utils (Next)](#4.3)
+- [5 - Utils](#5)
+    - [5.1 - JACKSON](#5.1)
+    - [5.2 - Enum mappeable](#5.2)
+    - [5.3 - Network](#5.3)
+    - [5.4 - Security Algos](#5.4)
 
 ## Validations <a name="1"></a>
-- Todas las validaciones nativas se cargan del framework `jakarta.validations.*` (TODO: poner link al mvncentral)
-- Para validar un objeto se utiliza la clase `dev.root101.clean.core.utils.validation.ValidationService` y sus metodos estaticos. Ejemplo:
-`ValidationService.validateAndThrow(some_object);`
-- Si todas las validaciones pasaron bien el codigo se ejecuta con normalidad. Si al menos una validacion falla, se lanzara una `ValidationException` (Mas detalles sobre esta excepcion adelante)
-- TODOS los ejemplos de validaciones se encuentran en la carpeta de ejemplos `dev.root101.clean.core.examples.validation...`.
+- All native validations are loaded from the [`jakarta.validations.*` framework](https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api).
+- To validate an object, the `dev.root101.clean.core.utils.validation.ValidationService` class and its static methods are used. Example: `ValidationService.validateAndThrow(some_object);`.
+- If all validations passed correctly, the code runs normally. If at least one validation fails, a `ValidationException` will be thrown.
+- ALL validation examples are located in the examples folder `dev.root101.clean.core.examples.validation...`.
 
 ### 1.1 - Validation Exception <a name="1.1"></a>
-Una vez que se ejecuten las validaciones sobre un objeto, y alguna falle, se lanzara una excepcion de tipo `dev.root101.clean.core.exceptions.ValidationException`.
+Once validations are executed on an object, and some fail, an exception of type `dev.root101.clean.core.exceptions.ValidationException` will be thrown.
 
-Esta excepcion cuenta con el:
-- `status_code`, que representa el codigo de respuesta http, siendo SIEMPRE el `422: UNPROCESSABLE_ENTITY`. Y
-- Una lista de validaciones fallidas (`List<ValidationErrorMessage>`). Cada elemento de esta lista representa una validacion que fallo en algun campo del objeto.
-- Cada validacion fallida (`ValidationErrorMessage`) cuenta:
-  - `source`: El nombre del campo donde fallo la validacion.
-  - `invalid_value`: El valor por el cual fallo la validacion.
-  - `message`: El mensaje de error de la validacion fallida.
+This exception has the:
+- `status_code`, which represents the http response code, ALWAYS being `422: UNPROCESSABLE_ENTITY`. AND,
+- A list of failed validations (`List<ValidationErrorMessage>`). Each element in this list represents a validation that failed in some field of the object.
+- Each failed validation (`ValidationErrorMessage`) has:
+   - `source`: The name of the field where validation failed.
+   - `invalid_value`: The value by which the validation failed.
+   - `message`: The error message for the failed validation.
 
-Para un objeto como:
+For an object like:
+
 ```java
         record Child(
                 @Size(min = 1, max = 5)
@@ -71,7 +71,7 @@ Para un objeto como:
         );    
 ```
 
-Se genera una error de validacion:
+A validation error is generated:
 
 ```java
 ValidationException{
@@ -95,10 +95,11 @@ ValidationException{
     ]
 }
 ```
+
 Note: the `root[i]` in the `source` indicate the position in the list of every element
 
 ### 1.2 - Simple Object <a name="1.2"></a>
-De un objeto simple se validan todos sus campos:
+All its fields are validated for a simple object:
 
 ```java
         //Simple object
@@ -115,7 +116,7 @@ De un objeto simple se validan todos sus campos:
         ValidationService.validateAndThrow(parent);
 ```
 
-Este codigo lanzara la excepcion:
+This code will throw the exception:
 
 ```
 ValidationException{
@@ -131,8 +132,8 @@ ValidationException{
 ```
 
 ### 1.3 - Complex Object & Recursivity <a name="1.3"></a>
-Si se tiene un objecto A con alguno de sus campos siendo otro objeto B, y se quiere validar los campos de A, y a la misma vez los campos de B, se ejecuta una recursividad por todos los campos de los objetos hasta validarlos todos. 
-Incluyendo de una lista todos sus elementos
+If you have an object A with one of its fields being another object B, and you want to validate the fields of A, and at the same time the fields of B, a recursion is executed through all the fields of the objects until all of them are validated.
+Including all its elements in a list.
 
 ```java
         record Child(
@@ -165,7 +166,8 @@ Incluyendo de una lista todos sus elementos
         ValidationService.validateRecursiveAndThrow(parent);
 ```
 
-Este codigo lanzara la excepcion:
+This code will throw the exception:
+
 ```
 ValidationException{
     statusCode = 422 UNPROCESSABLE_ENTITY,
@@ -190,11 +192,12 @@ ValidationException{
 ```
 
 ### 1.4 - Personalize fields names <a name="1.4"></a>
-Si una validacion falla, el `source` del `ValidationErrorMessage` muestra el nombre del campo que fallo, pero en caso que se quiera que ese campo tenga un nombre diferente al que tiene en el campo (por una diferencia de tipado, Camel Case, Snake...).
+If a validation fails, the `source` of the `ValidationErrorMessage` shows the name of the field that failed, but in case you want that field to have a different name than the one it has by default (due to a typing difference or similar: Camel Case , Snake...).
 
-Sin la anotacion la respuesta seria como el [1.2 - Simple object](#simple_object).
+Without the annotation the answer would be like [1.2 - Simple object](#simple_object).
 
-Con la anotacion quedaria:
+With the annotation:
+
 ```java
         record Parent(
                 @ValidationFieldName("parent_name")
@@ -208,7 +211,8 @@ Con la anotacion quedaria:
         ValidationService.validateAndThrow(parent);
 ```
 
-Y la respuesta seria:
+And response:
+
 ```
 ValidationException{
     statusCode = 422 UNPROCESSABLE_ENTITY, 
@@ -223,11 +227,12 @@ ValidationException{
 ```
 
 ### 1.5 - Personalized annotation <a name="1.5"></a>
-En caso que se necesite una validacion mas compleja o personalizada que no venga por defecto en jackson, se puede crear una manualmente, complatible con el `ValidationService`.
+In case a more complex or customized validation is needed that does not come by default in `jakarta`, one can be created manually, compatible with the `ValidationService`.
 
-El ejemplo de una notacion para validar que le nombre de un Parent sea 'Pepito' quedaria asi:
+The example of an annotation to validate that a Parent's name is 'Pepito' would look like this:
 
-Se crea la anotacion:
+The annotation is created:
+
 ```java
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -254,7 +259,8 @@ import java.lang.annotation.Target;
 }
 ```
 
-Se crea el registro/clase validadora.
+The registry/validator class is created.
+
 ```java
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -297,7 +303,8 @@ public class PersonalizedValidationRegister implements ConstraintValidator<Perso
 }
 ```
 
-Anotamos entonces el campo y ejecutamos las validaciones:
+We then write down the field and execute the validations:
+
 ```java
         record Parent(
                 @Size(min = 1, max = 5)
@@ -309,7 +316,8 @@ Anotamos entonces el campo y ejecutamos las validaciones:
         ValidationService.validateAndThrow(parent);
 ```
 
-Lo que nos daria una respuesta:
+Answer will be:
+
 ```
 ValidationException{
     statusCode = 422 UNPROCESSABLE_ENTITY,
@@ -322,13 +330,13 @@ ValidationException{
     ]
 }
 ```
-NOTE: no puede estar el annotation y el register en el mismo fichero, se deben crear en ficheros/clases por separado.
+NOTE: the annotation and the register cannot be in the same file, they must be created in separate files/classes.
 
 ### 1.6 - Pre-made validations <a name="1.6"></a>
-El paquete `jakarta.validation.*` tiene las validaciones que se utilizan en la mayoria de los casos.
+The `jakarta.validation.*` package has the validations that are used in most cases.
+But in case they are not enough, some were implemented that were needed at the time and that can be reused, such as:
 
-Pero en caso que no sean suficientes, se implementaron algunas que hicieron falta en su momento y que se pueden reutilizar, como:
-- <a name="1.6.1"></a> `Digit`: validar que un `Character` sea un digito
+- <a name="1.6.1"></a> `Digit`: validate that a `Character` is a digit.
 ```java
         record Parent(
                 @Digit()
@@ -339,7 +347,9 @@ Pero en caso que no sean suficientes, se implementaron algunas que hicieron falt
         Parent parent = new Parent('0');
         ValidationService.validateAndThrow(parent);
 ```
+
 Error:
+
 ```
 ValidationException{
     statusCode = 422 UNPROCESSABLE_ENTITY,
@@ -352,9 +362,10 @@ ValidationException{
     ]
 }
 ```
-- <a name="1.6.2"></a> `EnumValidator`: validar que un `String` pertenzca a alguno de los valores de un enum
+- <a name="1.6.2"></a> `EnumValidator`: validate that a `String` belongs to any of the values of an enum.
 
-Teniendo un enum:
+Having the enum:
+
 ```java
 enum Age implements EnumValidatorComparator<String> {
     JOUNG("Joung"),
@@ -382,10 +393,12 @@ enum Age implements EnumValidatorComparator<String> {
 
 }
 ```
-Se implementa la interfaz `EnumValidatorComparator<String>` que nos permite sobreescribir el metodo `test` y sera utilizado posteriormente en la validacion
 
+The `EnumValidatorComparator<String>` interface is implemented that allows us to override the `test` method and will be used later in validation.
+If the interface is not implemented, the default comparison is used with a `containt` to the `toString` of each enum value.
 
-Se crea el objeto y se anota el campo requerido y se corre la validacion:
+The object is created and the required field is noted and the validation is run:
+
 ```java
         record Parent(
                 @EnumValidator(target = Age.class)
@@ -395,7 +408,9 @@ Se crea el objeto y se anota el campo requerido y se corre la validacion:
         Parent parent = new Parent("other");
         ValidationService.validateAndThrow(parent);
 ```
-Lo que da como resultado:
+
+Which results:
+
 ```
 ValidationException{
     statusCode = 422 UNPROCESSABLE_ENTITY, 
@@ -409,9 +424,9 @@ ValidationException{
 }
 ```
 
-Tambien se puede utilizar la anotacion para validar listas de String (`List<String>`) donde cada elemento de la lista es testeado a ver si conicide con algun elemento del `Enum`
+NOTE: You can also use the annotation to validate String lists (`List<String>`) where each element of the list is tested to see if it matches any element of the `Enum`.
 
-Ademas de que en caso que no se quiera implementar la interfaz `EnumValidatorComparator<String>` se puede sobreescribir el comparador por defecto del validator:
+In addition, in case you do not want to implement the `EnumValidatorComparator<String>` interface, you can override the default comparator of the validator:
 ```java
         EnumValidatorRegister_String.setDefaultEnumComparator((currentEnumValue, testValue) -> {
             return true;//never validate
@@ -421,4 +436,17 @@ Ademas de que en caso que no se quiera implementar la interfaz `EnumValidatorCom
         });
 ```
 
-- <a name="1.6.3"></a> `SizeExact`: Valida que un `String`, `List`, `Array` or `Map` tengan un tamaño exacto. Validando por cada uno su length.
+- <a name="1.6.3"></a> `SizeExact`: Validates that a `String`, `List`, `Array` or `Map` has an exact size. Validating for each one its length.
+
+## 2 - Exceptions <a name="2"></a>
+
+## 3 - Repo <a name="3"></a>
+
+## 4 - Rest <a name="4"></a>
+##$ 4.1 Api Response - Rest <a name="4.1"></a>
+
+## 5 - Utils <a name="5"></a>
+### 5.1 - JACKSON <a name="5.1"></a>
+### 5.2 - Enum mappeable <a name="5.2"></a>
+### 5.3 - Network <a name="5.3"></a>
+### 5.4 - Security Algos <a name="5.4"></a>

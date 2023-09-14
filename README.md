@@ -536,8 +536,8 @@ How to use it:
 
 ## 5 - Utils <a name="5"></a>
 
-### 5.1 - JACKSON <a name="5.1"></a>
-`JACKSON` is a utility class for doing **fast** and low-value conversions of objects/strings.
+### 5.1 - Jackson <a name="5.1"></a>
+`Jackson` is a utility class for doing **fast** and low-value conversions of objects/strings.
 
 For operations related to business logic, it is recommended to use the ObjectMapper provided by Spring.
 
@@ -557,7 +557,7 @@ How to use it for reading:
                               """;
 
         //convert source `parentString` to target `parent`
-        Parent converted = JACKSON.read(parentString, Parent.class);
+        Parent converted = Jackson.read(parentString, Parent.class);
 ```
 
 For writing (Convert Object to String):
@@ -571,7 +571,7 @@ For writing (Convert Object to String):
 
         Parent object = new Parent("Pepito Simple");
 
-        String converted = JACKSON.toString(object);
+        String converted = Jackson.toString(object);
 ```
 
 **NOTE**: This class has some other functionalities for further read/write customization, as well as to convert/parse objects from one type to another. For more details consult the source code in `dev.root101.clean.core.utils.Jackson`.

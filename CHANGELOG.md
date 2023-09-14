@@ -1,6 +1,8 @@
-* 4.7.2.SNAPSHOT.20230913:
+* 4.8.0.RELEASE.20230914:
     * **DOCS** :
         * **IMPROVEMENT** :raised: : Update all docs & examples
+    * **GENERAL** :
+        * **IMPROVEMENT** :raised: : Minor bugs and fixes
 
 * 4.7.1.SNAPSHOT.20230402:
     * **GENERAL** :

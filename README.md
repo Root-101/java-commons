@@ -6,6 +6,8 @@
 
 This library aims to provide standards and utilities that make work easier when creating microservices.
 
+Docs updated for version: `4.8.0.RELEASE.20230914`
+
 ## Table of Contents
 - [1 - Validations](#1)
     - [1.1 - Validation Exception](#1.1)
@@ -28,6 +30,7 @@ This library aims to provide standards and utilities that make work easier when 
     - [5.2 - Enum mappeable](#5.2)
     - [5.3 - Network](#5.3)
     - [5.4 - Security Algos](#5.4)
+- [6 - How to use this package](#6)
 
 ## Validations <a name="1"></a>
 - All native validations are loaded from the [`jakarta.validations.*` framework](https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api).
@@ -684,3 +687,32 @@ To use `AES`:
 
     boolean matchingTexts = textToCipher.equals(new String(decipherText));//true
 ```
+
+
+## How to use this package <a name="6"></a>
+At the moment this package is not published in [mvnrepository](https://mvnrepository.com/), so we have to upload it directly from `Github Packages`.
+
+In the `settings.gradle` add:
+```
+sourceControl {
+     gitRepository("https://github.com/JesusHdez960717/clean-core.git") {
+         producesModule("dev.root101.clean:clean-core")
+     }
+}
+```
+
+Then in the `build.gradle`, under the `dependencies`:
+
+```
+dependencies {
+     //... mode dependencies
+
+     implementation 'dev.root101.clean:clean-core:VERSION'
+
+     //... mode dependencies
+}
+```
+
+Being `VERSION` the version you want to use of the package.
+
+**NOTE**: The latest available version is always recommended.

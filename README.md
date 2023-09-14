@@ -24,7 +24,7 @@ This library aims to provide standards and utilities that make work easier when 
     - [4.2 - Response Extractor (Next)](#4.2)
     - [4.3 - Rest Template utils (Next)](#4.3)
 - [5 - Utils](#5)
-    - [5.1 - JACKSON](#5.1)
+    - [5.1 - Jackson](#5.1)
     - [5.2 - Enum mappeable](#5.2)
     - [5.3 - Network](#5.3)
     - [5.4 - Security Algos](#5.4)
@@ -474,7 +474,10 @@ Para estandarizar el uso de las respuestas HTTP se crearon las excepciones(mas c
 ## 3 - Repo <a name="3"></a>
 
 ## 4 - Rest <a name="4"></a>
-### 4.1 Api Response - Rest <a name="4.1"></a>
+
+Oficial docs for HTTp Responses [here](https://datatracker.ietf.org/doc/html/rfc7231).
+
+### 4.1 Api Response <a name="4.1"></a>
 The idea of `ApiResponse` is to generalize API responses to a standard.
 ALL API responses must follow this guideline.
 The `ApiResponse` class has:
@@ -532,7 +535,152 @@ How to use it:
 - To extract a response from a `ResponseEntity` you can use: `ApiResponse.build(status, message, data)`, which by default says `status = response.getStatusCode().value()`, `message = response. getStatusCode().toString()` and `data = response.getBody()`.
 
 ## 5 - Utils <a name="5"></a>
+
 ### 5.1 - JACKSON <a name="5.1"></a>
+`JACKSON` is a utility class for doing **fast** and low-value conversions of objects/strings.
+
+For operations related to business logic, it is recommended to use the ObjectMapper provided by Spring.
+
+How to use it for reading:
+```java
+        //class target
+        record Parent(
+                String parentName) {
+
+        }
+
+        //text source
+        String parentString = """
+                              {
+                                "parentName": "Pepito Simple"
+                              }
+                              """;
+
+        //convert source `parentString` to target `parent`
+        Parent converted = JACKSON.read(parentString, Parent.class);
+```
+
+For writing (Convert Object to String):
+
+```java
+        record Parent(
+                @JsonProperty("parent_name")//this annotations works
+                String parentName) {
+
+        }
+
+        Parent object = new Parent("Pepito Simple");
+
+        String converted = JACKSON.toString(object);
+```
+
+**NOTE**: This class has some other functionalities for further read/write customization, as well as to convert/parse objects from one type to another. For more details consult the source code in `dev.root101.clean.core.utils.Jackson`.
+
 ### 5.2 - Enum mappeable <a name="5.2"></a>
+When you want to map an Enum to its list of elements without so much code at hand:
+
+Having the enum:
+
+```java
+enum Status_Enum implements EnumMappeable<StatusResponse> {
+    ACTIVE("Active"),
+    ARCHIVED("Archived");
+
+    record StatusResponse(
+            String name,
+            boolean active) {
+
+    }
+
+    private final String name;
+
+    private Status_Enum(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public StatusResponse map() {
+        return new StatusResponse(
+                getName(),
+                this == Status_Enum.ACTIVE
+        );
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+}
+```
+
+The `EnumMappeable<T>` interface is implemented, with `T` being the data type to be mapped.
+The `map` method is overridden with the actual mapping of each element to the response data type.
+
+It is used then:
+
+```java
+EnumMappeableService.map(Status_Enum.class);
+```
+
+What he gives as an answer:
+
+```
+[
+    StatusResponse[
+        name = Active, 
+        active = true
+    ], 
+    StatusResponse[
+        name = Archived, 
+        active = false
+    ]
+]
+```
+
+On the other hand, if you do not want the `Enum` to reimplement the `EnumMappeable<T>` interface you can use:
+
+```java
+    EnumMappeableService.map(Status_Enum.class, (t) -> {
+        return t.getName();
+    })
+```
+
+The second argument being the mapping function, giving the answer in this example:
+
+```
+[
+    Activate,
+    Archived
+]
+```
+
 ### 5.3 - Network <a name="5.3"></a>
+The Network utility was developed to validate that a service is running on a port:ip.
+
+```java
+    Network.isRunning("127.0.0.1", 8080)
+```
+
 ### 5.4 - Security Algos <a name="5.4"></a>
+Los algoritmos de seguridad son una rapida implementacion del `AES` para cifrado y el `SHA-256` para hasheo.
+
+Para utilizar el `SHA-256` acceder al metodo estatico: `SecurityAlgorithms.hash256(input)`, pasando el string inicial por parametros y esperando como respuesta el hash correspondiente.
+
+Para utilizar el `AES`:
+
+```java
+    SecurityAlgorithms secure = new SecurityAlgorithms("aes secret key");
+
+    String textToCipher = "Hiden text";
+
+    byte[] cipherText = secure.cipher(textToCipher);
+        
+    byte[] decipherText = secure.decipher(cipherText);
+
+    boolean matchingTexts = textToCipher.equals(new String(decipherText));//true
+```

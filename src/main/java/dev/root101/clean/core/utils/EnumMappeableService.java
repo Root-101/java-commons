@@ -17,9 +17,4 @@ public class EnumMappeableService {
         }).toList();
     }
 
-    public static <T extends Enum> List<String> mapDefault(Class<T> clazz) {
-        return List.of(clazz.getEnumConstants()).stream().map((T t) -> {
-            return t.toString();
-        }).toList();
-    }
 }

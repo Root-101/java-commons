@@ -442,10 +442,34 @@ In addition, in case you do not want to implement the `EnumValidatorComparator<S
 ## 2 - Exceptions <a name="2"></a>
 
 Para estandarizar el uso de las respuestas HTTP se crearon las excepciones(mas comunes) a lanzar en cada momento:
-- [`ApiException`](main/java/dev/root101/clean/core/exceptions/ApiException.java):
-    General exception from which the others derive, it has:
+- `ApiException`: General exception from which the others derive, it has:
     - `rawStatusCode`: Indicate the HTTP response code of exception.
     - `message`: Indicates the message for which the exception was thrown.
+- `BadRequestException`:
+    - `Status Code`: **400**  BAD REQUEST.
+    - `Use Case`: Something fails in the service on the part of the client, this exception is thrown.
+- `UnauthorizedException`:
+    - `Status Code`: **401**  UNAUTHORIZED.
+    - `Use Case`: An unlogged user wants to access a resource that requires authorization to access, this exception is thrown.
+- `PaymentRequiredException`:
+    - `Status Code`: **402** PAYMENT REQUIRED.
+    - `Use Case`: One wants to access a resource for which he has to pay; or you reach the limit of what the resource can consume and to continue you have to pay, this exception is thrown.
+- `ForbiddenException`:
+    - `Status Code`: **403** FORBIDDEN.
+    - `Use Case`: An authenticated user wants to access a resource to which they do not have permission, this exception is thrown.
+- `NotFoundException`:
+    - `Status Code`: **404** NOT FOUND.
+    - `Use Case`: It is about accessing or searching for a resource and element that no longer exists, this exception is thrown. Searching for an item that has already been deleted.
+    - **NOTE**: This exception is recommended to be thrown if an authenticated user attempts to access an item that does not belong to them. That is, if the `403` is thrown (hich is what is expectedin these cases), it is confirmed that there is an element in that `id` and that it does not belong to it. If the `404` is thrown, you are given to understand that the element does not even exist.
+- `ConflictException`:
+    - `Status Code`: **409** CONFLICT.
+    - `Use Case`: An element will be created with the same name as an existing or similar one, this exception is thrown.
+- `ValidationException`:
+    - `Status Code`: **422** VALIDATION EXCEPTION.
+    - `Use Case`: Validations are run on an object and they fail, this exception is thrown. It is recommended to use the `ValidationService` that throws the exception. In case you want to add validations by hand or similar, add it to a list and pass it as a parameter to this exception when it is going to be thrown.
+- `InternalServerErrorException`:
+    - `Status Code`: **500** INTERNAL SERVER ERROR.
+    - `Use Case`: Some unexpected error occurs on the server's side, and generally the cause is unknown, this exception is thrown.
 
 ## 3 - Repo <a name="3"></a>
 

@@ -5,9 +5,9 @@
 Esta biblioteca pretende dar estándares y utilidades que faliciten el trabajo a la hora de hacer microservicio.
 
 ## Table of Contents
-- [1 - Validations](#1-validations)
-    - [1.1 - Validation Exception](#11-validation-exception)
-    - [1.2 - Simple object](#12-simple-object)
+- [1 - Validations](#validations)
+    - [1.1 - Validation Exception](#validation-exception)
+    - [1.2 - Simple object](#simple-object)
     - [1.3 - Complex Object & Recursivity](#complex-object-&-recursivity)
     - [1.4 - Nombre de un campo personalizado](#)
     - [1.5 - Validacion personalizada](#)

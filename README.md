@@ -1,5 +1,5 @@
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/jonatasemidio/multilanguage-readme-pattern/blob/master/README.md)
-[Español](README-es.md)
+[Español](https://github.com/JesusHdez960717/clean-core/blob/master/README.es.md)
+[Español](README.es.md)
 
 ## Clean Core en ingles
 

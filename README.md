@@ -475,6 +475,61 @@ Para estandarizar el uso de las respuestas HTTP se crearon las excepciones(mas c
 
 ## 4 - Rest <a name="4"></a>
 ### 4.1 Api Response - Rest <a name="4.1"></a>
+The idea of `ApiResponse` is to generalize API responses to a standard.
+ALL API responses must follow this guideline.
+The `ApiResponse` class has:
+- `status`: Representing the HTTP code of the response.
+- `message`: The response message to the request.
+- `data`: The data or information of the response, if there is a response.
+Ejemplos:
+1 - A request to modify a record that is executed successfully must return:
+```java
+ApiResponse{
+    status = 200,
+    message = "Success",
+    data = null
+}
+```
+
+2 - A request to obtain a list must return:
+```java
+ApiResponse{
+    status = 200,
+    message = "Success",
+    data = [
+        "Data 1",
+        "Data 2",
+        "Data 3"
+    ]
+}
+```
+
+3 - A request to obtain an object must return:
+```java
+ApiResponse{
+    status = 200,
+    message = "Success",
+    data = SomeObject{
+        field1 = "some data",
+        field2 = "some data 2"
+    }
+}
+```
+
+4 - A request to create users with a name that already exists should return:
+```java
+ApiResponse{
+    status = 409,
+    message = "Username already exists",
+}
+```
+
+How to use it:
+- For response 200 you can use: `ApiResponse.success()`, which by default says `status = 200`, `message = success` and `data = null`.
+- For response 200 you can use: `ApiResponse.success(data)`, which by default says `status = 200` and `message = success`.
+- For response 200 you can use: `ApiResponse.success(message, data)`, which by default says `status = 200`.
+- For generic responses you can use: `ApiResponse.build(status, message, data)`.
+- To extract a response from a `ResponseEntity` you can use: `ApiResponse.build(status, message, data)`, which by default says `status = response.getStatusCode().value()`, `message = response. getStatusCode().toString()` and `data = response.getBody()`.
 
 ## 5 - Utils <a name="5"></a>
 ### 5.1 - JACKSON <a name="5.1"></a>

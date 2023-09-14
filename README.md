@@ -34,7 +34,7 @@ Esta biblioteca pretende dar estándares y utilidades que faliciten el trabajo a 
 - Si todas las validaciones pasaron bien el codigo se ejecuta con normalidad. Si al menos una validacion falla, se lanzara una `ValidationException` (Mas detalles sobre esta excepcion adelante)
 - TODOS los ejemplos de validaciones se encuentran en la carpeta de ejemplos `dev.root101.clean.core.examples.validation...`.
 
-### 1.1 - Validation Exception
+### 1.1 - Validation Exception <a name="validation-exception"></a>
 Una vez que se ejecuten las validaciones sobre un objeto, y alguna falle, se lanzara una excepcion de tipo `dev.root101.clean.core.exceptions.ValidationException`.
 
 Esta excepcion cuenta con el:
@@ -95,7 +95,7 @@ ValidationException{
 ```
 Note: the `root[i]` in the `source` indicate the position in the list of every element
 
-### 1.2 - Simple Object
+### 1.2 - Simple Object <a name="simple-object"></a>
 De un objeto simple se validan todos sus campos:
 
 ```java

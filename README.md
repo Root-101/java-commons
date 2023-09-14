@@ -6,9 +6,9 @@ Esta biblioteca pretende dar estándares y utilidades que faliciten el trabajo a 
 
 ## Table of Contents
 - [1 - Validations](#validations)
-    - [1.1 - Respuesta de validación](#)
-    - [1.2 - Simple object](#simple_de_un_objeto)
-    - [1.3 - Recursiva de un objeto](#)
+    - [1.1 - ValidationException](#validationexception)
+    - [1.2 - Simple object](#simple_object)
+    - [1.3 - Complex Object & Recursivity](#complex_object_&_recursivity)
     - [1.4 - Nombre de un campo personalizado](#)
     - [1.5 - Validacion personalizada](#)
     - [1.6 - Validaciones pre-echas:](#)
@@ -27,7 +27,7 @@ Esta biblioteca pretende dar estándares y utilidades que faliciten el trabajo a 
     - [Network](#jackson)
     - [Security Algos](#jackson)
 
-## Validaciones
+## Validations
 - Todas las validaciones nativas se cargan del framework `jakarta.validations.*` (TODO: poner link al mvncentral)
 - Para validar un objeto se utiliza la clase `dev.root101.clean.core.utils.validation.ValidationService` y sus metodos estaticos. Ejemplo:
 `ValidationService.validateAndThrow(some_object);`

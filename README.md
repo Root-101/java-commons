@@ -441,6 +441,12 @@ In addition, in case you do not want to implement the `EnumValidatorComparator<S
 
 ## 2 - Exceptions <a name="2"></a>
 
+Para estandarizar el uso de las respuestas HTTP se crearon las excepciones(mas comunes) a lanzar en cada momento:
+- [`ApiException`](main/java/dev/root101/clean/core/exceptions/ApiException.java):
+    General exception from which the others derive, it has:
+    - `rawStatusCode`: Indicate the HTTP response code of exception.
+    - `message`: Indicates the message for which the exception was thrown.
+
 ## 3 - Repo <a name="3"></a>
 
 ## 4 - Rest <a name="4"></a>

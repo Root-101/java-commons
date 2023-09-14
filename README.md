@@ -15,7 +15,7 @@ This library aims to provide standards and utilities that make work easier when 
     - [1.5 - Validacion personalizada](#1.5)
     - [1.6 - Validaciones pre-echas:](#1.6)
         - [1.6.1 - Digit](#1.6.1)
-        - [1.6.2 - Enum (Simple String y Lista de Strings)](#1.6.2)
+        - [1.6.2 - Enum](#1.6.2)
         - [1.6.3 - Size Exact](#1.6.3)
 - [2 - Exceptions](#2)
 - [3 - Repo](#3)

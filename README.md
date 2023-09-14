@@ -195,7 +195,7 @@ ValidationException{
 ### 1.4 - Personalize fields names <a name="1.4"></a>
 If a validation fails, the `source` of the `ValidationErrorMessage` shows the name of the field that failed, but in case you want that field to have a different name than the one it has by default (due to a typing difference or similar: Camel Case , Snake...).
 
-Without the annotation the answer would be like [1.2 - Simple object](#simple_object).
+Without the annotation the answer would be like [1.2 - Simple object](#1.2).
 
 With the annotation:
 
@@ -244,10 +244,10 @@ import java.lang.annotation.Target;
 
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PersonalizedValidationRegister.class)
+@Constraint(validatedBy = PersonalizedValidationRegister.class)//indicate the class to do re validation logic, can be a list for multiple data type validations
 @interface PersonalizedValidation {
 
-    String name();
+    String name(); //new field to work with
 
     String message() default "Names don't match.";
 
@@ -308,7 +308,7 @@ We then write down the field and execute the validations:
 
 ```java
         record Parent(
-                @Size(min = 1, max = 5)
+                @PersonalizedValidation(name = "Pepito")
                 String parentName) {
 
         }
@@ -444,7 +444,7 @@ In addition, in case you do not want to implement the `EnumValidatorComparator<S
 ## 3 - Repo <a name="3"></a>
 
 ## 4 - Rest <a name="4"></a>
-##$ 4.1 Api Response - Rest <a name="4.1"></a>
+### 4.1 Api Response - Rest <a name="4.1"></a>
 
 ## 5 - Utils <a name="5"></a>
 ### 5.1 - JACKSON <a name="5.1"></a>

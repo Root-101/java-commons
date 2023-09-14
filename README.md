@@ -6,9 +6,9 @@ Esta biblioteca pretende dar estándares y utilidades que faliciten el trabajo a 
 
 ## Table of Contents
 - [1 - Validations](#validations)
-    - [1.1 - ValidationException](#validationexception)
-    - [1.2 - Simple object](#simple_object)
-    - [1.3 - Complex Object & Recursivity](#complex_object_&_recursivity)
+    - [1.1 - Validation Exception](#validation-exception)
+    - [1.2 - Simple object](#simple-object)
+    - [1.3 - Complex Object & Recursivity](#complex-object-&-recursivity)
     - [1.4 - Nombre de un campo personalizado](#)
     - [1.5 - Validacion personalizada](#)
     - [1.6 - Validaciones pre-echas:](#)
@@ -34,7 +34,7 @@ Esta biblioteca pretende dar estándares y utilidades que faliciten el trabajo a 
 - Si todas las validaciones pasaron bien el codigo se ejecuta con normalidad. Si al menos una validacion falla, se lanzara una `ValidationException` (Mas detalles sobre esta excepcion adelante)
 - TODOS los ejemplos de validaciones se encuentran en la carpeta de ejemplos `dev.root101.clean.core.examples.validation...`.
 
-### 1.1 - ValidationException
+### 1.1 - Validation Exception
 Una vez que se ejecuten las validaciones sobre un objeto, y alguna falle, se lanzara una excepcion de tipo `dev.root101.clean.core.exceptions.ValidationException`.
 
 Esta excepcion cuenta con el:

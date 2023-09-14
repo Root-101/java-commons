@@ -5,16 +5,16 @@
 Esta biblioteca pretende dar estándares y utilidades que faliciten el trabajo a la hora de hacer microservicio.
 
 ## Table of Contents
-- [1 - Validations](#validations)
-    - [1.1 - Validation Exception](#validation-exception)
-    - [1.2 - Simple object](#simple-object)
-    - [1.3 - Complex Object & Recursivity](#complex-object-&-recursivity)
-    - [1.4 - Nombre de un campo personalizado](#)
-    - [1.5 - Validacion personalizada](#)
-    - [1.6 - Validaciones pre-echas:](#)
-        - [1.6.1 - Digit](#) ej
-        - [1.6.2 - Enum (Simple String y Lista de Strings)](#) ej x2
-        - [1.6.3 - Size Exact](#) ej tipos soportados
+- [1 - Validations](#1)
+    - [1.1 - Validation Exception](#1.1)
+    - [1.2 - Simple object](#1.2)
+    - [1.3 - Complex Object & Recursivity](#1.3)
+    - [1.4 - Nombre de un campo personalizado](#1.4)
+    - [1.5 - Validacion personalizada](#1.5)
+    - [1.6 - Validaciones pre-echas:](#1.6)
+        - [1.6.1 - Digit](#1.6.1)
+        - [1.6.2 - Enum (Simple String y Lista de Strings)](#1.6.2)
+        - [1.6.3 - Size Exact](#1.6.3)
 - [2 - Exceptions](#exceptions)
 - [3 - repo](#repo)
 - [4 - rest](#rest)
@@ -27,14 +27,14 @@ Esta biblioteca pretende dar estándares y utilidades que faliciten el trabajo a 
     - [Network](#jackson)
     - [Security Algos](#jackson)
 
-## Validations
+## Validations <a name="1"></a>
 - Todas las validaciones nativas se cargan del framework `jakarta.validations.*` (TODO: poner link al mvncentral)
 - Para validar un objeto se utiliza la clase `dev.root101.clean.core.utils.validation.ValidationService` y sus metodos estaticos. Ejemplo:
 `ValidationService.validateAndThrow(some_object);`
 - Si todas las validaciones pasaron bien el codigo se ejecuta con normalidad. Si al menos una validacion falla, se lanzara una `ValidationException` (Mas detalles sobre esta excepcion adelante)
 - TODOS los ejemplos de validaciones se encuentran en la carpeta de ejemplos `dev.root101.clean.core.examples.validation...`.
 
-### 1.1 - Validation Exception <a name="validation-exception"></a>
+### 1.1 - Validation Exception <a name="1.1"></a>
 Una vez que se ejecuten las validaciones sobre un objeto, y alguna falle, se lanzara una excepcion de tipo `dev.root101.clean.core.exceptions.ValidationException`.
 
 Esta excepcion cuenta con el:
@@ -95,7 +95,7 @@ ValidationException{
 ```
 Note: the `root[i]` in the `source` indicate the position in the list of every element
 
-### 1.2 - Simple Object <a name="simple-object"></a>
+### 1.2 - Simple Object <a name="1.2"></a>
 De un objeto simple se validan todos sus campos:
 
 ```java
@@ -128,7 +128,7 @@ ValidationException{
 }
 ```
 
-### 1.3 - Complex Object & Recursivity
+### 1.3 - Complex Object & Recursivity <a name="1.3"></a>
 Si se tiene un objecto A con alguno de sus campos siendo otro objeto B, y se quiere validar los campos de A, y a la misma vez los campos de B, se ejecuta una recursividad por todos los campos de los objetos hasta validarlos todos. 
 Incluyendo de una lista todos sus elementos
 
@@ -187,7 +187,7 @@ ValidationException{
 }
 ```
 
-### 1.4 - Personalize fields names
+### 1.4 - Personalize fields names <a name="1.4"></a>
 Si una validacion falla, el `source` del `ValidationErrorMessage` muestra el nombre del campo que fallo, pero en caso que se quiera que ese campo tenga un nombre diferente al que tiene en el campo (por una diferencia de tipado, Camel Case, Snake...).
 
 Sin la anotacion la respuesta seria como el [1.2 - Simple object](#simple_object).
@@ -220,7 +220,7 @@ ValidationException{
 }
 ```
 
-### 1.5 - Personalized annotation
+### 1.5 - Personalized annotation <a name="1.5"></a>
 En caso que se necesite una validacion mas compleja o personalizada que no venga por defecto en jackson, se puede crear una manualmente, complatible con el `ValidationService`.
 
 El ejemplo de una notacion para validar que le nombre de un Parent sea 'Pepito' quedaria asi:
@@ -322,11 +322,11 @@ ValidationException{
 ```
 NOTE: no puede estar el annotation y el register en el mismo fichero, se deben crear en ficheros/clases por separado.
 
-### 1.6 - Pre-made validations
+### 1.6 - Pre-made validations <a name="1.6"></a>
 El paquete `jakarta.validation.*` tiene las validaciones que se utilizan en la mayoria de los casos.
 
 Pero en caso que no sean suficientes, se implementaron algunas que hicieron falta en su momento y que se pueden reutilizar, como:
-- `Digit`: validar que un `Character` sea un digito
+- <a name="1.6.1"></a> `Digit`: validar que un `Character` sea un digito
 ```java
         record Parent(
                 @Digit()
@@ -350,7 +350,7 @@ ValidationException{
     ]
 }
 ```
-- `EnumValidator`: validar que un `String` pertenzca a alguno de los valores de un enum
+- <a name="1.6.2"></a> `EnumValidator`: validar que un `String` pertenzca a alguno de los valores de un enum
 
 Teniendo un enum:
 ```java
@@ -419,4 +419,4 @@ Ademas de que en caso que no se quiera implementar la interfaz `EnumValidatorCom
         });
 ```
 
-- `SizeExact`: Valida que un `String`, `List`, `Array` or `Map` tengan un tamaño exacto. Validando por cada uno su length.
+- <a name="1.6.3"></a> `SizeExact`: Valida que un `String`, `List`, `Array` or `Map` tengan un tamaño exacto. Validando por cada uno su length.

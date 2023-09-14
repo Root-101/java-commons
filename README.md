@@ -1,4 +1,3 @@
-[Español](https://github.com/JesusHdez960717/clean-core/blob/master/README.es.md)
 [Español](README.es.md)
 
 ## Clean Core en ingles

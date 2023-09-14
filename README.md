@@ -667,11 +667,11 @@ The Network utility was developed to validate that a service is running on a por
 ```
 
 ### 5.4 - Security Algos <a name="5.4"></a>
-Los algoritmos de seguridad son una rapida implementacion del `AES` para cifrado y el `SHA-256` para hasheo.
+The security algorithms are a quick implementation of `AES` for encryption and `SHA-256` for hashing.
 
-Para utilizar el `SHA-256` acceder al metodo estatico: `SecurityAlgorithms.hash256(input)`, pasando el string inicial por parametros y esperando como respuesta el hash correspondiente.
+To use `SHA-256`, access the static method: `SecurityAlgorithms.hash256(input)`, passing the initial string through parameters and waiting for the corresponding hash in response.
 
-Para utilizar el `AES`:
+To use `AES`:
 
 ```java
     SecurityAlgorithms secure = new SecurityAlgorithms("aes secret key");

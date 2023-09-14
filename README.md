@@ -34,6 +34,7 @@ This library aims to provide standards and utilities that make work easier when 
 - To validate an object, the `dev.root101.clean.core.utils.validation.ValidationService` class and its static methods are used. Example: `ValidationService.validateAndThrow(some_object);`.
 - If all validations passed correctly, the code runs normally. If at least one validation fails, a `ValidationException` will be thrown.
 - ALL validation examples are located in the examples folder `dev.root101.clean.core.examples.validation...`.
+- **NOTE**: ALL the objects used are `record` to reduce the example code, but everything explained here works EXACTLY the same with standard Java classes.
 
 ### 1.1 - Validation Exception <a name="1.1"></a>
 Once validations are executed on an object, and some fail, an exception of type `dev.root101.clean.core.exceptions.ValidationException` will be thrown.
@@ -330,7 +331,7 @@ ValidationException{
     ]
 }
 ```
-NOTE: the annotation and the register cannot be in the same file, they must be created in separate files/classes.
+**NOTE**: the annotation and the register cannot be in the same file, they must be created in separate files/classes.
 
 ### 1.6 - Pre-made validations <a name="1.6"></a>
 The `jakarta.validation.*` package has the validations that are used in most cases.
@@ -424,7 +425,7 @@ ValidationException{
 }
 ```
 
-NOTE: You can also use the annotation to validate String lists (`List<String>`) where each element of the list is tested to see if it matches any element of the `Enum`.
+**NOTE**: You can also use the annotation to validate String lists (`List<String>`) where each element of the list is tested to see if it matches any element of the `Enum`.
 
 In addition, in case you do not want to implement the `EnumValidatorComparator<String>` interface, you can override the default comparator of the validator:
 ```java

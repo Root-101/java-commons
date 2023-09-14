@@ -475,7 +475,7 @@ Para estandarizar el uso de las respuestas HTTP se crearon las excepciones(mas c
 
 ## 4 - Rest <a name="4"></a>
 
-Oficial docs for HTTp Responses [here](https://datatracker.ietf.org/doc/html/rfc7231).
+Oficial docs for HTTP Responses [here](https://datatracker.ietf.org/doc/html/rfc7231).
 
 ### 4.1 Api Response <a name="4.1"></a>
 The idea of `ApiResponse` is to generalize API responses to a standard.
@@ -564,7 +564,7 @@ For writing (Convert Object to String):
 
 ```java
         record Parent(
-                @JsonProperty("parent_name")//this annotations works
+                @JsonProperty("parent_name")//this annotations works here
                 String parentName) {
 
         }

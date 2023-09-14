@@ -1,4 +1,4 @@
-package dev.root101.clean.core.examples.validation.personalized;
+package dev.root101.clean.core.examples.validation.personalized_1_5;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

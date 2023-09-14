@@ -1,0 +1,45 @@
+package dev.root101.clean.core.examples.validation;
+
+import dev.root101.clean.core.utils.validation.ValidationService;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import java.util.List;
+
+class Main_1_3 {
+
+    public static void main(String[] args) throws Exception {
+        record Child(
+                @Size(min = 1, max = 5)
+                String childName) {
+
+        }
+        record Parent(
+                @Size(min = 1, max = 5)
+                String parentName,
+                @NotEmpty
+                List<Child> childrens) {
+
+        }
+
+        Parent parent = new Parent(
+                "Pepito",
+                List.of(
+                        new Child(
+                                "Pepito Junior"
+                        ),
+                        new Child(
+                                "Pepito Junior 2"
+                        )
+                )
+        );
+
+        ValidationService.validateRecursiveAndThrow(parent);
+        //or
+        /*ValidationService.validateAndThrow(
+                parent,
+                parent.childs().get(0),
+                parent.childs().get(1)
+        );*/
+    }
+
+}

@@ -1,4 +1,4 @@
-package dev.root101.clean.core.examples.validation.pre_made;
+package dev.root101.clean.core.examples.validation.pre_made_1_6;
 
 import dev.root101.clean.core.utils.validation.ValidationService;
 import dev.root101.clean.core.utils.validation.annotations.SizeExact;

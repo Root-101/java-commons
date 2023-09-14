@@ -541,7 +541,7 @@ How to use it:
 
 For operations related to business logic, it is recommended to use the ObjectMapper provided by Spring.
 
-How to use it for reading:
+How to use it for reading (convert String to Object):
 ```java
         //class target
         record Parent(

@@ -1,6 +1,6 @@
 [Español](README.es.md)
 
-## Clean Core en ingles
+## Clean Core en spanglish por el momento
 
 ###### (En proceso de renombrarlo 'utils' o algo asi)
 

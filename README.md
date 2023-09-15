@@ -5,7 +5,7 @@ Multilanguage:
 
 -->
 
-## Clean Core en spanglish por el momento
+## Clean Core [EN]
 
 ###### (En proceso de renombrarlo 'utils' o algo asi)
 

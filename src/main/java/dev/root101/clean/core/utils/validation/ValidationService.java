@@ -91,7 +91,7 @@ public class ValidationService {
                 errors.addAll(
                         validateRecursive(
                                 new ArrayList<>(),
-                                "[%s]".formatted(i),//se le agrega el roort en la conversion
+                                "[%s]".formatted(i),//se le agrega el root en la conversion
                                 objects[i]
                         )
                 );

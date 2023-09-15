@@ -16,7 +16,7 @@
  */
 package dev.root101.clean.core.rest;
 
-import dev.root101.clean.core.utils.jackson.JACKSON;
+import dev.root101.clean.core.utils.Jackson;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +56,7 @@ public class RestTemplateUtils {
 
         //como es tipo <T> lo que lee es linkedHashMap, hay que castearlo de nuevo al objeto como tal
         try {
-            return JACKSON.convert(response.getBody(), clazz);
+            return Jackson.convert(response.getBody(), clazz);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

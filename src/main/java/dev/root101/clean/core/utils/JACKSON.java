@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils.jackson;
+package dev.root101.clean.core.utils;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -37,7 +37,7 @@ import java.util.List;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdez960717@Github
  */
-public class JACKSON {
+public class Jackson {
 
     private static ObjectMapper om;
 
@@ -105,7 +105,7 @@ public class JACKSON {
         //convert entities to domain
         List<T> answ = new ArrayList<>(list.size());
         for (Object obj : list) {
-            answ.add(JACKSON.convert(obj, convertToClass));
+            answ.add(Jackson.convert(obj, convertToClass));
         }
         return answ;
     }

@@ -28,7 +28,7 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> build(ResponseEntity<T> response) {
         return new ApiResponse<>(
-                String.valueOf(response.getStatusCodeValue()),
+                String.valueOf(response.getStatusCode().value()),
                 response.getStatusCode().toString(),
                 response.getBody()
         );

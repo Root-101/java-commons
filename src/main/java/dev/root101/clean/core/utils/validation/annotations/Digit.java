@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = DigitRegister_Character.class)
 public @interface Digit {
 
-    String message() default "";
+    String message() default "Must be a digit";
 
     Class<?>[] groups() default {};
 

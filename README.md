@@ -1,180 +1,827 @@
-## Clean Core Full
+<!-- 
 
-Clean core pretende ser un framework para 
+Multilanguage:
+[Espa駉l](README.es.md)
+
+-->
+
+## Clean Core [EN]
+
+###### (En proceso de renombrarlo 'utils' o algo asi)
+
+This library aims to provide standards and utilities that make work easier when creating microservices.
+
+Docs updated for version: `4.8.0.RELEASE.20230914`
 
 ## Table of Contents
-- [Clean Core Full](#clean-core-full)
-- [Table of Contents](#table-of-contents)
-- [Application](#application)
-  - [Modules](#modules)
-  - [~~Presenters~~](#presenters)
-  - [Repo](#repo)
-  - [Application Services](#application-services)
-    - [Authentication](#authentication)
-    - [Exception](#exception)
-    - [Navigation](#navigation)
-    - [Notification](#notification)
-    - [User Resolver](#user-resolver)
-  - [Use cases](#use-cases)
-- [Domain](#domain)
-  - [Domain Services](#domain-services)
-    - [Resource Service](#resource-service)
-- [~~UI~~](#ui)
-- [Utils](#utils)
-- [Releases](#releases)
-  - [Improvements](#improvements)
-  - [Improvements](#improvements-1)
-  - [Improvements](#improvements-2)
+- [1 - Validations](#1)
+    - [1.1 - Validation Exception](#1.1)
+    - [1.2 - Simple object](#1.2)
+    - [1.3 - Complex Object & Recursivity](#1.3)
+    - [1.4 - Nombre de un campo personalizado](#1.4)
+    - [1.5 - Validacion personalizada](#1.5)
+    - [1.6 - Validaciones pre-echas:](#1.6)
+        - [1.6.1 - Digit](#1.6.1)
+        - [1.6.2 - Enum](#1.6.2)
+        - [1.6.3 - Size Exact](#1.6.3)
+- [2 - Exceptions](#2)
+- [3 - Repo](#3)
+- [4 - Rest](#4)
+    - [4.1 - Api response](#4.1) 
+    - [4.2 - Response Extractor (Next)](#4.2)
+    - [4.3 - Rest Template utils (Next)](#4.3)
+- [5 - Utils](#5)
+    - [5.1 - Jackson](#5.1)
+    - [5.2 - Enum mappeable](#5.2)
+    - [5.3 - Network](#5.3)
+    - [5.4 - Security Algos](#5.4)
+- [6 - How to use this package](#6)
 
-## Application
-La capa de aplicacion (app de ahora en adelante) est谩 conformada por los elementos internos del sistema, nuestra logica de negocio, y la manera en que esta se integra con otros sistema.
+## Validations <a name="1"></a>
+- All native validations are loaded from the [`jakarta.validations.*` framework](https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api).
+- To validate an object, the `dev.root101.clean.core.utils.validation.ValidationService` class and its static methods are used. Example: `ValidationService.validateAndThrow(some_object);`.
+- If all validations passed correctly, the code runs normally. If at least one validation fails, a `ValidationException` will be thrown or **a `List` in case of need** (`ValidationService.validate(some_object);`, without `andThrow`).
+- ALL validation examples are located in the examples folder `dev.root101.clean.core.examples.validation...`.
+- **NOTE**: ALL the objects used are `record` to reduce the example code, but everything explained here works EXACTLY the same with standard Java classes.
 
-Ejemplo de implementacion y uso de un modulo:
+### 1.1 - Validation Exception <a name="1.1"></a>
+Once validations are executed on an object, and some fail, an exception of type `dev.root101.clean.core.exceptions.ValidationException` will be thrown.
 
-> - [Logica de kanban](http://github.com/JesusHdezWaterloo/) 
-> - [Logica de contabilidad](http://github.com/JesusHdezWaterloo/) 
+This exception has the:
+- `status_code`, which represents the http response code, ALWAYS being `422: UNPROCESSABLE_ENTITY`. AND,
+- A list of failed validations (`List<ValidationErrorMessage>`). Each element in this list represents a validation that failed in some field of the object.
+- Each failed validation (`ValidationErrorMessage`) has:
+   - `source`: The name of the field where validation failed.
+   - `invalid_value`: The value by which the validation failed.
+   - `message`: The error message for the failed validation.
 
-### Modules
-Los modulos estan dise帽ados para estandarizar y facilitarpermitir una facil integracion entre s铆.
-Los modulos estan dise帽ados para estandarizar y facilitar hacer el sistema modular y sus integraciones.
+For an object like:
 
-### ~~Presenters~~
-La capa de presenters es tiene planeada implementar con el cliente
-
-### Repo
-La capa de repositorio dentro de app define el estandar de los posibles repositorios que se usan en un sistema. Por el momento se han definido:
-- `CRUDRepo`: Repositorio con las operaciones basicas de CRUD(Create, Read, Update, Destroy), ademas del `findAll()`,`count()`. 
-  > Ver el [ejemplo de CRUDRepo](http://github.com/JesusHdezWaterloo/) 
-- `ReadWriteRepo`: Repositorio con las operaciones basicas de lectura y escritura.
-  > Ver el [ejemplo de ReadWriteRepo](http://github.com/JesusHdezWaterloo/) 
-
-
-### Application Services
-Este proyecto tienen entre sus funcionalidades estandarizar algunos servicios que se consideraron importantes en el ciclo de vida de una aplicaci贸n, asi como una inversion de control para evitar dependencia entre los diferentes modulos que pueden estar interactuando. Como muestra el siguente diagrama:
-
-![](/readme_resources/Service.png)
-
- La idea generar de implementacion es tener una interfaz que defina el comportamiento de un servicio, y una clases _handler_ donde la implementacion(es) de dicha interfaz se registrar谩, y pueda ser accedida est谩ticamente desde cualquier m贸dulo. En caso de que no se haya registrado ningun servicio en su respectivo _handler_, una excepci贸n sera lanzada
-
-#### Authentication
-Uno de los servicios que se predeterminaron fue el servicio de autenticaci贸n, dise帽ado para generalizar y unificar la manera en la que una aplicacion se logea y comienza su flujo de seguridad.
-Inicialmente su dise帽o fue basandose para consumir un servicio de un servidor de autorizacion (oauth2).
-
-Este servicio est谩 confirmado por:
-
-> - [AuthenticationHandler](http://github.com/JesusHdezWaterloo/) 
-> - [AuthenticationHandlerService](http://github.com/JesusHdezWaterloo/)
-
-Un ejemlo de su implementaci贸n y uso en:
-
-> - [AuthenticationHandler](http://github.com/JesusHdezWaterloo/)
-
-#### Exception
-Otro de los servicios que se predeterminaron fue el servicio de control de excepciones, dise帽ado para generalizar y unificar la manera en la que se procesan las excepciones en el sistema. La idea general es que cada m贸dulo defina las excepciones que va a lanzar y la manera de procesarlas, asi, cualquier excepcion que se lanze, es capturada y procesada acorde, y si no hay ningun procesador para ella, se procesa por defecto, preferiblemente con un cartel de error:
-Por defecto todas las excepciones que no se procesen, luego de ser procesadas internamente por el JDK, pasan por este handler
-
-Como procesar una excepcion:
 ```java
-try{
-//some code
-}catch(Exception e){
-    ExceptionHandler.handleException(e);
+        record Child(
+                @Size(min = 1, max = 5)
+                String childName) {
+
+        }
+
+        record Parent(
+                @Size(min = 1, max = 5)
+                String parentName,
+                @NotEmpty
+                List<Child> childs) {
+
+        }
+
+        //validating the fields as a list
+        ValidationService.validateAndThrow(
+                parent,
+                parent.childs().get(0),
+                parent.childs().get(1)
+        );    
+```
+
+A validation error is generated:
+
+```java
+ValidationException{
+    statusCode = 422 UNPROCESSABLE_ENTITY,
+    messages = [
+        ValidationErrorMessage[
+            source = root[0].parentName,
+            invalid_value = Pepito,
+            message = el tama駉 debe estar entre 1 y 5
+        ],
+        ValidationErrorMessage[
+            source = root[1].childName,
+            invalid_value = Pepito Junior,
+            message = el tama駉 debe estar entre 1 y 5
+        ], 
+        ValidationErrorMessage[
+            source = root[2].childName,
+            invalid_value = Pepito Junior 2,
+            message = el tama駉 debe estar entre 1 y 5
+        ]
+    ]
 }
 ```
-Este servicio est谩 confirmado por:
 
->   - [ExceptionHandler](http://github.com/JesusHdezWaterloo/)
->   - [ExceptionHandlerService](http://github.com/JesusHdezWaterloo/)
->   - [ExceptionHandlerServiceFunctional](http://github.com/JesusHdezWaterloo/)
+Note: the `root[i]` in the `source` indicate the position in the list of every element
 
-Una particularidad de este servicio es que el [ExceptionHandlerService](http://github.com/JesusHdezWaterloo/) contiene una implementacion por defecto [ExceptionHandlerServiceFunctional](http://github.com/JesusHdezWaterloo/)
+### 1.2 - Simple Object <a name="1.2"></a>
+All its fields are validated for a simple object:
 
-Un ejemlo de su implementaci贸n y uso en:
+```java
+        //Simple object
+        record Parent(
+                @Size(min = 1, max = 5)
+                String parentName) {
 
-> - [ExceptionHandler](http://github.com/JesusHdezWaterloo/)
+        }
 
-#### Navigation
-Otro de los servicios que se predeterminaron fue el servicio de navegaci贸n, dise帽ado para estandarizar la manera en que las vistas navegan entre si. La idea general es que cada vista implemente la interfaz y vaya delegando la navegacion a sus componentes internos.
+        //instance of the simple object
+        Parent parent = new Parent("Pepito Simple");
+        
+        //Validate
+        ValidationService.validateAndThrow(parent);
+```
 
-**Este servicio se defini贸 para el trabajo visual y no se ha implementado bien, por lo que puede que se le hagan mejoras en un futuro**
+This code will throw the exception:
 
-Este servicio est谩 confirmado por:
+```
+ValidationException{
+    statusCode = 422 UNPROCESSABLE_ENTITY, 
+    messages = [
+        ValidationErrorMessage[
+            source = parentName, 
+            invalid_value = Pepito Simple, 
+            message = el tama駉 debe estar entre 1 y 5
+        ]
+    ]
+}
+```
 
-> - [Navigation](http://github.com/JesusHdezWaterloo/) 
-> - [NavigationService](http://github.com/JesusHdezWaterloo/)
+### 1.3 - Complex Object & Recursivity <a name="1.3"></a>
+If you have an object A with one of its fields being another object B, and you want to validate the fields of A, and at the same time the fields of B, a recursion is executed through all the fields of the objects until all of them are validated.
+Including all its elements in a list.
 
-#### Notification
-Otro de los servicios que se predeterminaron fue el servicio de notificaci贸n, dise帽ado para generalizar y unificar las notificaciones que lanzar铆a el sistema. La idea general es que cada m贸dulo defina sus notificaciones, las registre y las lance en cualquier momento, as铆 como cualquier otro modulo que requiera usar notificaciones externas.
+```java
+        record Child(
+                @Size(min = 1, max = 5)
+                String childName) {
 
-Este servicio est谩 confirmado por:
+        }
 
-> - [Navigation](http://github.com/JesusHdezWaterloo/) 
-> - [NavigationService](http://github.com/JesusHdezWaterloo/)
+        record Parent(
+                @Size(min = 1, max = 5)
+                String parentName,
+                @NotEmpty
+                List<Child> childrens) {
 
-Un ejemlo de su implementaci贸n y uso en:
+        }
 
-> - [Navigation](http://github.com/JesusHdezWaterloo/)
+        Parent parent = new Parent(
+                "Pepito",
+                List.of(
+                        new Child(
+                                "Pepito Junior"
+                        ),
+                        new Child(
+                                "Pepito Junior 2"
+                        )
+                )
+        );
 
-#### User Resolver
-Otro de los servicios que se predeterminaron fue el servicio de usuario, dise帽ado para generalizar la manera en la que se accede al usuario que se encuentra logeado actualmente en el sistema (cliente), o el usuario que acaba de hacer la peticion actual que se esta procesando (servidor). La idea general es que la implementacion del servicio sea una delegaci贸n al framework que se esta usando para la seguridad
+        //validate the object and revursive every field
+        ValidationService.validateRecursiveAndThrow(parent);
+```
 
-Este servicio est谩 confirmado por:
+This code will throw the exception:
 
-> - [UserResolver](http://github.com/JesusHdezWaterloo/) 
-> - [UserResolverService](http://github.com/JesusHdezWaterloo/)
+```
+ValidationException{
+    statusCode = 422 UNPROCESSABLE_ENTITY,
+    messages = [
+        ValidationErrorMessage[
+            source = parentName,
+            invalid_value = Pepito,
+            message = el tama駉 debe estar entre 1 y 5
+        ],
+        ValidationErrorMessage[
+            source = childrens[0].childName,
+            invalid_value = Pepito Junior,
+            message = el tama駉 debe estar entre 1 y 5
+        ], 
+        ValidationErrorMessage[
+            source = childrens[1].childName,
+            invalid_value = Pepito Junior 2,
+            message = el tama駉 debe estar entre 1 y 5
+        ]
+    ]
+}
+```
 
-Un ejemlo de su implementaci贸n y uso en:
+### 1.4 - Personalize fields names <a name="1.4"></a>
+If a validation fails, the `source` of the `ValidationErrorMessage` shows the name of the field that failed, but in case you want that field to have a different name than the one it has by default (due to a typing difference or similar: Camel Case , Snake...).
 
-> - [Cliente: UserResolver](http://github.com/JesusHdezWaterloo/)
-> - [Server: UserResolver](http://github.com/JesusHdezWaterloo/)
+Without the annotation the answer would be like [1.2 - Simple object](#1.2).
+
+With the annotation:
+
+```java
+        record Parent(
+                @ValidationFieldName("parent_name")
+                @Size(min = 1, max = 5)
+                String parentName) {
+
+        }
+
+        Parent parent = new Parent("Pepito Simple");
+
+        ValidationService.validateAndThrow(parent);
+```
+
+And response:
+
+```
+ValidationException{
+    statusCode = 422 UNPROCESSABLE_ENTITY, 
+    messages = [
+        ValidationErrorMessage[
+            source = parent_name, // => note here how the value change from `parentName` to `parent_name`
+            invalid_value = Pepito Simple, 
+            message = el tama駉 debe estar entre 1 y 5
+        ]
+    ]
+}
+```
+
+### 1.5 - Personalized annotation <a name="1.5"></a>
+In case a more complex or customized validation is needed that does not come by default in `jakarta`, one can be created manually, compatible with the `ValidationService`.
+
+The example of an annotation to validate that a Parent's name is 'Pepito' would look like this:
+
+The annotation is created:
+
+```java
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(value = ElementType.FIELD)
+@Retention(value = RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = PersonalizedValidationRegister.class)//indicate the class to do re validation logic, can be a list for multiple data type validations
+@interface PersonalizedValidation {
+
+    String name(); //new field to work with
+
+    String message() default "Names don't match.";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+
+    public String detailMessage() default "";
+
+}
+```
+
+The registry/validator class is created.
+
+```java
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+
+public class PersonalizedValidationRegister implements ConstraintValidator<PersonalizedValidation, String> {
+
+    //store the annotation for retrieve value later
+    private PersonalizedValidation annotation;
+
+    //initialize ConstraintValidator
+    @Override
+    public void initialize(PersonalizedValidation annotation) {
+        ConstraintValidator.super.initialize(annotation);
+        this.annotation = annotation;
+    }
+
+    //do the real validation
+    @Override
+    public boolean isValid(String target, ConstraintValidatorContext cvc) {
+        //check is the target value is valid or not
+        boolean valid = target != null && target.equalsIgnoreCase(annotation.name());
+
+        //if its'n valid, add a custom message to return 
+        if (!valid) {
+            cvc.disableDefaultConstraintViolation();
+            cvc.buildConstraintViolationWithTemplate(
+                    String.format(
+                            "'%s' don't match with given name".formatted(
+                                    target,
+                                    annotation.name()
+                            )
+                    )
+            ).addConstraintViolation();
+        }
+
+        //if valid is true, no error will be throw
+        return valid;
+    }
+
+}
+```
+
+We then write down the field and execute the validations:
+
+```java
+        record Parent(
+                @PersonalizedValidation(name = "Pepito")
+                String parentName) {
+
+        }
+        Parent parent = new Parent("Pepito Simple");
+
+        ValidationService.validateAndThrow(parent);
+```
+
+Answer will be:
+
+```
+ValidationException{
+    statusCode = 422 UNPROCESSABLE_ENTITY,
+    messages = [
+        ValidationErrorMessage[
+            source = parentName,
+            invalid_value = Pepito Simple,
+            message = 'Pepito Simple' don't match with given name
+        ]
+    ]
+}
+```
+**NOTE**: the annotation and the register cannot be in the same file, they must be created in separate files/classes.
+
+### 1.6 - Pre-made validations <a name="1.6"></a>
+The `jakarta.validation.*` package has the validations that are used in most cases.
+But in case they are not enough, some were implemented that were needed at the time and that can be reused, such as:
+
+- <a name="1.6.1"></a> `Digit`: validate that a `Character` is a digit.
+```java
+        record Parent(
+                @Digit()
+                Character sex) {
+
+        }
+
+        Parent parent = new Parent('0');
+        ValidationService.validateAndThrow(parent);
+```
+
+Error:
+
+```
+ValidationException{
+    statusCode = 422 UNPROCESSABLE_ENTITY,
+    messages = [
+        ValidationErrorMessage[
+            source = sex, 
+            invalid_value = a, 
+            message = Must be a digit
+        ]
+    ]
+}
+```
+- <a name="1.6.2"></a> `EnumValidator`: validate that a `String` belongs to any of the values of an enum.
+
+Having the enum:
+
+```java
+enum Age implements EnumValidatorComparator<String> {
+    JOUNG("Joung"),
+    OLD("Old");
+
+    private final String name;
+
+    private Age(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean test(String other) {
+        return getName().equalsIgnoreCase(other);
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+}
+```
+
+The `EnumValidatorComparator<String>` interface is implemented that allows us to override the `test` method and will be used later in validation.
+If the interface is not implemented, the default comparison is used with a `containt` to the `toString` of each enum value.
+
+The object is created and the required field is noted and the validation is run:
+
+```java
+        record Parent(
+                @EnumValidator(target = Age.class)
+                String age) {
+        }
+
+        Parent parent = new Parent("other");
+        ValidationService.validateAndThrow(parent);
+```
+
+Which results:
+
+```
+ValidationException{
+    statusCode = 422 UNPROCESSABLE_ENTITY, 
+    messages = [
+        ValidationErrorMessage[
+            source = age, 
+            invalid_value = other,
+            message = 'other' is not one of the one of allowable values: [Joung, Old]
+        ]
+    ]
+}
+```
+
+**NOTE**: You can also use the annotation to validate String lists (`List<String>`) where each element of the list is tested to see if it matches any element of the `Enum`.
+
+In addition, in case you do not want to implement the `EnumValidatorComparator<String>` interface, you can override the default comparator of the validator:
+```java
+        EnumValidatorRegister_String.setDefaultEnumComparator((currentEnumValue, testValue) -> {
+            return true;//never validate
+            
+            //default validator
+            //return currentEnumValue.toString().equalsIgnoreCase(testValue);
+        });
+```
+
+- <a name="1.6.3"></a> `SizeExact`: Validates that a `String`, `List`, `Array` or `Map` has an exact size. Validating for each one its length.
+
+## 2 - Exceptions <a name="2"></a>
+
+Para estandarizar el uso de las respuestas HTTP se crearon las excepciones(mas comunes) a lanzar en cada momento:
+- `ApiException`: General exception from which the others derive, it has:
+    - `rawStatusCode`: Indicate the HTTP response code of exception.
+    - `message`: Indicates the message for which the exception was thrown.
+- `BadRequestException`:
+    - `Status Code`: **400**  BAD REQUEST.
+    - `Use Case`: Something fails in the service on the part of the client, this exception is thrown.
+- `UnauthorizedException`:
+    - `Status Code`: **401**  UNAUTHORIZED.
+    - `Use Case`: An unlogged user wants to access a resource that requires authorization to access, this exception is thrown.
+- `PaymentRequiredException`:
+    - `Status Code`: **402** PAYMENT REQUIRED.
+    - `Use Case`: One wants to access a resource for which he has to pay; or you reach the limit of what the resource can consume and to continue you have to pay, this exception is thrown.
+- `ForbiddenException`:
+    - `Status Code`: **403** FORBIDDEN.
+    - `Use Case`: An authenticated user wants to access a resource to which they do not have permission, this exception is thrown.
+- `NotFoundException`:
+    - `Status Code`: **404** NOT FOUND.
+    - `Use Case`: It is about accessing or searching for a resource and element that no longer exists, this exception is thrown. Searching for an item that has already been deleted.
+    - **NOTE**: This exception is recommended to be thrown if an authenticated user attempts to access an item that does not belong to them. That is, if the `403` is thrown (hich is what is expectedin these cases), it is confirmed that there is an element in that `id` and that it does not belong to it. If the `404` is thrown, you are given to understand that the element does not even exist.
+- `ConflictException`:
+    - `Status Code`: **409** CONFLICT.
+    - `Use Case`: An element will be created with the same name as an existing or similar one, this exception is thrown.
+- `ValidationException`:
+    - `Status Code`: **422** VALIDATION EXCEPTION.
+    - `Use Case`: Validations are run on an object and they fail, this exception is thrown. It is recommended to use the `ValidationService` that throws the exception. In case you want to add validations by hand or similar, add it to a list and pass it as a parameter to this exception when it is going to be thrown.
+- `InternalServerErrorException`:
+    - `Status Code`: **500** INTERNAL SERVER ERROR.
+    - `Use Case`: Some unexpected error occurs on the server's side, and generally the cause is unknown, this exception is thrown.
+
+## 3 - Repo <a name="3"></a>
+
+In an architecture **=> Logic => Repo => Data Framework =>**, the `Repo` layer acts as an intermediary between the objects received from the data layer (`Entities`), and transforms them into objects of logic (`Domains`).
+
+Assuming that the `Data Framework` layer is the one provided by `Spring`, this section contains the classes to make the creation of this layer easier:
+
+Assuming an `Entity`:
+
+```java
+//import & getters & setters are omited
+@Entity
+@Table(name = "parent", schema = "some-schema")
+public class Parent implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "parent_id", nullable = false)
+    private Integer parentId;
+
+    @NotNull
+    @Size(max = 255)
+    @Basic(optional = false)
+    @Column(name = "name", nullable = false, length = 255)
+    private String name;
+}
+```
+
+Its equivalent `Domain` would be:
+
+```java
+//import & getters & setters are omited
+public class ParentDomaine {
+
+    private Integer parentId;
+
+    @NotNull
+    @Size(max = 255)
+    private String name;
+}
+```
+
+A class is then needed to parse Domain <=> Entity, for which an instance of `Converter<ParentDomain, Parent>` is created:
+
+```java
+@Service //Inyected here in Spring
+public class ParentConverter implements Converter<ParentDomain, Parent> {
+
+    @Override
+    public ParentDomain toDomain(Parent entity) throws RuntimeException {
+        return new ParentDomain(
+                entity.getParentId(),
+                entity.getName()
+        );
+    }
+
+    @Override
+    public Parent toEntity(ParentDomain domain) throws RuntimeException {
+        return new Parent(
+                domain.getParentId(),
+                domain.getName()
+        );
+    }
+}
+```
+
+A Spring Repository:
+
+```java
+@Repository
+public interface ParentJpaRepo extends JpaRepository<Parent, Integer> {
+
+    public Parent findByName(String name);
+}
+```
+
+Having the `Entity`, the `Domain`, and the `Converter`, we can now implement our Repo:
+
+```java
+@Service
+public class ParentRepo extends DelegatedSpringJpaRepo<ParentDomain, Parent, Integer, ParentConverter, ParentJpaRepo> {
+
+    @Autowired
+    public ParentRepo(
+        ParentJpaRepo springRepo, // Spring Repository, inyected
+        ParentConverter converter // Our Converter, inyected
+    ) {
+        super(
+                springRepo,
+                converter
+        );
+    }
+
+    //this method is an example on how to comunicate with repo 
+    public ParentDomain findByName(String name) {
+        Parent finded = repo().findByName(name);
+        return finded != null ? converter.toDomain(finded) : null;
+    }
+
+}
+```
+
+Then we inject the `Repo` into the logic layer and have access to all the `data` with automatic `Domain` <=> `Entity` conversions.
+
+**NOTE**: A complete example of use can be found in one of the modules already developed.
+
+## 4 - Rest <a name="4"></a>
+
+Oficial docs for HTTP Responses [here](https://datatracker.ietf.org/doc/html/rfc7231).
+
+### 4.1 Api Response <a name="4.1"></a>
+The idea of `ApiResponse` is to generalize API responses to a standard.
+ALL API responses must follow this guideline.
+The `ApiResponse` class has:
+- `status`: Representing the HTTP code of the response.
+- `message`: The response message to the request.
+- `data`: The data or information of the response, if there is a response.
+Ejemplos:
+1 - A request to modify a record that is executed successfully must return:
+```java
+ApiResponse{
+    status = 200,
+    message = "Success",
+    data = null
+}
+```
+
+2 - A request to obtain a list must return:
+```java
+ApiResponse{
+    status = 200,
+    message = "Success",
+    data = [
+        "Data 1",
+        "Data 2",
+        "Data 3"
+    ]
+}
+```
+
+3 - A request to obtain an object must return:
+```java
+ApiResponse{
+    status = 200,
+    message = "Success",
+    data = SomeObject{
+        field1 = "some data",
+        field2 = "some data 2"
+    }
+}
+```
+
+4 - A request to create users with a name that already exists should return:
+```java
+ApiResponse{
+    status = 409,
+    message = "Username already exists",
+}
+```
+
+How to use it:
+- For response 200 you can use: `ApiResponse.success()`, which by default says `status = 200`, `message = success` and `data = null`.
+- For response 200 you can use: `ApiResponse.success(data)`, which by default says `status = 200` and `message = success`.
+- For response 200 you can use: `ApiResponse.success(message, data)`, which by default says `status = 200`.
+- For generic responses you can use: `ApiResponse.build(status, message, data)`.
+- To extract a response from a `ResponseEntity` you can use: `ApiResponse.build(status, message, data)`, which by default says `status = response.getStatusCode().value()`, `message = response. getStatusCode().toString()` and `data = response.getBody()`.
+
+## 5 - Utils <a name="5"></a>
+
+### 5.1 - Jackson <a name="5.1"></a>
+`Jackson` is a utility class for doing **fast** and low-value conversions of objects/strings.
+
+For operations related to business logic, it is recommended to use the ObjectMapper provided by Spring.
+
+How to use it for reading (convert String to Object):
+```java
+        //class target
+        record Parent(
+                String parentName) {
+
+        }
+
+        //text source
+        String parentString = """
+                              {
+                                "parentName": "Pepito Simple"
+                              }
+                              """;
+
+        //convert source `parentString` to target `parent`
+        Parent converted = Jackson.read(parentString, Parent.class);
+```
+
+For writing (Convert Object to String):
+
+```java
+        record Parent(
+                @JsonProperty("parent_name")//this annotations works here
+                String parentName) {
+
+        }
+
+        Parent object = new Parent("Pepito Simple");
+
+        String converted = Jackson.toString(object);
+```
+
+**NOTE**: This class has some other functionalities for further read/write customization, as well as to convert/parse objects from one type to another. For more details consult the source code in `dev.root101.clean.core.utils.Jackson`.
+
+### 5.2 - Enum mappeable <a name="5.2"></a>
+When you want to map an Enum to its list of elements without so much code at hand:
+
+Having the enum:
+
+```java
+enum Status_Enum implements EnumMappeable<StatusResponse> {
+    ACTIVE("Active"),
+    ARCHIVED("Archived");
+
+    record StatusResponse(
+            String name,
+            boolean active) {
+
+    }
+
+    private final String name;
+
+    private Status_Enum(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public StatusResponse map() {
+        return new StatusResponse(
+                getName(),
+                this == Status_Enum.ACTIVE
+        );
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+}
+```
+
+The `EnumMappeable<T>` interface is implemented, with `T` being the data type to be mapped.
+The `map` method is overridden with the actual mapping of each element to the response data type.
+
+It is used then:
+
+```java
+EnumMappeableService.map(Status_Enum.class);
+```
+
+What he gives as an answer:
+
+```
+[
+    StatusResponse[
+        name = Active, 
+        active = true
+    ], 
+    StatusResponse[
+        name = Archived, 
+        active = false
+    ]
+]
+```
+
+On the other hand, if you do not want the `Enum` to reimplement the `EnumMappeable<T>` interface you can use:
+
+```java
+    EnumMappeableService.map(Status_Enum.class, (t) -> {
+        return t.getName();
+    })
+```
+
+The second argument being the mapping function, giving the answer in this example:
+
+```
+[
+    Activate,
+    Archived
+]
+```
+
+### 5.3 - Network <a name="5.3"></a>
+The Network utility was developed to validate that a service is running on a port:ip.
+
+```java
+    Network.isRunning("127.0.0.1", 8080)
+```
+
+### 5.4 - Security Algos <a name="5.4"></a>
+The security algorithms are a quick implementation of `AES` for encryption and `SHA-256` for hashing.
+
+To use `SHA-256`, access the static method: `SecurityAlgorithms.hash256(input)`, passing the initial string through parameters and waiting for the corresponding hash in response.
+
+To use `AES`:
+
+```java
+    SecurityAlgorithms secure = new SecurityAlgorithms("aes secret key");
+
+    String textToCipher = "Hiden text";
+
+    byte[] cipherText = secure.cipher(textToCipher);
+        
+    byte[] decipherText = secure.decipher(cipherText);
+
+    boolean matchingTexts = textToCipher.equals(new String(decipherText));//true
+```
 
 
-### Use cases
-La capa de casos de uso dentro de app define el estandar de los posibles casos de uso que se usan en un sistema. Por el momento se han definido:
-- `CRUDUseCase`: Caso de uso con las operaciones basicas de CRUD(Create, Read, Update, Destroy), ademas del `findAll()`,`count()`. Con una implementacion por defecto que delega sus metodos a un `CRUDRepo`
-  > Ver el [ejemplo de CRUDUseCase](http://github.com/JesusHdezWaterloo/) 
-- `ReadWriteUseCase`: Caso de uso con las operaciones basicas de lectura y escritura. Con una implementacion por defecto que delega sus metodos a un `ReadWriteRepo`
-  > Ver el [ejemplo de ReadWriteUseCase](http://github.com/JesusHdezWaterloo/) 
+## How to use this package <a name="6"></a>
+At the moment this package is not published in [mvnrepository](https://mvnrepository.com/), so we have to upload it directly from `Github Packages`.
 
-## Domain
-La capa de domain esta conformada por los objectos que contienen como tal la informacion, los 'wrapper' de los atributos. Generalemnte un espejo de las entidades de la base de datos en un CRUD o los campos de un JSON en un Read-Write. Por el momento se han definido:
-- `EntityDomainObject`: Dominio que pretende hacer de espejo a las entidades generadas por un framework externo con la informacion directa de la Base de Datos (DB de ahora en adelante), o bien el mapeo de un JSON.
-  > Ver el [ejemplo de EntityDomainObject](http://github.com/JesusHdezWaterloo/) 
-- `VolatileDomainObject`: Dominio que pretende encapsular informacion momentaneamente sin guardarla, objeto de transito.
-  > Ver el [ejemplo de VolatileDomainObject](http://github.com/JesusHdezWaterloo/) 
+In the `settings.gradle` add:
+```
+sourceControl {
+     gitRepository("https://github.com/JesusHdez960717/clean-core.git") {
+         producesModule("dev.root101.clean:clean-core")
+     }
+}
+```
 
-### Domain Services
+Then in the `build.gradle`, under the `dependencies`:
 
-#### Resource Service
-Uno de los servicios que se defini贸 e implement贸 para esta capa fueron los recursos, que permiten estandarigar y generalizar el uso de recursos (generalemnte texto para internacionalizacion)
+```
+dependencies {
+     //... mode dependencies
 
-Un ejemlo de su implementaci贸n y uso en:
+     implementation 'dev.root101.clean:clean-core:VERSION'
 
-> - [Resource Service](http://github.com/JesusHdezWaterloo/)
+     //... mode dependencies
+}
+```
 
-## ~~UI~~
-Deprecated
+Being `VERSION` the version you want to use of the package.
 
-## Utils
-Para hacer que todas estas capas funcionen e interact煤en entre si, se dise帽贸 un paquete de utilidades con el implementaciones basicas por defectos de algunos comportamientos estandares.
-Entre esto, un sistema de validacion para dominios que permite corregir errores de entrada en los datos mediante `@annotations`.
-
-Ver el [ejemplo de Validaciones](http://github.com/JesusHdezWaterloo/) 
-
-
-## Releases
-- 2.0.1.RELEASE.20210108
-### Improvements
-    - ExceptionHandler: Agregado `Thread.setDefaultUncaughtExceptionHandler` para que por defecto procese todas las excepciones por aqui
-    - Agregados println a los handlers de algunos servicios para ver a nivel de consola el proceso que est谩 siguiendo la aplicaci贸n
-    - Agregadas Excepciones al lanzar si hay incongruencias en la inicializaci贸n de los m贸dulos
-
-- 2.0.2.RELEASE.20210113
-### Improvements
-    - RuntimeExceptions: Todas las excepciones de los repositorios & casos de usos & Converter cambiado de throws Exception a throws RuntimeException para no tener que estar poniendo los try{}catch(){} ni los throws en los metodos. Y como se agreg贸 en la versi贸n `2.0.1.RELEASE.20210108` el `Thread.setDefaultUncaughtExceptionHandler`, todas las excepciones finalmente se procesan con el ExceptionHandler por defecto.
-    - DefaultResourceBundleService: Agrados builders para construir ResourceService r谩pido
-    - ResourceHandler: Agregados registers por defectos para facilitar registrar nuevos servicios
-
-- 2.0.3.RELEASE.20210113
-### Improvements
-    - Release Notes actualizadas con los cambios de la versi贸n `2.0.2.RELEASE.20210113`
+**NOTE**: The latest available version is always recommended.

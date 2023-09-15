@@ -7,7 +7,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,16 +14,21 @@ public class SecurityAlgorithms {
 
     private Cipher cipher;
 
-    @Value("${aes.secret_key}")
     private String aesSecretKey;
 
-    public SecurityAlgorithms() {
+    public SecurityAlgorithms(String aesSecretKey) {
+        this.aesSecretKey = aesSecretKey;
+
         final String ALGO = "AES/CBC/PKCS5Padding";
         try {
             cipher = Cipher.getInstance(ALGO);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             System.out.println("Error iniciando el Cipher" + e.getMessage());
         }
+    }
+
+    public byte[] cipher(String text) throws Exception {
+        return cipher(text.getBytes());
     }
 
     public byte[] cipher(byte[] text) throws Exception {
@@ -57,7 +61,7 @@ public class SecurityAlgorithms {
         return cipher.doFinal(text);
     }
 
-    public byte[] hash256(byte[] text) {
+    public static byte[] hash256(byte[] text) {
         try {
             MessageDigest mDigest = MessageDigest.getInstance("SHA-256");
             return mDigest.digest(text);

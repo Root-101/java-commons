@@ -476,6 +476,110 @@ Para estandarizar el uso de las respuestas HTTP se crearon las excepciones(mas c
 
 ## 3 - Repo <a name="3"></a>
 
+In an architecture **=> Logic => Repo => Data Framework =>**, the `Repo` layer acts as an intermediary between the objects received from the data layer (`Entities`), and transforms them into objects of logic (`Domains`).
+
+Assuming that the `Data Framework` layer is the one provided by `Spring`, this section contains the classes to make the creation of this layer easier:
+
+Assuming an `Entity`:
+
+```java
+//import & getters & setters are omited
+@Entity
+@Table(name = "parent", schema = "some-schema")
+public class Parent implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "parent_id", nullable = false)
+    private Integer parentId;
+
+    @NotNull
+    @Size(max = 255)
+    @Basic(optional = false)
+    @Column(name = "name", nullable = false, length = 255)
+    private String name;
+}
+```
+
+Its equivalent `Domain` would be:
+
+```java
+//import & getters & setters are omited
+public class ParentDomaine {
+
+    private Integer parentId;
+
+    @NotNull
+    @Size(max = 255)
+    private String name;
+}
+```
+
+A class is then needed to parse Domain <=> Entity, for which an instance of `Converter<ParentDomain, Parent>` is created:
+
+```java
+@Service //Inyected here in Spring
+public class ParentConverter implements Converter<ParentDomain, Parent> {
+
+    @Override
+    public ParentDomain toDomain(Parent entity) throws RuntimeException {
+        return new ParentDomain(
+                entity.getParentId(),
+                entity.getName()
+        );
+    }
+
+    @Override
+    public Parent toEntity(ParentDomain domain) throws RuntimeException {
+        return new Parent(
+                domain.getParentId(),
+                domain.getName()
+        );
+    }
+}
+```
+
+A Spring Repository:
+
+```java
+@Repository
+public interface ParentJpaRepo extends JpaRepository<Parent, Integer> {
+
+    public Parent findByName(String name);
+}
+```
+
+Having the `Entity`, the `Domain`, and the `Converter`, we can now implement our Repo:
+
+```java
+@Service
+public class ParentRepo extends DelegatedSpringJpaRepo<ParentDomain, Parent, Integer, ParentConverter, ParentJpaRepo> {
+
+    @Autowired
+    public ParentRepo(
+        ParentJpaRepo springRepo, // Spring Repository, inyected
+        ParentConverter converter // Our Converter, inyected
+    ) {
+        super(
+                springRepo,
+                converter
+        );
+    }
+
+    //this method is an example on how to comunicate with repo 
+    public ParentDomain findByName(String name) {
+        Parent finded = repo().findByName(name);
+        return finded != null ? converter.toDomain(finded) : null;
+    }
+
+}
+```
+
+Then we inject the `Repo` into the logic layer and have access to all the `data` with automatic `Domain` <=> `Entity` conversions.
+
+**NOTE**: A complete example of use can be found in one of the modules already developed.
+
 ## 4 - Rest <a name="4"></a>
 
 Oficial docs for HTTP Responses [here](https://datatracker.ietf.org/doc/html/rfc7231).

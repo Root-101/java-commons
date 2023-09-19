@@ -5,10 +5,8 @@ import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 
-@Slf4j
 public class EnumValidatorRegister_ListOfString implements ConstraintValidator<EnumValidator, List<String>> {
 
     //general comparator in case EnumValidator don't implement EnumValidatorComparator interface

@@ -1,3 +1,7 @@
+* 4.8.1.RELEASE.20230919:
+    * **GENERAL** :
+        * **IMPROVEMENT** :raised: : Fix `Jackson` type name class & remove lombok dependencies due to conflict with another project.
+
 * 4.8.0.RELEASE.20230914:
     * **DOCS** :
         * **IMPROVEMENT** :raised: : Update all docs & examples.

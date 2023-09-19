@@ -4,7 +4,7 @@ plugins {
 
 group = 'dev.root101.clean'
 
-version = '4.8.0.RELEASE.20230914'
+version = '4.8.1.RELEASE.20230919'
 
 repositories {
     jcenter()
@@ -26,9 +26,4 @@ dependencies{
     implementation 'com.fasterxml.jackson.core:jackson-core:2.14.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.2'
-
-    //lombok
-    implementation 'org.projectlombok:lombok:1.18.26'
-    compileOnly 'org.projectlombok:lombok:1.18.26'
-    annotationProcessor 'org.projectlombok:lombok:1.18.26'
 }

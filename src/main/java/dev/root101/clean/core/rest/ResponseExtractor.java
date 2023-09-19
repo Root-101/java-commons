@@ -8,7 +8,7 @@ import dev.root101.clean.core.exceptions.ApiException;
 import dev.root101.clean.core.exceptions.InternalServerErrorException;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import lombok.extern.slf4j.Slf4j;
+import java.util.logging.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -19,7 +19,6 @@ import org.springframework.web.client.UnknownHttpStatusCodeException;
  * @author Yo
  * @param <T>
  */
-@Slf4j
 public class ResponseExtractor<T> {
 
     private static boolean logs = true;
@@ -38,42 +37,42 @@ public class ResponseExtractor<T> {
 
     private Function<ResponseEntity<T>, T> onOkResponseCode = (response) -> {
         if (logs) {
-            log.info(response.toString());
+            System.out.println(response.toString());
         }
         return response.getBody();
     };
 
     private Function<ResponseEntity<T>, T> onNotOkResponseCode = (response) -> {
         if (logs) {
-            log.info(response.toString());
+            System.out.println(response.toString());
         }
         throw ApiException.build(response.getStatusCode());
     };
 
     private Function<org.springframework.web.client.HttpStatusCodeException, T> onHttpStatusCodeException = (exc) -> {
         if (logs) {
-            log.error(exc.toString());
+            System.out.println(exc.toString());
         }
         throw ApiException.build(exc.getStatusCode());
     };
 
     private Function<ApiException, T> onApiException = (apiExc) -> {
         if (logs) {
-            log.error(apiExc.toString());
+            System.out.println(apiExc.toString());
         }
         throw apiExc;
     };
 
     private Function<org.springframework.web.client.UnknownHttpStatusCodeException, T> onUnknownHttpStatusCodeException = (unk) -> {
         if (logs) {
-            log.error(unk.toString());
+            System.out.println(unk.toString());
         }
         throw new ApiException(unk.getRawStatusCode(), unk.getResponseBodyAsString());
     };
 
     private Function<Exception, T> onGeneralException = (exc) -> {
         if (logs) {
-            log.error(exc.toString());
+            System.out.println(exc.toString());
         }
         throw new InternalServerErrorException("Unknown error. Contact support.");
     };

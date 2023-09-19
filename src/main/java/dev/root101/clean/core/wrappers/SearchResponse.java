@@ -2,14 +2,8 @@ package dev.root101.clean.core.wrappers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class SearchResponse<T> {
 
     @JsonProperty("total_pages")
@@ -28,4 +22,23 @@ public class SearchResponse<T> {
                 page.getContent()
         );
     }
+
+    private SearchResponse(int totalPages, long totalElements, List<T> data) {
+        this.totalPages = totalPages;
+        this.totalElements = totalElements;
+        this.data = data;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public long getTotalElements() {
+        return totalElements;
+    }
+
+    public List<T> getData() {
+        return data;
+    }
+
 }

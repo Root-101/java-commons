@@ -6,13 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.util.Map;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class SearchDetails {
 
     @NotNull
@@ -31,4 +25,21 @@ public class SearchDetails {
     @Sort
     @JsonProperty("sort")
     Map<String, String> sort;
+
+    public int getPage() {
+        return page;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public Map<String, String> getFilter() {
+        return filter;
+    }
+
+    public Map<String, String> getSort() {
+        return sort;
+    }
+
 }

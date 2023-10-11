@@ -1,3 +1,9 @@
+* 5.0.0.RELEASE.20231011:
+    * **NEW VERSION** :
+        * **REMOVED** :x: : Removed `Repo` layer, use basic Spring Boot architecture from now on.
+        * **NEW** :+1: : Deploy new version `5.0`.
+        * **NEW** :+1: : **Transfer** package to `Root101` org & **Rename** it to `commons`.
+
 * 4.8.1.RELEASE.20230919:
     * **GENERAL** :
         * **IMPROVEMENT** :raised: : Fix `Jackson` type name class & remove lombok dependencies due to conflict with another project.

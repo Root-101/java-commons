@@ -5,9 +5,7 @@ Multilanguage:
 
 -->
 
-## Clean Core [EN]
-
-###### (En proceso de renombrarlo 'utils' o algo asi)
+## Root101 Commons [EN]
 
 This library aims to provide standards and utilities that make work easier when creating microservices.
 
@@ -25,17 +23,16 @@ Docs updated for version: `4.8.1.RELEASE.20230919`
         - [1.6.2 - Enum](#1.6.2)
         - [1.6.3 - Size Exact](#1.6.3)
 - [2 - Exceptions](#2)
-- [3 - Repo](#3)
-- [4 - Rest](#4)
-    - [4.1 - Api response](#4.1) 
-    - [4.2 - Response Extractor (Next)](#4.2)
-    - [4.3 - Rest Template utils (Next)](#4.3)
-- [5 - Utils](#5)
-    - [5.1 - Jackson](#5.1)
-    - [5.2 - Enum mappeable](#5.2)
-    - [5.3 - Network](#5.3)
-    - [5.4 - Security Algos](#5.4)
-- [6 - How to use this package](#6)
+- [4 - Rest](#3)
+    - [4.1 - Api response](#3.1) 
+    - [4.2 - Response Extractor (Next)](#3.2)
+    - [4.3 - Rest Template utils (Next)](#3.3)
+- [5 - Utils](#4)
+    - [5.1 - Jackson](#4.1)
+    - [5.2 - Enum mappeable](#4.2)
+    - [5.3 - Network](#4.3)
+    - [5.4 - Security Algos](#4.4)
+- [6 - How to use this package](#5)
 
 ## Validations <a name="1"></a>
 - All native validations are loaded from the [`jakarta.validations.*` framework](https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api).
@@ -479,117 +476,11 @@ Para estandarizar el uso de las respuestas HTTP se crearon las excepciones(mas c
     - `Status Code`: **500** INTERNAL SERVER ERROR.
     - `Use Case`: Some unexpected error occurs on the server's side, and generally the cause is unknown, this exception is thrown.
 
-## 3 - Repo <a name="3"></a>
-
-In an architecture **=> Logic => Repo => Data Framework =>**, the `Repo` layer acts as an intermediary between the objects received from the data layer (`Entities`), and transforms them into objects of logic (`Domains`).
-
-Assuming that the `Data Framework` layer is the one provided by `Spring`, this section contains the classes to make the creation of this layer easier:
-
-Assuming an `Entity`:
-
-```java
-//import & getters & setters are omited
-@Entity
-@Table(name = "parent", schema = "some-schema")
-public class Parent implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "parent_id", nullable = false)
-    private Integer parentId;
-
-    @NotNull
-    @Size(max = 255)
-    @Basic(optional = false)
-    @Column(name = "name", nullable = false, length = 255)
-    private String name;
-}
-```
-
-Its equivalent `Domain` would be:
-
-```java
-//import & getters & setters are omited
-public class ParentDomaine {
-
-    private Integer parentId;
-
-    @NotNull
-    @Size(max = 255)
-    private String name;
-}
-```
-
-A class is then needed to parse Domain <=> Entity, for which an instance of `Converter<ParentDomain, Parent>` is created:
-
-```java
-@Service //Inyected here in Spring
-public class ParentConverter implements Converter<ParentDomain, Parent> {
-
-    @Override
-    public ParentDomain toDomain(Parent entity) throws RuntimeException {
-        return new ParentDomain(
-                entity.getParentId(),
-                entity.getName()
-        );
-    }
-
-    @Override
-    public Parent toEntity(ParentDomain domain) throws RuntimeException {
-        return new Parent(
-                domain.getParentId(),
-                domain.getName()
-        );
-    }
-}
-```
-
-A Spring Repository:
-
-```java
-@Repository
-public interface ParentJpaRepo extends JpaRepository<Parent, Integer> {
-
-    public Parent findByName(String name);
-}
-```
-
-Having the `Entity`, the `Domain`, and the `Converter`, we can now implement our Repo:
-
-```java
-@Service
-public class ParentRepo extends DelegatedSpringJpaRepo<ParentDomain, Parent, Integer, ParentConverter, ParentJpaRepo> {
-
-    @Autowired
-    public ParentRepo(
-        ParentJpaRepo springRepo, // Spring Repository, inyected
-        ParentConverter converter // Our Converter, inyected
-    ) {
-        super(
-                springRepo,
-                converter
-        );
-    }
-
-    //this method is an example on how to comunicate with repo 
-    public ParentDomain findByName(String name) {
-        Parent finded = repo().findByName(name);
-        return finded != null ? converter.toDomain(finded) : null;
-    }
-
-}
-```
-
-Then we inject the `Repo` into the logic layer and have access to all the `data` with automatic `Domain` <=> `Entity` conversions.
-
-**NOTE**: A complete example of use can be found in one of the modules already developed.
-
-## 4 - Rest <a name="4"></a>
+## 3 - Rest <a name="3"></a>
 
 Oficial docs for HTTP Responses [here](https://datatracker.ietf.org/doc/html/rfc7231).
 
-### 4.1 Api Response <a name="4.1"></a>
+### 3.1 Api Response <a name="3.1"></a>
 The idea of `ApiResponse` is to generalize API responses to a standard.
 ALL API responses must follow this guideline.
 The `ApiResponse` class has:
@@ -646,9 +537,9 @@ How to use it:
 - For generic responses you can use: `ApiResponse.build(status, message, data)`.
 - To extract a response from a `ResponseEntity` you can use: `ApiResponse.build(status, message, data)`, which by default says `status = response.getStatusCode().value()`, `message = response. getStatusCode().toString()` and `data = response.getBody()`.
 
-## 5 - Utils <a name="5"></a>
+## 4 - Utils <a name="4"></a>
 
-### 5.1 - Jackson <a name="5.1"></a>
+### 4.1 - Jackson <a name="4.1"></a>
 `Jackson` is a utility class for doing **fast** and low-value conversions of objects/strings.
 
 For operations related to business logic, it is recommended to use the ObjectMapper provided by Spring.
@@ -688,7 +579,7 @@ For writing (Convert Object to String):
 
 **NOTE**: This class has some other functionalities for further read/write customization, as well as to convert/parse objects from one type to another. For more details consult the source code in `dev.root101.clean.core.utils.Jackson`.
 
-### 5.2 - Enum mappeable <a name="5.2"></a>
+### 4.2 - Enum mappeable <a name="4.2"></a>
 When you want to map an Enum to its list of elements without so much code at hand:
 
 Having the enum:
@@ -771,14 +662,14 @@ The second argument being the mapping function, giving the answer in this exampl
 ]
 ```
 
-### 5.3 - Network <a name="5.3"></a>
+### 4.3 - Network <a name="4.3"></a>
 The Network utility was developed to validate that a service is running on a port:ip.
 
 ```java
     Network.isRunning("127.0.0.1", 8080)
 ```
 
-### 5.4 - Security Algos <a name="5.4"></a>
+### 4.4 - Security Algos <a name="4.4"></a>
 The security algorithms are a quick implementation of `AES` for encryption and `SHA-256` for hashing.
 
 To use `SHA-256`, access the static method: `SecurityAlgorithms.hash256(input)`, passing the initial string through parameters and waiting for the corresponding hash in response.
@@ -798,7 +689,7 @@ To use `AES`:
 ```
 
 
-## How to use this package <a name="6"></a>
+## 5 - How to use this package <a name="5"></a>
 At the moment this package is not published in [mvnrepository](https://mvnrepository.com/), so we have to upload it directly from `Github Packages`.
 
 In the `settings.gradle` add:

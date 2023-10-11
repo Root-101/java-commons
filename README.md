@@ -695,9 +695,9 @@ At the moment this package is not published in [mvnrepository](https://mvnreposi
 In the `settings.gradle` add:
 ```
 sourceControl {
-     gitRepository("https://github.com/JesusHdez960717/clean-core.git") {
-         producesModule("dev.root101.clean:clean-core")
-     }
+    gitRepository("https://github.com/Root-101/java-commons.git") {
+        producesModule("dev.root101.commons:commons")
+    }
 }
 ```
 
@@ -707,7 +707,7 @@ Then in the `build.gradle`, under the `dependencies`:
 dependencies {
      //... mode dependencies
 
-     implementation 'dev.root101.clean:clean-core:VERSION'
+     implementation 'dev.root101.commons:commons:VERSION'
 
      //... mode dependencies
 }
@@ -715,4 +715,4 @@ dependencies {
 
 Being `VERSION` the version you want to use of the package.
 
-**NOTE**: The latest available version is always recommended.
+**NOTE**: The latest available version is ***ALWAYS*** recommended.

@@ -1,4 +1,4 @@
-package dev.root101.clean.core.utils.validation.annotations;
+package dev.root101.commons.validation.annotations;
 
 public interface EnumValidatorComparator<T> {
 

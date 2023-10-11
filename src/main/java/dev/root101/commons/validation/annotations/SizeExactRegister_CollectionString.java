@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils.validation.annotations;
+package dev.root101.commons.validation.annotations;
 
+import java.util.Collection;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -24,16 +25,19 @@ import jakarta.validation.ConstraintValidatorContext;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdez960717@Github
  */
-public class DigitRegister_Character implements ConstraintValidator<Digit, Character> {
+public class SizeExactRegister_CollectionString implements ConstraintValidator<SizeExact, Collection> {
+
+    private int length;
 
     @Override
-    public void initialize(Digit a) {
+    public void initialize(SizeExact a) {
         ConstraintValidator.super.initialize(a);
+        this.length = a.length();
     }
 
     @Override
-    public boolean isValid(Character digit, ConstraintValidatorContext cvc) {
-        return Character.isDigit(digit);
+    public boolean isValid(Collection list, ConstraintValidatorContext cvc) {
+        return list.size() == length;
     }
 
 }

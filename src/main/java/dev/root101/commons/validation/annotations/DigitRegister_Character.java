@@ -14,31 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils.validation.annotations;
+package dev.root101.commons.validation.annotations;
 
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdez960717@Github
  */
-@Target(value = ElementType.FIELD)
-@Retention(value = RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = DigitRegister_Character.class)
-public @interface Digit {
+public class DigitRegister_Character implements ConstraintValidator<Digit, Character> {
 
-    String message() default "Must be a digit";
+    @Override
+    public void initialize(Digit a) {
+        ConstraintValidator.super.initialize(a);
+    }
 
-    Class<?>[] groups() default {};
-
-    Class<? extends Payload>[] payload() default {};
-
-    public String detailMessage() default "";
+    @Override
+    public boolean isValid(Character digit, ConstraintValidatorContext cvc) {
+        return Character.isDigit(digit);
+    }
 
 }

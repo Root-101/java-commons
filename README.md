@@ -36,7 +36,7 @@ Docs updated for version: `5.1.0.RELEASE.20231011`
 
 ## Validations <a name="1"></a>
 - All native validations are loaded from the [`jakarta.validations.*` framework](https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api).
-- To validate an object, the `dev.root101.commons.utils.validation.ValidationService` class and its static methods are used. Example: `ValidationService.validateAndThrow(some_object);`.
+- To validate an object, the `dev.root101.commons.validation.ValidationService` class and its static methods are used. Example: `ValidationService.validateAndThrow(some_object);`.
 - If all validations passed correctly, the code runs normally. If at least one validation fails, a `ValidationException` will be thrown or **a `List` in case of need** (`ValidationService.validate(some_object);`, without `andThrow`).
 - ALL validation examples are located in the examples folder `dev.root101.commons.examples.validation...`.
 - **NOTE**: ALL the objects used are `record` to reduce the example code, but everything explained here works *EXACTLY* the same with standard Java classes.

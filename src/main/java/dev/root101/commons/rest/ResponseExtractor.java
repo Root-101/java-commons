@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dev.root101.clean.core.rest;
+package dev.root101.commons.rest;
 
-import dev.root101.clean.core.exceptions.ApiException;
-import dev.root101.clean.core.exceptions.InternalServerErrorException;
+import dev.root101.commons.exceptions.ApiException;
+import dev.root101.commons.exceptions.InternalServerErrorException;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.logging.Logger;

@@ -1,4 +1,4 @@
-package dev.root101.clean.core.exceptions;
+package dev.root101.commons.exceptions;
 
 import java.util.Arrays;
 import java.util.List;

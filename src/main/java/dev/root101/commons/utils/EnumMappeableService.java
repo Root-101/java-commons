@@ -1,4 +1,4 @@
-package dev.root101.clean.core.utils;
+package dev.root101.commons.utils;
 
 import java.util.List;
 import java.util.function.Function;

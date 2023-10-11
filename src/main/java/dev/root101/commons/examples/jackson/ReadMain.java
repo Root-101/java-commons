@@ -1,6 +1,6 @@
-package dev.root101.clean.core.examples.jackson;
+package dev.root101.commons.examples.jackson;
 
-import dev.root101.clean.core.utils.Jackson;
+import dev.root101.commons.utils.Jackson;
 
 public class ReadMain {
 

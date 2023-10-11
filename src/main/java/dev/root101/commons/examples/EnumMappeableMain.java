@@ -1,8 +1,8 @@
-package dev.root101.clean.core.examples;
+package dev.root101.commons.examples;
 
-import dev.root101.clean.core.examples.Status_Enum.StatusResponse;
-import dev.root101.clean.core.utils.EnumMappeable;
-import dev.root101.clean.core.utils.EnumMappeableService;
+import dev.root101.commons.examples.Status_Enum.StatusResponse;
+import dev.root101.commons.utils.EnumMappeable;
+import dev.root101.commons.utils.EnumMappeableService;
 
 public class EnumMappeableMain {
 

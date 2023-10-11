@@ -1,6 +1,6 @@
-package dev.root101.clean.core.examples.validation.personalized_1_5;
+package dev.root101.commons.examples.validation.personalized_1_5;
 
-import dev.root101.clean.core.utils.validation.ValidationService;
+import dev.root101.commons.validation.ValidationService;
 
 public class Main {
 

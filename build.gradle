@@ -2,9 +2,9 @@ plugins {
     id 'java'
 }
 
-group = 'dev.root101.clean'
+group = 'dev.root101.commons'
 
-version = '5.0.0.RELEASE.20231011'
+version = '5.0.1.RELEASE.20231011'
 
 repositories {
     jcenter()

@@ -9,7 +9,7 @@ Multilanguage:
 
 This library aims to provide standards and utilities that make work easier when creating microservices.
 
-Docs updated for version: `4.8.1.RELEASE.20230919`
+Docs updated for version: `5.0.1.RELEASE.20231011`
 
 ## Table of Contents
 - [1 - Validations](#1)
@@ -36,13 +36,13 @@ Docs updated for version: `4.8.1.RELEASE.20230919`
 
 ## Validations <a name="1"></a>
 - All native validations are loaded from the [`jakarta.validations.*` framework](https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api).
-- To validate an object, the `dev.root101.clean.core.utils.validation.ValidationService` class and its static methods are used. Example: `ValidationService.validateAndThrow(some_object);`.
+- To validate an object, the `dev.root101.commons.utils.validation.ValidationService` class and its static methods are used. Example: `ValidationService.validateAndThrow(some_object);`.
 - If all validations passed correctly, the code runs normally. If at least one validation fails, a `ValidationException` will be thrown or **a `List` in case of need** (`ValidationService.validate(some_object);`, without `andThrow`).
-- ALL validation examples are located in the examples folder `dev.root101.clean.core.examples.validation...`.
+- ALL validation examples are located in the examples folder `dev.root101.commons.examples.validation...`.
 - **NOTE**: ALL the objects used are `record` to reduce the example code, but everything explained here works EXACTLY the same with standard Java classes.
 
 ### 1.1 - Validation Exception <a name="1.1"></a>
-Once validations are executed on an object, and some fail, an exception of type `dev.root101.clean.core.exceptions.ValidationException` will be thrown.
+Once validations are executed on an object, and some fail, an exception of type `dev.root101.commons.exceptions.ValidationException` will be thrown.
 
 This exception has the:
 - `status_code`, which represents the http response code, ALWAYS being `422: UNPROCESSABLE_ENTITY`. AND,
@@ -577,7 +577,7 @@ For writing (Convert Object to String):
         String converted = Jackson.toString(object);
 ```
 
-**NOTE**: This class has some other functionalities for further read/write customization, as well as to convert/parse objects from one type to another. For more details consult the source code in `dev.root101.clean.core.utils.Jackson`.
+**NOTE**: This class has some other functionalities for further read/write customization, as well as to convert/parse objects from one type to another. For more details consult the source code in `dev.root101.commons.utils.Jackson`.
 
 ### 4.2 - Enum mappeable <a name="4.2"></a>
 When you want to map an Enum to its list of elements without so much code at hand:

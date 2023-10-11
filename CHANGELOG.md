@@ -1,3 +1,7 @@
+* 5.0.1.RELEASE.20231011:
+    * **GENERAL** :
+        * **FIX** :raised: : Rename `clean-core` to `commons`.
+
 * 5.0.0.RELEASE.20231011:
     * **NEW VERSION** :
         * **REMOVED** :x: : Removed `Repo` layer, use basic Spring Boot architecture from now on.

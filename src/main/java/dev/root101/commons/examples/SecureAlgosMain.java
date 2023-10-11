@@ -1,6 +1,6 @@
-package dev.root101.clean.core.examples;
+package dev.root101.commons.examples;
 
-import dev.root101.clean.core.utils.SecurityAlgorithms;
+import dev.root101.commons.utils.SecurityAlgorithms;
 
 public class SecureAlgosMain {
 

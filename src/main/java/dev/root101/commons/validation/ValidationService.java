@@ -1,6 +1,6 @@
-package dev.root101.clean.core.utils.validation;
+package dev.root101.commons.validation;
 
-import dev.root101.clean.core.exceptions.ValidationException;
+import dev.root101.commons.exceptions.ValidationException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;

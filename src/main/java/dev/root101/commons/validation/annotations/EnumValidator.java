@@ -1,4 +1,4 @@
-package dev.root101.clean.core.utils.validation.annotations;
+package dev.root101.commons.validation.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,10 +9,13 @@ import jakarta.validation.Payload;
 
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = SortRegister.class)
-public @interface Sort {
+@Constraint(validatedBy = {
+    EnumValidatorRegister_String.class,
+    EnumValidatorRegister_ListOfString.class
+})
+public @interface EnumValidator {
 
-    String message() default "Sort type must be 'ASC', 'DESC' or '0' for no sorting.";
+    String message() default "Value is not present in enum list.";
 
     Class<?>[] groups() default {};
 
@@ -20,4 +23,5 @@ public @interface Sort {
 
     public String detailMessage() default "";
 
+    public Class<? extends Enum<?>> target();
 }

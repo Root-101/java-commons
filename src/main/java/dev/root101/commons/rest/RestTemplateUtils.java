@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.rest;
+package dev.root101.commons.rest;
 
-import dev.root101.clean.core.utils.Jackson;
+import dev.root101.commons.utils.Jackson;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

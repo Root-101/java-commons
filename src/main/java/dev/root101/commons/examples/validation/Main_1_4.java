@@ -1,7 +1,7 @@
-package dev.root101.clean.core.examples.validation;
+package dev.root101.commons.examples.validation;
 
-import dev.root101.clean.core.utils.validation.ValidationFieldName;
-import dev.root101.clean.core.utils.validation.ValidationService;
+import dev.root101.commons.validation.ValidationFieldName;
+import dev.root101.commons.validation.ValidationService;
 import jakarta.validation.constraints.Size;
 
 class Main_1_4 {

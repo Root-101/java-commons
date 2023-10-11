@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dev.root101.clean.core.test;
+package dev.root101.commons.test;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import dev.root101.clean.core.exceptions.NotFoundException;
-import dev.root101.clean.core.test.ParentType.PlatformResponse;
-import dev.root101.clean.core.utils.EnumMappeable;
+import dev.root101.commons.exceptions.NotFoundException;
+import dev.root101.commons.test.ParentType.PlatformResponse;
+import dev.root101.commons.utils.EnumMappeable;
 import jakarta.validation.constraints.Size;
 
 /**

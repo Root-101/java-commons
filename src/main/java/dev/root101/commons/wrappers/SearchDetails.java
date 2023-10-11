@@ -1,7 +1,7 @@
-package dev.root101.clean.core.wrappers;
+package dev.root101.commons.wrappers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import dev.root101.clean.core.utils.validation.annotations.Sort;
+import dev.root101.commons.validation.annotations.Sort;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;

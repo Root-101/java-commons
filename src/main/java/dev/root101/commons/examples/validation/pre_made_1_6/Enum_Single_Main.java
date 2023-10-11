@@ -1,8 +1,8 @@
-package dev.root101.clean.core.examples.validation.pre_made_1_6;
+package dev.root101.commons.examples.validation.pre_made_1_6;
 
-import dev.root101.clean.core.utils.validation.ValidationService;
-import dev.root101.clean.core.utils.validation.annotations.EnumValidator;
-import dev.root101.clean.core.utils.validation.annotations.EnumValidatorComparator;
+import dev.root101.commons.validation.ValidationService;
+import dev.root101.commons.validation.annotations.EnumValidator;
+import dev.root101.commons.validation.annotations.EnumValidatorComparator;
 
 public class Enum_Single_Main {
 

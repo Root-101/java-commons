@@ -1,4 +1,4 @@
-package dev.root101.clean.core.utils.validation;
+package dev.root101.commons.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

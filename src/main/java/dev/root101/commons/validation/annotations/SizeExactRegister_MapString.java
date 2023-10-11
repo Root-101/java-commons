@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils.validation.annotations;
+package dev.root101.commons.validation.annotations;
 
-import java.util.Collection;
+import java.util.Map;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -25,7 +25,7 @@ import jakarta.validation.ConstraintValidatorContext;
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdez960717@Github
  */
-public class SizeExactRegister_CollectionString implements ConstraintValidator<SizeExact, Collection> {
+public class SizeExactRegister_MapString implements ConstraintValidator<SizeExact, Map> {
 
     private int length;
 
@@ -36,8 +36,8 @@ public class SizeExactRegister_CollectionString implements ConstraintValidator<S
     }
 
     @Override
-    public boolean isValid(Collection list, ConstraintValidatorContext cvc) {
-        return list.size() == length;
+    public boolean isValid(Map map, ConstraintValidatorContext cvc) {
+        return map.size() == length;
     }
 
 }

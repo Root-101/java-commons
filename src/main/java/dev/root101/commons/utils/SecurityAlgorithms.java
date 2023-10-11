@@ -1,4 +1,4 @@
-package dev.root101.clean.core.utils;
+package dev.root101.commons.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

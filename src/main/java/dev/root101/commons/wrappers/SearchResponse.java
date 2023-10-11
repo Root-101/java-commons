@@ -1,4 +1,4 @@
-package dev.root101.clean.core.wrappers;
+package dev.root101.commons.wrappers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

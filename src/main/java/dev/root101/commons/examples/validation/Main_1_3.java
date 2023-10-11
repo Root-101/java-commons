@@ -1,6 +1,6 @@
-package dev.root101.clean.core.examples.validation;
+package dev.root101.commons.examples.validation;
 
-import dev.root101.clean.core.utils.validation.ValidationService;
+import dev.root101.commons.validation.ValidationService;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import java.util.List;

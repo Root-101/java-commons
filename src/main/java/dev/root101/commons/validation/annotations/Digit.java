@@ -14,29 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.root101.clean.core.utils.validation.annotations;
+package dev.root101.commons.validation.annotations;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *
  * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
  * @author JesusHdez960717@Github
  */
-public class SizeExactRegister_ArrayString implements ConstraintValidator<SizeExact, Object[]> {
+@Target(value = ElementType.FIELD)
+@Retention(value = RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = DigitRegister_Character.class)
+public @interface Digit {
 
-    private int length;
+    String message() default "Must be a digit";
 
-    @Override
-    public void initialize(SizeExact a) {
-        ConstraintValidator.super.initialize(a);
-        this.length = a.length();
-    }
+    Class<?>[] groups() default {};
 
-    @Override
-    public boolean isValid(Object[] array, ConstraintValidatorContext cvc) {
-        return array.length == length;
-    }
+    Class<? extends Payload>[] payload() default {};
+
+    public String detailMessage() default "";
 
 }

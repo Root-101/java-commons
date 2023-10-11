@@ -1,3 +1,7 @@
+* 5.1.0.RELEASE.20231011:
+    * **GENERAL** :
+        * **FIX** :bug: : Fix `5.0.1.RELEASE.20231011`: Rename `clean-core` to `commons`. Fix at class level.
+
 * 5.0.1.RELEASE.20231011:
     * **GENERAL** :
         * **FIX** :raised: : Rename `clean-core` to `commons`.

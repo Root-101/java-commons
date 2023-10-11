@@ -9,7 +9,7 @@ Multilanguage:
 
 This library aims to provide standards and utilities that make work easier when creating microservices.
 
-Docs updated for version: `5.0.1.RELEASE.20231011`
+Docs updated for version: `5.1.0.RELEASE.20231011`
 
 ## Table of Contents
 - [1 - Validations](#1)
@@ -39,7 +39,7 @@ Docs updated for version: `5.0.1.RELEASE.20231011`
 - To validate an object, the `dev.root101.commons.utils.validation.ValidationService` class and its static methods are used. Example: `ValidationService.validateAndThrow(some_object);`.
 - If all validations passed correctly, the code runs normally. If at least one validation fails, a `ValidationException` will be thrown or **a `List` in case of need** (`ValidationService.validate(some_object);`, without `andThrow`).
 - ALL validation examples are located in the examples folder `dev.root101.commons.examples.validation...`.
-- **NOTE**: ALL the objects used are `record` to reduce the example code, but everything explained here works EXACTLY the same with standard Java classes.
+- **NOTE**: ALL the objects used are `record` to reduce the example code, but everything explained here works *EXACTLY* the same with standard Java classes.
 
 ### 1.1 - Validation Exception <a name="1.1"></a>
 Once validations are executed on an object, and some fail, an exception of type `dev.root101.commons.exceptions.ValidationException` will be thrown.

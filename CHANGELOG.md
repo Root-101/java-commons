@@ -1,6 +1,7 @@
-* X.X.X.RELEASE.2023XXXX:
+* 5.1.1.RELEASE.20231215:
     * **DOCS** :
         * **UPDATE** :+1: : Update `how to use it`.
+        * **UPDATE** :+1: : General updates.
 
 * 5.1.0.RELEASE.20231011:
     * **GENERAL** :

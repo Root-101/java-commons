@@ -9,7 +9,7 @@ Multilanguage:
 
 This library aims to provide standards and utilities that make work easier when creating microservices.
 
-Docs updated for version: `5.1.0.RELEASE.20231011`
+Docs updated for version: `X.X.X.RELEASE.2023XXXX`
 
 ## Table of Contents
 - [1 - Validations](#1)
@@ -36,7 +36,7 @@ Docs updated for version: `5.1.0.RELEASE.20231011`
 
 ## Validations <a name="1"></a>
 - All native validations are loaded from the [`jakarta.validations.*` framework](https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api).
-- To validate an object, the `dev.root101.commons.utils.validation.ValidationService` class and its static methods are used. Example: `ValidationService.validateAndThrow(some_object);`.
+- To validate an object, the `dev.root101.commons.validation.ValidationService` class and its static methods are used. Example: `ValidationService.validateAndThrow(some_object);`.
 - If all validations passed correctly, the code runs normally. If at least one validation fails, a `ValidationException` will be thrown or **a `List` in case of need** (`ValidationService.validate(some_object);`, without `andThrow`).
 - ALL validation examples are located in the examples folder `dev.root101.commons.examples.validation...`.
 - **NOTE**: ALL the objects used are `record` to reduce the example code, but everything explained here works *EXACTLY* the same with standard Java classes.
@@ -695,9 +695,9 @@ At the moment this package is not published in [mvnrepository](https://mvnreposi
 In the `settings.gradle` add:
 ```
 sourceControl {
-     gitRepository("https://github.com/JesusHdez960717/clean-core.git") {
-         producesModule("dev.root101.clean:clean-core")
-     }
+    gitRepository("https://github.com/Root-101/java-commons.git") {
+        producesModule("dev.root101.commons:commons")
+    }
 }
 ```
 
@@ -707,7 +707,7 @@ Then in the `build.gradle`, under the `dependencies`:
 dependencies {
      //... mode dependencies
 
-     implementation 'dev.root101.clean:clean-core:VERSION'
+     implementation 'dev.root101.commons:commons:VERSION'
 
      //... mode dependencies
 }
@@ -715,4 +715,4 @@ dependencies {
 
 Being `VERSION` the version you want to use of the package.
 
-**NOTE**: The latest available version is always recommended.
+**NOTE**: The latest available version is ***ALWAYS*** recommended.

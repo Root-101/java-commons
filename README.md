@@ -1,7 +1,7 @@
 <!-- 
 
 Multilanguage:
-[Español](README.es.md)
+[Espaï¿½ol](README.es.md)
 
 -->
 
@@ -9,7 +9,7 @@ Multilanguage:
 
 This library aims to provide standards and utilities that make work easier when creating microservices.
 
-Docs updated for version: `X.X.X.RELEASE.2023XXXX`
+Docs updated for version: `5.1.2.RELEASE.20240211`
 
 ## Table of Contents
 - [1 - Validations](#1)
@@ -24,9 +24,6 @@ Docs updated for version: `X.X.X.RELEASE.2023XXXX`
         - [1.6.3 - Size Exact](#1.6.3)
 - [2 - Exceptions](#2)
 - [4 - Rest](#3)
-    - [4.1 - Api response](#3.1) 
-    - [4.2 - Response Extractor (Next)](#3.2)
-    - [4.3 - Rest Template utils (Next)](#3.3)
 - [5 - Utils](#4)
     - [5.1 - Jackson](#4.1)
     - [5.2 - Enum mappeable](#4.2)
@@ -86,17 +83,17 @@ ValidationException{
         ValidationErrorMessage[
             source = root[0].parentName,
             invalid_value = Pepito,
-            message = el tamaño debe estar entre 1 y 5
+            message = el tamaï¿½o debe estar entre 1 y 5
         ],
         ValidationErrorMessage[
             source = root[1].childName,
             invalid_value = Pepito Junior,
-            message = el tamaño debe estar entre 1 y 5
+            message = el tamaï¿½o debe estar entre 1 y 5
         ], 
         ValidationErrorMessage[
             source = root[2].childName,
             invalid_value = Pepito Junior 2,
-            message = el tamaño debe estar entre 1 y 5
+            message = el tamaï¿½o debe estar entre 1 y 5
         ]
     ]
 }
@@ -131,7 +128,7 @@ ValidationException{
         ValidationErrorMessage[
             source = parentName, 
             invalid_value = Pepito Simple, 
-            message = el tamaño debe estar entre 1 y 5
+            message = el tamaï¿½o debe estar entre 1 y 5
         ]
     ]
 }
@@ -181,17 +178,17 @@ ValidationException{
         ValidationErrorMessage[
             source = parentName,
             invalid_value = Pepito,
-            message = el tamaño debe estar entre 1 y 5
+            message = el tamaï¿½o debe estar entre 1 y 5
         ],
         ValidationErrorMessage[
             source = childrens[0].childName,
             invalid_value = Pepito Junior,
-            message = el tamaño debe estar entre 1 y 5
+            message = el tamaï¿½o debe estar entre 1 y 5
         ], 
         ValidationErrorMessage[
             source = childrens[1].childName,
             invalid_value = Pepito Junior 2,
-            message = el tamaño debe estar entre 1 y 5
+            message = el tamaï¿½o debe estar entre 1 y 5
         ]
     ]
 }
@@ -226,7 +223,7 @@ ValidationException{
         ValidationErrorMessage[
             source = parent_name, // => note here how the value change from `parentName` to `parent_name`
             invalid_value = Pepito Simple, 
-            message = el tamaño debe estar entre 1 y 5
+            message = el tamaï¿½o debe estar entre 1 y 5
         ]
     ]
 }
@@ -479,63 +476,6 @@ Para estandarizar el uso de las respuestas HTTP se crearon las excepciones(mas c
 ## 3 - Rest <a name="3"></a>
 
 Oficial docs for HTTP Responses [here](https://datatracker.ietf.org/doc/html/rfc7231).
-
-### 3.1 Api Response <a name="3.1"></a>
-The idea of `ApiResponse` is to generalize API responses to a standard.
-ALL API responses must follow this guideline.
-The `ApiResponse` class has:
-- `status`: Representing the HTTP code of the response.
-- `message`: The response message to the request.
-- `data`: The data or information of the response, if there is a response.
-Ejemplos:
-1 - A request to modify a record that is executed successfully must return:
-```java
-ApiResponse{
-    status = 200,
-    message = "Success",
-    data = null
-}
-```
-
-2 - A request to obtain a list must return:
-```java
-ApiResponse{
-    status = 200,
-    message = "Success",
-    data = [
-        "Data 1",
-        "Data 2",
-        "Data 3"
-    ]
-}
-```
-
-3 - A request to obtain an object must return:
-```java
-ApiResponse{
-    status = 200,
-    message = "Success",
-    data = SomeObject{
-        field1 = "some data",
-        field2 = "some data 2"
-    }
-}
-```
-
-4 - A request to create users with a name that already exists should return:
-```java
-ApiResponse{
-    status = 409,
-    message = "Username already exists",
-}
-```
-
-How to use it:
-- For response 200 you can use: `ApiResponse.success()`, which by default says `status = 200`, `message = success` and `data = null`.
-- For response 200 you can use: `ApiResponse.success(data)`, which by default says `status = 200` and `message = success`.
-- For response 200 you can use: `ApiResponse.success(message, data)`, which by default says `status = 200`.
-- For generic responses you can use: `ApiResponse.build(status, message, data)`.
-- To extract a response from a `ResponseEntity` you can use: `ApiResponse.build(status, message, data)`, which by default says `status = response.getStatusCode().value()`, `message = response. getStatusCode().toString()` and `data = response.getBody()`.
 
 ## 4 - Utils <a name="4"></a>
 

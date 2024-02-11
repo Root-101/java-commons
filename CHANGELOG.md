@@ -1,3 +1,6 @@
+* 5.1.2.RELEASE.20240211:
+    * **REMOVED** :-: : Removed `ApiResponse`
+
 * 5.1.1.RELEASE.20231215:
     * **DOCS** :
         * **UPDATE** :+1: : Update `how to use it`.

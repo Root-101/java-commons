@@ -1,3 +1,6 @@
+* 5.1.3.RELEASE.20240711:
+    * **REMOVED** :-: : Removed `Wrappers` & dependency on spring data
+
 * 5.1.2.RELEASE.20240211:
     * **REMOVED** :-: : Removed `ApiResponse`
 

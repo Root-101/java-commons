@@ -1,3 +1,6 @@
+* 5.1.11:
+    * **PACKAGE** :sparkler: : Fix build workflow
+
 * 5.1.10:
     * **PACKAGE** :sparkler: : Fix build workflow
 

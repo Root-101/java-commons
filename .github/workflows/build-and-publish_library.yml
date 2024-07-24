@@ -14,8 +14,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: |
-      github.base_ref == 'master'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -57,9 +55,6 @@ jobs:
   publish:
     needs: build
     runs-on: ubuntu-latest
-    if: |
-      github.base_ref == 'master'
-
     steps:
       - uses: actions/checkout@v3
         with:
@@ -112,13 +107,11 @@ jobs:
           ENVIRONMENT: ${{ steps.determine_version.outputs.env }}
 
       - name: Create and push tag(for master)
-        if: github.base_ref == 'master'
         run: |
           git tag v${{ steps.determine_version.outputs.version }}
           git push origin v${{ steps.determine_version.outputs.version }}
 
       - name: Create Release(for master)
-        if: github.base_ref == 'master'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -135,8 +128,6 @@ jobs:
   cleanup-packages:
     needs: publish
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && (github.base_ref == 'master' || github.base_ref == 'develop')
-
     steps:
       - name: Delete old packages
         env:

@@ -1,3 +1,6 @@
+* 5.1.7:
+    * **PACKAGE** :sparkler: : Fix build workflow
+
 * 5.1.6.RELEASE.20240724:
     * **PACKAGE** :sparkler: : Fix build workflow
 

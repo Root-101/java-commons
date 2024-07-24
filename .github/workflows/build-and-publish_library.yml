@@ -1,9 +1,9 @@
 name: Build and Publish Library
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    types: [ closed ]
+    branches: [ develop, master ]
 
 permissions:
   contents: write
@@ -14,6 +14,12 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: |
+      github.event.pull_request.merged == true && 
+      (
+       (github.base_ref == 'develop' && startsWith(github.event.pull_request.title, 'NEW_RELEASE')) ||
+       (github.base_ref == 'master' && github.head_ref == 'develop')
+      )
     steps:
       - uses: actions/checkout@v3
         with:
@@ -55,6 +61,14 @@ jobs:
   publish:
     needs: build
     runs-on: ubuntu-latest
+    if: |
+      success() && 
+       github.event.pull_request.merged == true && 
+      (
+        (github.base_ref == 'develop' && startsWith(github.event.pull_request.title, 'NEW_RELEASE')) ||
+        (github.base_ref == 'master' && github.head_ref == 'develop')
+      )
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -83,13 +97,24 @@ jobs:
       - name: Determine version
         id: determine_version
         run: |
+          if [[ "${{ github.base_ref }}" == "develop" ]]; then
             LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
             MAJOR=$(echo $LAST_TAG | cut -d. -f1)
             MINOR=$(echo $LAST_TAG | cut -d. -f2)
             PATCH=$(echo $LAST_TAG | cut -d. -f3)
             NEW_VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))"
+            echo "version=${NEW_VERSION}-SNAPSHOT" >> $GITHUB_OUTPUT
+            echo "env=development" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.base_ref }}" == "master" ]]; then
+            LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+            VERSION=${LAST_TAG#v}
+            MAJOR=$(echo $VERSION | cut -d. -f1)
+            MINOR=$(echo $VERSION | cut -d. -f2)
+            PATCH=$(echo $VERSION | cut -d. -f3)
+            NEW_VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))"
             echo "version=${NEW_VERSION}" >> $GITHUB_OUTPUT
-            echo "env=prod" >> $GITHUB_OUTPUT
+            echo "env=production" >> $GITHUB_OUTPUT
+          fi
 
       - name: Display version
         run: |
@@ -107,11 +132,13 @@ jobs:
           ENVIRONMENT: ${{ steps.determine_version.outputs.env }}
 
       - name: Create and push tag(for master)
+        if: github.base_ref == 'master'
         run: |
           git tag v${{ steps.determine_version.outputs.version }}
           git push origin v${{ steps.determine_version.outputs.version }}
 
       - name: Create Release(for master)
+        if: github.base_ref == 'master'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -128,15 +155,17 @@ jobs:
   cleanup-packages:
     needs: publish
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && (github.base_ref == 'master' || github.base_ref == 'develop')
+
     steps:
       - name: Delete old packages
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Definir el nombre del paquete y el número de versiones a mantener
-          PACKAGE_NAME="dev.root101.commons"
-          VERSIONS_TO_KEEP_PROD=10
-          VERSIONS_TO_KEEP_DEV=5
+          PACKAGE_NAME="es.zyrcled.cloud_vision_connection_lib"
+          VERSIONS_TO_KEEP_PROD=5
+          VERSIONS_TO_KEEP_DEV=3
 
           # Función para eliminar versiones antiguas
           delete_old_versions() {

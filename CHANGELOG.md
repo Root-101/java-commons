@@ -1,3 +1,6 @@
+* 5.2.0.RELEASE.20240724:
+    * **VERSION** :sparkler: : Fix versioning problems
+
 * 5.1.2.RELEASE.20240211:
     * **REMOVED** :-: : Removed `ApiResponse`
 

@@ -15,11 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: |
-      github.event.pull_request.merged == true && 
-      (
-       (github.base_ref == 'develop' && startsWith(github.event.pull_request.title, 'NEW_RELEASE')) ||
-       (github.base_ref == 'master')
-      )
+      github.base_ref == 'master'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -62,12 +58,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: |
-      success() && 
-       github.event.pull_request.merged == true && 
-      (
-        (github.base_ref == 'develop' && startsWith(github.event.pull_request.title, 'NEW_RELEASE')) ||
-        (github.base_ref == 'master')
-      )
+      github.base_ref == 'master'
 
     steps:
       - uses: actions/checkout@v3

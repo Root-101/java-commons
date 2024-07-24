@@ -1,3 +1,9 @@
+* 5.1.6.RELEASE.20240724:
+    * **PACKAGE** :sparkler: : Fix build workflow
+
+* 5.1.5.RELEASE.20240724:
+    * **PACKAGE** :sparkler: : Increase version
+
 * 5.1.4.RELEASE.20240724:
     * **PACKAGE** :sparkler: : Config project to deploys as a Github-Package
 

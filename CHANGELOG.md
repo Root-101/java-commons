@@ -1,3 +1,6 @@
+* 5.1.4.RELEASE.20240724:
+    * **PACKAGE** :sparkler: : Config project to deploys as a Github-Package
+
 * 5.1.3.RELEASE.20240711:
     * **REMOVED** :-: : Removed `Wrappers` & dependency on spring data
 

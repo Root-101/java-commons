@@ -1,5 +1,6 @@
 package dev.root101.commons.validation;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import dev.root101.commons.exceptions.ValidationException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -28,8 +29,14 @@ public class ValidationService {
     //Created static to avoid recreated every time a validation occur
     private static Validator DEFAULT_VALIDATOR = CONFIG.buildValidatorFactory().getValidator();
 
+    private static PropertyNamingStrategies.NamingBase NAMING_STRATEGY;
+
     public static MessageInterpolator defaultMessageInterpolator() {
         return CONFIG.getDefaultMessageInterpolator();
+    }
+
+    public static void setDefaultNamingStrategy(PropertyNamingStrategies.NamingBase namingStrategy) {
+        NAMING_STRATEGY = namingStrategy;
     }
 
     public static void setMessageInterpolator(MessageInterpolator msgInterp) {
@@ -112,7 +119,10 @@ public class ValidationService {
                         ValidationFieldName fieldNameAnnotation = field.getDeclaredAnnotation(ValidationFieldName.class);
                         if (fieldNameAnnotation != null) {
                             fieldName = fieldNameAnnotation.value();
+                        } else {
+                            fieldName = globalParse(fieldName);
                         }
+
                     } catch (NoSuchFieldException | SecurityException e) {
                         System.out.println("Error convirtiendo los mensajes de las validaciones. " + e.getMessage());
                     }
@@ -177,16 +187,17 @@ public class ValidationService {
                         }
                         Class tClass = t.getClass();
 
-                        if (t != null
-                                && (!(ClassUtils.isPrimitiveOrWrapper(tClass)
+                        if (!(ClassUtils.isPrimitiveOrWrapper(tClass)
                                 || tClass.getName().startsWith("java") || Enum.class.isAssignableFrom(tClass))
-                                || List.class.isAssignableFrom(tClass))) {
+                                || List.class.isAssignableFrom(tClass)) {
 
                             String fieldName = field.getName();
 
                             ValidationFieldName fieldNameAnnotation = field.getDeclaredAnnotation(ValidationFieldName.class);
                             if (fieldNameAnnotation != null) {
                                 fieldName = fieldNameAnnotation.value();
+                            } else {
+                                fieldName = globalParse(fieldName);
                             }
 
                             //de todos los campos que no son primitivos los valido
@@ -201,4 +212,12 @@ public class ValidationService {
         }
         return violations;
     }
+
+    private static String globalParse(String fieldName) {
+        if (NAMING_STRATEGY != null) {
+            return NAMING_STRATEGY.translate(fieldName);
+        }
+        return fieldName;
+    }
+
 }

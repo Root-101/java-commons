@@ -13,15 +13,16 @@ Docs updated for version: `5.1.2.RELEASE.20240211`
 
 ## Table of Contents
 - [1 - Validations](#1)
-    - [1.1 - Validation Exception](#1.1)
-    - [1.2 - Simple object](#1.2)
-    - [1.3 - Complex Object & Recursivity](#1.3)
-    - [1.4 - Nombre de un campo personalizado](#1.4)
-    - [1.5 - Validacion personalizada](#1.5)
-    - [1.6 - Validaciones pre-echas:](#1.6)
-        - [1.6.1 - Digit](#1.6.1)
-        - [1.6.2 - Enum](#1.6.2)
-        - [1.6.3 - Size Exact](#1.6.3)
+    - [1.1 - Config the ValidationService](#1.1)
+    - [1.2 - Validation Exception](#1.2)
+    - [1.3 - Simple object](#1.3)
+    - [1.4 - Complex Object & Recursivity](#1.4)
+    - [1.5 - Personalized field name](#1.5)
+    - [1.6 - Personalized validation](#1.6)
+    - [1.7 - Pre-Made validations:](#1.7)
+        - [1.7.1 - Digit](#1.7.1)
+        - [1.7.2 - Enum](#1.7.2)
+        - [1.7.3 - Size Exact](#1.7.3)
 - [2 - Exceptions](#2)
 - [4 - Rest](#3)
 - [5 - Utils](#4)
@@ -33,13 +34,42 @@ Docs updated for version: `5.1.2.RELEASE.20240211`
 
 ## Validations <a name="1"></a>
 - All native validations are loaded from the [`jakarta.validations.*` framework](https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api).
-- To validate an object, the `dev.root101.commons.validation.ValidationService` class and its static methods are used. Example: `ValidationService.validateAndThrow(some_object);`.
-- If all validations passed correctly, the code runs normally. If at least one validation fails, a `ValidationException` will be thrown or **a `List` in case of need** (`ValidationService.validate(some_object);`, without `andThrow`).
+- To validate an object, the `dev.root101.commons.validation.ValidationService` class is used.
+- If all validations passed correctly, the code runs normally. If at least one validation fails, a `ValidationException` will be thrown or **a `List` in case of need** (`validationService.validate(some_object);`, without `andThrow`).
 - ALL validation examples are located in the examples folder `dev.root101.commons.examples.validation...`.
 - **NOTE**: ALL the objects used are `record` to reduce the example code, but everything explained here works *EXACTLY* the same with standard Java classes.
 
-### 1.1 - Validation Exception <a name="1.1"></a>
-Once validations are executed on an object, and some fail, an exception of type `dev.root101.commons.exceptions.ValidationException` will be thrown.
+### 1.1 - Config the ValidationService <a name="1.1"></a>
+To execute all validations we need an instance of `ValidationService`.
+
+The most easy & basic way to use it is with:
+```java
+    ValidationService validationService = ValidationService.basic();
+```
+
+This code give us an `basic` instance, with a default config. This config came from:
+```java
+String DEFAULT_PARENT_TREE_SEPARATOR = ".";
+Configuration<?> DEFAULT_CONFIG = Validation.byDefaultProvider().configure()
+Validator validator = CONFIG.buildValidatorFactory().getValidator();
+PropertyNamingStrategies.NamingBase namingStrategy = null;
+```
+
+If a more personalized instace is needed, it can be achieved with:
+```java
+        ValidationService validationService = ValidationService.builder()
+                .config(someNewConfig)
+                .messageInterpolator(someNewMessageInterpolator)
+                .namingStrategy(new PropertyNamingStrategies.SnakeCaseStrategy())
+                .build();
+```
+
+For more details on specific topics go to:
+- ![MessageInterpolator](https://www.baeldung.com/spring-validation-message-interpolation)
+- com.fasterxml.jackson.databind.PropertyNamingStrategies oficial docs
+
+### 1.2 - Validation Exception <a name="1.2"></a>
+Once validations are executed on an object, and some fail, an exception of type `dev.root101.commons.exceptions.ValidationException` will be thrown (or returned).
 
 This exception has the:
 - `status_code`, which represents the http response code, ALWAYS being `422: UNPROCESSABLE_ENTITY`. AND,
@@ -52,6 +82,8 @@ This exception has the:
 For an object like:
 
 ```java
+        ValidationService validationService = ValidationService.basic();
+
         record Child(
                 @Size(min = 1, max = 5)
                 String childName) {
@@ -67,7 +99,7 @@ For an object like:
         }
 
         //validating the fields as a list
-        ValidationService.validateAndThrow(
+        validationService.validateAndThrow(
                 parent,
                 parent.childs().get(0),
                 parent.childs().get(1)
@@ -83,17 +115,17 @@ ValidationException{
         ValidationErrorMessage[
             source = root[0].parentName,
             invalid_value = Pepito,
-            message = el tama�o debe estar entre 1 y 5
+            message = el tamanno debe estar entre 1 y 5
         ],
         ValidationErrorMessage[
             source = root[1].childName,
             invalid_value = Pepito Junior,
-            message = el tama�o debe estar entre 1 y 5
+            message = el tamanno debe estar entre 1 y 5
         ], 
         ValidationErrorMessage[
             source = root[2].childName,
             invalid_value = Pepito Junior 2,
-            message = el tama�o debe estar entre 1 y 5
+            message = el tamanno debe estar entre 1 y 5
         ]
     ]
 }
@@ -101,10 +133,12 @@ ValidationException{
 
 Note: the `root[i]` in the `source` indicate the position in the list of every element
 
-### 1.2 - Simple Object <a name="1.2"></a>
+### 1.3 - Simple Object <a name="1.3"></a>
 All its fields are validated for a simple object:
 
 ```java
+        ValidationService validationService = ValidationService.basic();
+
         //Simple object
         record Parent(
                 @Size(min = 1, max = 5)
@@ -116,7 +150,7 @@ All its fields are validated for a simple object:
         Parent parent = new Parent("Pepito Simple");
         
         //Validate
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
 ```
 
 This code will throw the exception:
@@ -128,17 +162,19 @@ ValidationException{
         ValidationErrorMessage[
             source = parentName, 
             invalid_value = Pepito Simple, 
-            message = el tama�o debe estar entre 1 y 5
+            message = el tamanno debe estar entre 1 y 5
         ]
     ]
 }
 ```
 
-### 1.3 - Complex Object & Recursivity <a name="1.3"></a>
+### 1.4 - Complex Object & Recursivity <a name="1.4"></a>
 If you have an object A with one of its fields being another object B, and you want to validate the fields of A, and at the same time the fields of B, a recursion is executed through all the fields of the objects until all of them are validated.
 Including all its elements in a list.
 
 ```java
+        ValidationService validationService = ValidationService.basic();
+
         record Child(
                 @Size(min = 1, max = 5)
                 String childName) {
@@ -166,7 +202,7 @@ Including all its elements in a list.
         );
 
         //validate the object and revursive every field
-        ValidationService.validateRecursiveAndThrow(parent);
+        validationService.validateRecursiveAndThrow(parent);
 ```
 
 This code will throw the exception:
@@ -178,30 +214,34 @@ ValidationException{
         ValidationErrorMessage[
             source = parentName,
             invalid_value = Pepito,
-            message = el tama�o debe estar entre 1 y 5
+            message = el tamanno debe estar entre 1 y 5
         ],
         ValidationErrorMessage[
             source = childrens[0].childName,
             invalid_value = Pepito Junior,
-            message = el tama�o debe estar entre 1 y 5
+            message = el tamanno debe estar entre 1 y 5
         ], 
         ValidationErrorMessage[
             source = childrens[1].childName,
             invalid_value = Pepito Junior 2,
-            message = el tama�o debe estar entre 1 y 5
+            message = el tamanno debe estar entre 1 y 5
         ]
     ]
 }
 ```
 
-### 1.4 - Personalize fields names <a name="1.4"></a>
-If a validation fails, the `source` of the `ValidationErrorMessage` shows the name of the field that failed, but in case you want that field to have a different name than the one it has by default (due to a typing difference or similar: Camel Case , Snake...).
+### 1.5 - Personalize fields names <a name="1.5"></a>
+If a validation fails, the `source` of the `ValidationErrorMessage` shows the name of the field that failed,
+but in case you want that field to have a different name than the one it has by default (due to a typing difference or similar: Camel Case , Snake...) you can:
 
-Without the annotation the answer would be like [1.2 - Simple object](#1.2).
+1 - Leave it by default: With a default config the answer would be like [1.2 - Simple object](#1.2).
 
-With the annotation:
+2 - With the `ValidationFieldName` annotation. This annotation override the name of the field ONLY for the validation source in an ValidationErrorMessage. (Don't affect json-mapping, getters, nothing)
 
+Use it as:
 ```java
+        ValidationService validationService = ValidationService.basic();
+
         record Parent(
                 @ValidationFieldName("parent_name")
                 @Size(min = 1, max = 5)
@@ -211,10 +251,48 @@ With the annotation:
 
         Parent parent = new Parent("Pepito Simple");
 
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
 ```
 
-And response:
+3 - With the `JsonProperty` annotation. This annotation, that is generally used for rename fields when jackson parse it as/from json, is used in case of the `ValidationFieldName` is not present in the field.
+
+Use it as:
+```java
+        ValidationService validationService = ValidationService.basic();
+
+        record Parent(
+                @JsonProperty("parent_name")
+                @Size(min = 1, max = 5)
+                String parentName) {
+
+        }
+
+        Parent parent = new Parent("Pepito Simple");
+
+        validationService.validateAndThrow(parent);
+```
+
+3 - With the `Naming Strategy`. When creating the `ValidationService` a `PropertyNamingStrategies` can be configured, this will override all fields:
+
+**NOTE:** Option #2 & #3 only override the field of the annotation.
+
+```java
+        ValidationService validationService = ValidationService.builder()
+                .namingStrategy(new PropertyNamingStrategies.SnakeCaseStrategy())
+                .build();
+
+        record Parent(
+                @Size(min = 1, max = 5)
+                String parentName) {
+
+        }
+
+        Parent parent = new Parent("Pepito Simple");
+
+        validationService.validateAndThrow(parent);
+```
+
+For the cases #2, #3 & #4 the response will be:
 
 ```
 ValidationException{
@@ -223,13 +301,25 @@ ValidationException{
         ValidationErrorMessage[
             source = parent_name, // => note here how the value change from `parentName` to `parent_name`
             invalid_value = Pepito Simple, 
-            message = el tama�o debe estar entre 1 y 5
+            message = el tamanno debe estar entre 1 y 5
         ]
     ]
 }
 ```
 
-### 1.5 - Personalized annotation <a name="1.5"></a>
+**NOTE** Order of priority:
+
+In all cases the priority is:
+
+1 - `@ValidationFieldName`: if in a field this annotation is present, it's value is used, if not, service will look for:
+
+2 - `@JsonProperty`: if the field has this annotation present, it's value is used, if not, service will look for:
+
+3 - `NamingStrategy`: if the NamingStrategy is configured, the service will convert the default name of the field into this, if NamingStrategy is not config (aka, NamingStrategy == null):
+
+4 - `Field Name`: the default field name is used 
+
+### 1.6 - Personalized annotation <a name="1.6"></a>
 In case a more complex or customized validation is needed that does not come by default in `jakarta`, one can be created manually, compatible with the `ValidationService`.
 
 The example of an annotation to validate that a Parent's name is 'Pepito' would look like this:
@@ -309,6 +399,8 @@ public class PersonalizedValidationRegister implements ConstraintValidator<Perso
 We then write down the field and execute the validations:
 
 ```java
+        ValidationService validationService = ValidationService.basic();
+
         record Parent(
                 @PersonalizedValidation(name = "Pepito")
                 String parentName) {
@@ -316,7 +408,7 @@ We then write down the field and execute the validations:
         }
         Parent parent = new Parent("Pepito Simple");
 
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
 ```
 
 Answer will be:
@@ -335,12 +427,14 @@ ValidationException{
 ```
 **NOTE**: the annotation and the register cannot be in the same file, they must be created in separate files/classes.
 
-### 1.6 - Pre-made validations <a name="1.6"></a>
+### 1.7 - Pre-made validations <a name="1.7"></a>
 The `jakarta.validation.*` package has the validations that are used in most cases.
 But in case they are not enough, some were implemented that were needed at the time and that can be reused, such as:
 
-- <a name="1.6.1"></a> `Digit`: validate that a `Character` is a digit.
+- <a name="1.7.1"></a> `Digit`: validate that a `Character` is a digit.
 ```java
+        ValidationService validationService = ValidationService.basic();
+
         record Parent(
                 @Digit()
                 Character sex) {
@@ -348,7 +442,7 @@ But in case they are not enough, some were implemented that were needed at the t
         }
 
         Parent parent = new Parent('0');
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
 ```
 
 Error:
@@ -365,7 +459,7 @@ ValidationException{
     ]
 }
 ```
-- <a name="1.6.2"></a> `EnumValidator`: validate that a `String` belongs to any of the values of an enum.
+- <a name="1.7.2"></a> `EnumValidator`: validate that a `String` belongs to any of the values of an enum.
 
 Having the enum:
 
@@ -403,13 +497,15 @@ If the interface is not implemented, the default comparison is used with a `cont
 The object is created and the required field is noted and the validation is run:
 
 ```java
+        ValidationService validationService = ValidationService.basic();
+
         record Parent(
                 @EnumValidator(target = Age.class)
                 String age) {
         }
 
         Parent parent = new Parent("other");
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
 ```
 
 Which results:
@@ -439,7 +535,7 @@ In addition, in case you do not want to implement the `EnumValidatorComparator<S
         });
 ```
 
-- <a name="1.6.3"></a> `SizeExact`: Validates that a `String`, `List`, `Array` or `Map` has an exact size. Validating for each one its length.
+- <a name="1.7.3"></a> `SizeExact`: Validates that a `String`, `List`, `Array` or `Map` has an exact size. Validating for each one its length.
 
 ## 2 - Exceptions <a name="2"></a>
 

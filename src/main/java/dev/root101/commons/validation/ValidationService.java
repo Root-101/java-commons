@@ -1,5 +1,6 @@
 package dev.root101.commons.validation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import dev.root101.commons.exceptions.ValidationException;
 import java.lang.reflect.Field;
@@ -15,48 +16,46 @@ import org.springframework.util.ClassUtils;
 
 public class ValidationService {
 
-    public static final String PARENT_TREE_SEPARATOR = ".";
-
     public record TracedViolation(
             Set<ConstraintViolation<Object>> currentViolations,
             String parentTree) {
 
     }
 
-    //store the config
-    private static final Configuration<?> CONFIG = Validation.byDefaultProvider().configure();
+    public static final Configuration<?> DEFAULT_CONFIG = Validation.byDefaultProvider().configure();
 
-    //Created static to avoid recreated every time a validation occur
-    private static Validator DEFAULT_VALIDATOR = CONFIG.buildValidatorFactory().getValidator();
+    public static final String DEFAULT_PARENT_TREE_SEPARATOR = ".";
 
-    private static PropertyNamingStrategies.NamingBase NAMING_STRATEGY;
+    private final String parentTeeSeparator;
+    private final Validator validator;
+    private final PropertyNamingStrategies.NamingBase namingStrategy;
 
-    public static MessageInterpolator defaultMessageInterpolator() {
-        return CONFIG.getDefaultMessageInterpolator();
+    public ValidationService(String parentTeeSeparator, Validator validator, PropertyNamingStrategies.NamingBase namingStrategy) {
+        this.parentTeeSeparator = parentTeeSeparator;
+        this.validator = validator;
+        this.namingStrategy = namingStrategy;
     }
 
-    public static void setDefaultNamingStrategy(PropertyNamingStrategies.NamingBase namingStrategy) {
-        NAMING_STRATEGY = namingStrategy;
+    public static ValidationService basic() {
+        return builder().build();
     }
 
-    public static void setMessageInterpolator(MessageInterpolator msgInterp) {
-        DEFAULT_VALIDATOR = CONFIG.messageInterpolator(
-                msgInterp
-        ).buildValidatorFactory().getValidator();
+    public static ValidationServiceBuilder builder() {
+        return new ValidationServiceBuilder();
     }
 
-    public static void validateAndThrow(Object... objects) throws ValidationException {
+    public void validateAndThrow(Object... objects) throws ValidationException {
         List<TracedViolation> errors = validate(objects);
         if (!errors.isEmpty()) {
             throw new ValidationException(convertMessages(errors));
         }
     }
 
-    public static List<TracedViolation> validate(Object... objects) {
+    public List<TracedViolation> validate(Object... objects) {
         List<TracedViolation> errors = new ArrayList<>();
 
         if (objects.length == 1) {
-            Set<ConstraintViolation<Object>> violations = DEFAULT_VALIDATOR.validate(objects[0]);
+            Set<ConstraintViolation<Object>> violations = validator.validate(objects[0]);
             if (!violations.isEmpty()) {
                 errors.add(
                         new TracedViolation(
@@ -67,7 +66,7 @@ public class ValidationService {
             }
         } else {
             for (int i = 0; i < objects.length; i++) {
-                Set<ConstraintViolation<Object>> violations = DEFAULT_VALIDATOR.validate(objects[i]);
+                Set<ConstraintViolation<Object>> violations = validator.validate(objects[i]);
                 if (!violations.isEmpty()) {
                     errors.add(
                             new TracedViolation(
@@ -82,14 +81,14 @@ public class ValidationService {
         return errors;
     }
 
-    public static void validateRecursiveAndThrow(Object... objects) throws ValidationException {
+    public void validateRecursiveAndThrow(Object... objects) throws ValidationException {
         List<TracedViolation> errors = validateRecursive(objects);
         if (!errors.isEmpty()) {
             throw new ValidationException(convertMessages(errors));
         }
     }
 
-    public static List<TracedViolation> validateRecursive(Object... objects) {
+    public List<TracedViolation> validateRecursive(Object... objects) {
         if (objects.length == 1) {
             return validateRecursive(new ArrayList<>(), "", objects[0]);
         } else {
@@ -107,7 +106,7 @@ public class ValidationService {
         }
     }
 
-    public static List<ValidationException.ValidationErrorMessage> convertMessages(List<TracedViolation> violation) {
+    public List<ValidationException.ValidationErrorMessage> convertMessages(List<TracedViolation> violation) {
         List<ValidationException.ValidationErrorMessage> messages = new ArrayList<>();
         for (TracedViolation general : violation) {
             if (!general.currentViolations.isEmpty()) {
@@ -120,15 +119,20 @@ public class ValidationService {
                         if (fieldNameAnnotation != null) {
                             fieldName = fieldNameAnnotation.value();
                         } else {
-                            fieldName = globalParse(fieldName);
+                            JsonProperty jsonProp = field.getDeclaredAnnotation(JsonProperty.class);
+                            if (jsonProp != null && jsonProp.value() != null) {
+                                fieldName = jsonProp.value();
+                            } else {
+                                fieldName = parseFieldName(fieldName);
+                            }
                         }
 
                     } catch (NoSuchFieldException | SecurityException e) {
                         System.out.println("Error convirtiendo los mensajes de las validaciones. " + e.getMessage());
                     }
 
-                    String source = general.parentTree + PARENT_TREE_SEPARATOR + fieldName;
-                    if (source.startsWith(PARENT_TREE_SEPARATOR)) {
+                    String source = general.parentTree + parentTeeSeparator + fieldName;
+                    if (source.startsWith(parentTeeSeparator)) {
                         source = source.substring(1, source.length());
                     } else if (source.startsWith("[")) {
                         source = "root" + source;
@@ -150,7 +154,7 @@ public class ValidationService {
         return messages;
     }
 
-    private static List<TracedViolation> validateRecursive(List<TracedViolation> violations, String parentTree, Object object) {
+    private List<TracedViolation> validateRecursive(List<TracedViolation> violations, String parentTree, Object object) {
         //si NO es null lo proceso. Null no tiene sentido validarlo(DEFAULT_VALIDATOR.validate(null) lanza excepcion), se deberia haber validado una capa arriba.
         if (object != null) {
             //si no es null compruebo si:
@@ -166,7 +170,7 @@ public class ValidationService {
                 }
             } else {
                 //no es ni una lista ni un arreglo, valido el objeto como objeto
-                Set<ConstraintViolation<Object>> validations = DEFAULT_VALIDATOR.validate(object);
+                Set<ConstraintViolation<Object>> validations = validator.validate(object);
                 if (!validations.isEmpty()) {
                     violations.add(
                             new TracedViolation(
@@ -181,15 +185,15 @@ public class ValidationService {
                 for (Field field : fields) {
                     try {
                         field.setAccessible(true);
-                        Object t = field.get(object);
-                        if (t == null) {
+                        Object fieldOfObject = field.get(object);
+                        if (fieldOfObject == null) {
                             continue;
                         }
-                        Class tClass = t.getClass();
+                        Class classOfField = fieldOfObject.getClass();
 
-                        if (!(ClassUtils.isPrimitiveOrWrapper(tClass)
-                                || tClass.getName().startsWith("java") || Enum.class.isAssignableFrom(tClass))
-                                || List.class.isAssignableFrom(tClass)) {
+                        if (!(ClassUtils.isPrimitiveOrWrapper(classOfField)
+                                || classOfField.getName().startsWith("java") || Enum.class.isAssignableFrom(classOfField))
+                                || List.class.isAssignableFrom(classOfField)) {
 
                             String fieldName = field.getName();
 
@@ -197,11 +201,16 @@ public class ValidationService {
                             if (fieldNameAnnotation != null) {
                                 fieldName = fieldNameAnnotation.value();
                             } else {
-                                fieldName = globalParse(fieldName);
+                                JsonProperty jsonProp = field.getDeclaredAnnotation(JsonProperty.class);
+                                if (jsonProp != null && jsonProp.value() != null) {
+                                    fieldName = jsonProp.value();
+                                } else {
+                                    fieldName = parseFieldName(fieldName);
+                                }
                             }
 
                             //de todos los campos que no son primitivos los valido
-                            validateRecursive(violations, parentTree + PARENT_TREE_SEPARATOR + fieldName, t);
+                            validateRecursive(violations, parentTree + parentTeeSeparator + fieldName, fieldOfObject);
                         }
                     } catch (Exception e) {
                         System.out.println("Nunca debe entrar aqui, si entra IGNORAR, es un problema de acceso a los fields del objeto. " + e.getMessage());
@@ -213,11 +222,51 @@ public class ValidationService {
         return violations;
     }
 
-    private static String globalParse(String fieldName) {
-        if (NAMING_STRATEGY != null) {
-            return NAMING_STRATEGY.translate(fieldName);
+    private String parseFieldName(String fieldName) {
+        if (namingStrategy != null) {
+            return namingStrategy.translate(fieldName);
         }
         return fieldName;
+    }
+
+    public static class ValidationServiceBuilder {
+
+        private String parentTeeSeparator;
+        private Configuration<?> config;
+        private Validator validator;
+        private PropertyNamingStrategies.NamingBase namingStrategy;
+
+        public ValidationServiceBuilder() {
+            this.parentTeeSeparator = DEFAULT_PARENT_TREE_SEPARATOR;
+            this.config = DEFAULT_CONFIG;
+            this.validator = this.config.buildValidatorFactory().getValidator();
+        }
+
+        public ValidationServiceBuilder parentTeeSeparator(String parentTeeSeparator) {
+            this.parentTeeSeparator = parentTeeSeparator;
+            return this;
+        }
+
+        public ValidationServiceBuilder config(Configuration<?> config) {
+            this.config = config;
+            return this;
+        }
+
+        public ValidationServiceBuilder namingStrategy(PropertyNamingStrategies.NamingBase namingStrategy) {
+            this.namingStrategy = namingStrategy;
+            return this;
+        }
+
+        public ValidationServiceBuilder messageInterpolator(MessageInterpolator msgInterp) {
+            this.validator = config.messageInterpolator(
+                    msgInterp
+            ).buildValidatorFactory().getValidator();
+            return this;
+        }
+
+        public ValidationService build() {
+            return new ValidationService(parentTeeSeparator, validator, namingStrategy);
+        }
     }
 
 }

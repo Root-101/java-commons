@@ -1,3 +1,7 @@
+* 5.2.1.RELEASE.20240813:
+    * **WRAPPERS** :
+        * **REMOVED** :-: : Removed `wrappers` folder & spring-jpa dependency
+
 * 5.2.0.RELEASE.20240724:
     * **VERSION** :sparkler: : Fix versioning problems
 

@@ -4,7 +4,7 @@ plugins {
 
 group = 'dev.root101.commons'
 
-version = '5.2.0.RELEASE.20240724'
+version = '5.2.1.RELEASE.20240813'
 
 repositories {
     jcenter()
@@ -19,8 +19,7 @@ dependencies{
     implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
 
     //spring
-    implementation 'org.springframework.boot:spring-boot-starter-web:3.0.5'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.0.5'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.3.1'
 
     //Jackson
     implementation 'com.fasterxml.jackson.core:jackson-core:2.14.2'

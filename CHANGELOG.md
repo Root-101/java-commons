@@ -1,3 +1,9 @@
+* 5.3.0.RELEASE.20240813:
+    * **VALIDATIONS** :
+        * **IMPROVEMENT** :raised: : Migrated `ValidationService` to instance based.
+    * **DOCS** :
+        * **UPDATE** :+1: : Update section 1 with latest changes in `ValidationService`.
+
 * 5.2.2.RELEASE.20240813:
     * **VALIDATIONS** :
         * **IMPROVEMENT** :raised: : Add default naming strategy from `jackson-databind`

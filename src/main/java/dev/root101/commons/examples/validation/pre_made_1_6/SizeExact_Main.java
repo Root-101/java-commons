@@ -6,6 +6,8 @@ import dev.root101.commons.validation.annotations.SizeExact;
 public class SizeExact_Main {
 
     public static void main(String[] args) throws Exception {
+        ValidationService validationService = ValidationService.basic();
+        
         record Parent(
                 @SizeExact(length = 9)
                 String ci) {
@@ -13,7 +15,7 @@ public class SizeExact_Main {
         }
 
         Parent parent = new Parent("123546789000");
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
     }
 
 }

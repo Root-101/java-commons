@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 class Main_1_2 {
 
     public static void main(String[] args) throws Exception {
+        ValidationService validationService = ValidationService.basic();
+        
         record Parent(
                 @Size(min = 1, max = 5)
                 String parentName) {
@@ -13,7 +15,7 @@ class Main_1_2 {
         }
         Parent parent = new Parent("Pepito Simple");
 
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
     }
 
 }

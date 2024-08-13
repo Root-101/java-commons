@@ -8,6 +8,8 @@ import java.util.List;
 public class Enum_List_Main {
 
     public static void main(String[] args) throws Exception {
+        ValidationService validationService = ValidationService.basic();
+        
         record Parent(
                 @EnumValidator(target = AgeList.class)
                 List<String> ages) {
@@ -15,7 +17,7 @@ public class Enum_List_Main {
         }
 
         Parent parent = new Parent(List.of("some age", "other"));
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
     }
 
 }

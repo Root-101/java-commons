@@ -6,8 +6,11 @@ import java.util.List;
 class Main {
 
     public static void main(String[] args) throws Exception {
+        ValidationService validationService = ValidationService.builder().build();
+
         Parent parent = new Parent("name111", ParentType.ACTIVE, List.of(new Toy("toy name 1")));
-        ValidationService.validateRecursiveAndThrow(parent);
+
+        validationService.validateRecursiveAndThrow(parent);
     }
 
 }

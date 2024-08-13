@@ -1,3 +1,7 @@
+* 5.2.2.RELEASE.20240813:
+    * **VALIDATIONS** :
+        * **IMPROVEMENT** :raised: : Add default naming strategy from `jackson-databind`
+
 * 5.2.1.RELEASE.20240813:
     * **WRAPPERS** :
         * **REMOVED** :-: : Removed `wrappers` folder & spring-jpa dependency

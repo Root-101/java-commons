@@ -4,7 +4,7 @@ plugins {
 
 group = 'dev.root101.commons'
 
-version = '5.2.1.RELEASE.20240813'
+version = '5.2.2.RELEASE.20240813'
 
 repositories {
     jcenter()

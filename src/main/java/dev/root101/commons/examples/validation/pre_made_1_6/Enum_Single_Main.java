@@ -7,6 +7,8 @@ import dev.root101.commons.validation.annotations.EnumValidatorComparator;
 public class Enum_Single_Main {
 
     public static void main(String[] args) throws Exception {
+        ValidationService validationService = ValidationService.basic();
+        
         record Parent(
                 @EnumValidator(target = Age.class)
                 String age) {
@@ -14,7 +16,7 @@ public class Enum_Single_Main {
         }
 
         Parent parent = new Parent("other");
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
     }
 
 }

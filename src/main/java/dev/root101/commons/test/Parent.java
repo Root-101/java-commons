@@ -4,6 +4,7 @@
  */
 package dev.root101.commons.test;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.root101.commons.validation.ValidationFieldName;
 import java.util.List;
 import jakarta.validation.constraints.NotNull;
@@ -16,13 +17,14 @@ import jakarta.validation.constraints.Size;
 public class Parent {
 
     @Size(max = 5)
-    @ValidationFieldName("parent_name")
+    @JsonProperty("parent_name")
     private String parentName;
 
     @ValidationFieldName("type")
     @NotNull
     private ParentType type;
 
+    @NotNull
     @ValidationFieldName("parent_toys")
     private List<Toy> parentToys;
 

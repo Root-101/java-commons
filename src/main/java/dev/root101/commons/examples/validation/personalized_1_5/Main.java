@@ -5,6 +5,8 @@ import dev.root101.commons.validation.ValidationService;
 public class Main {
 
     public static void main(String[] args) throws Exception {
+        ValidationService validationService = ValidationService.basic();
+
         record Parent(
                 @PersonalizedValidation(name = "Pepito")
                 String parentName) {
@@ -12,7 +14,7 @@ public class Main {
         }
         Parent parent = new Parent("Pepito Simple");
 
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
     }
 
 }

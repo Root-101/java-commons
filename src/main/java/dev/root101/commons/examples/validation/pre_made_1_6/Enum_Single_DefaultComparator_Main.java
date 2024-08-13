@@ -7,6 +7,8 @@ import dev.root101.commons.validation.annotations.EnumValidatorRegister_String;
 public class Enum_Single_DefaultComparator_Main {
 
     public static void main(String[] args) throws Exception {
+        ValidationService validationService = ValidationService.basic();
+        
         EnumValidatorRegister_String.setDefaultEnumComparator((currentEnumValue, testValue) -> {
             return true;//never validate
             //return currentEnumValue.toString().equalsIgnoreCase(testValue);
@@ -19,7 +21,7 @@ public class Enum_Single_DefaultComparator_Main {
         }
 
         Parent parent = new Parent("other");
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
     }
 
 }

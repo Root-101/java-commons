@@ -8,6 +8,8 @@ import java.util.List;
 class Main_1_3 {
 
     public static void main(String[] args) throws Exception {
+        ValidationService validationService = ValidationService.basic();
+        
         record Child(
                 @Size(min = 1, max = 5)
                 String childName) {
@@ -33,7 +35,7 @@ class Main_1_3 {
                 )
         );
 
-        ValidationService.validateRecursiveAndThrow(parent);
+        validationService.validateRecursiveAndThrow(parent);
         //or
         /*ValidationService.validateAndThrow(
                 parent,

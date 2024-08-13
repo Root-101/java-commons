@@ -6,6 +6,8 @@ import dev.root101.commons.validation.annotations.Digit;
 public class Digit_Main {
 
     public static void main(String[] args) throws Exception {
+        ValidationService validationService = ValidationService.basic();
+        
         record Parent(
                 @Digit()
                 Character sex) {
@@ -13,7 +15,7 @@ public class Digit_Main {
         }
 
         Parent parent = new Parent('a');
-        ValidationService.validateAndThrow(parent);
+        validationService.validateAndThrow(parent);
     }
 
 }

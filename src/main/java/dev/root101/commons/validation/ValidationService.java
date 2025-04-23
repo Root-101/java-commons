@@ -41,51 +41,14 @@ public class ValidationService {
         return new ValidationServiceBuilder();
     }
 
-    public void validateAndThrow(Object... objects) throws ValidationException {
-        List<TracedViolation> errors = validate(objects);
+    public void validate(Object... objects) throws ValidationException {
+        List<TracedViolation> errors = innerValidateRecursive(objects);
         if (!errors.isEmpty()) {
             throw new ValidationException(convertMessages(errors));
         }
     }
 
-    public List<TracedViolation> validate(Object... objects) {
-        List<TracedViolation> errors = new ArrayList<>();
-
-        if (objects.length == 1) {
-            Set<ConstraintViolation<Object>> violations = validator.validate(objects[0]);
-            if (!violations.isEmpty()) {
-                errors.add(
-                        new TracedViolation(
-                                violations,
-                                ""
-                        )
-                );
-            }
-        } else {
-            for (int i = 0; i < objects.length; i++) {
-                Set<ConstraintViolation<Object>> violations = validator.validate(objects[i]);
-                if (!violations.isEmpty()) {
-                    errors.add(
-                            new TracedViolation(
-                                    violations,
-                                    "[%s]".formatted(i)
-                            )
-                    );
-                }
-            }
-        }
-
-        return errors;
-    }
-
-    public void validateRecursiveAndThrow(Object... objects) throws ValidationException {
-        List<TracedViolation> errors = validateRecursive(objects);
-        if (!errors.isEmpty()) {
-            throw new ValidationException(convertMessages(errors));
-        }
-    }
-
-    public List<TracedViolation> validateRecursive(Object... objects) {
+    private List<TracedViolation> innerValidateRecursive(Object... objects) {
         if (objects.length == 1) {
             return validateRecursive(new ArrayList<>(), "", objects[0]);
         } else {

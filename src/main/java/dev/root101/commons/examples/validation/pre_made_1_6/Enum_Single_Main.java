@@ -16,7 +16,7 @@ public class Enum_Single_Main {
         }
 
         Parent parent = new Parent("other");
-        validationService.validateAndThrow(parent);
+        validationService.validate(parent);
     }
 
 }

@@ -2,6 +2,7 @@ package dev.root101.commons.examples.validation;
 
 import dev.root101.commons.validation.ValidationService;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -14,15 +15,21 @@ class Main_1_7 {
                 @NotNull
                 List<Integer> accounts,
                 @NotNull
-                Integer categoryId) {
+                Integer categoryId,
+                @Size(max = 1)
+                List<SomeValue> more) {
 
         }
 
-        SomeValue parent = new SomeValue(List.of(2), 4);
+        SomeValue parent = new SomeValue(
+                List.of(2),
+                4,
+                List.of(
+                        new SomeValue(List.of(2), 5, List.of())
+                )
+        );
 
-        validationService.validateRecursiveAndThrow(parent);
-
-        System.out.println("All oka");
+        validationService.validate(parent);
     }
 
 }

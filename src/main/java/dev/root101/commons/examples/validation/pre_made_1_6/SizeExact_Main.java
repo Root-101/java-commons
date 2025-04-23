@@ -15,7 +15,7 @@ public class SizeExact_Main {
         }
 
         Parent parent = new Parent("123546789000");
-        validationService.validateAndThrow(parent);
+        validationService.validate(parent);
     }
 
 }

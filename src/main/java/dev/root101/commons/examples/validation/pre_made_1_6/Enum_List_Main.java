@@ -17,7 +17,7 @@ public class Enum_List_Main {
         }
 
         Parent parent = new Parent(List.of("some age", "other"));
-        validationService.validateAndThrow(parent);
+        validationService.validate(parent);
     }
 
 }

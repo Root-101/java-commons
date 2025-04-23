@@ -13,7 +13,7 @@ class Main_1_2 {
                 String parentName) {
 
         }
-        Parent parent = new Parent("Pepito Simple");
+        Parent parent = new Parent("");
 
         validationService.validateAndThrow(parent);
     }

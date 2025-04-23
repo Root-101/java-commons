@@ -24,7 +24,7 @@ class Main_1_3 {
         }
 
         Parent parent = new Parent(
-                "Pepito",
+                "Pepi",
                 List.of(
                         new Child(
                                 "Pepito Junior"

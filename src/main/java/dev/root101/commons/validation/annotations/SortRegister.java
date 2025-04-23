@@ -13,9 +13,7 @@ public class SortRegister implements ConstraintValidator<Sort, Map<String, Strin
 
     @Override
     public boolean isValid(Map<String, String> sort, ConstraintValidatorContext cvc) {
-        return sort == null || sort.isEmpty() || sort.values().stream().anyMatch((t) -> {
-            return SortType.contain(t);
-        });
+        return sort == null || sort.isEmpty() || sort.values().stream().anyMatch(SortType::contain);
     }
 
 }

@@ -3,16 +3,13 @@ package dev.root101.commons.validation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import dev.root101.commons.exceptions.ValidationException;
+import jakarta.validation.*;
+import org.springframework.util.ClassUtils;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import jakarta.validation.Configuration;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.MessageInterpolator;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import org.springframework.util.ClassUtils;
 
 public class ValidationService {
 
@@ -133,7 +130,7 @@ public class ValidationService {
 
                     String source = general.parentTree + parentTeeSeparator + fieldName;
                     if (source.startsWith(parentTeeSeparator)) {
-                        source = source.substring(1, source.length());
+                        source = source.substring(1);
                     } else if (source.startsWith("[")) {
                         source = "root" + source;
                     }
@@ -142,8 +139,8 @@ public class ValidationService {
                             new ValidationException.ValidationErrorMessage(
                                     source,
                                     viol.getInvalidValue() == null
-                                    ? "null"
-                                    : viol.getInvalidValue().toString(),
+                                            ? "null"
+                                            : viol.getInvalidValue().toString(),
                                     viol.getMessage()
                             )
                     );
@@ -163,7 +160,7 @@ public class ValidationService {
                 for (int i = 0; i < arr.length; i++) {
                     validateRecursive(violations, parentTree + "[%s]".formatted(i), arr[i]);
                 }
-            } else if (object instanceof List list) {
+            } else if (object instanceof List<?> list) {
                 //es una instancia de lista, la convierto en arreglo y llamo a la recursividad con el arreglo
                 for (int i = 0; i < list.size(); i++) {
                     validateRecursive(violations, parentTree + "[%s]".formatted(i), list.get(i));
@@ -180,46 +177,53 @@ public class ValidationService {
                     );
                 }
 
-                //luego recorro todos sus campos a ver si alguno no es primitivo
-                Field fields[] = object.getClass().getDeclaredFields();
-                for (Field field : fields) {
-                    try {
-                        field.setAccessible(true);
-                        Object fieldOfObject = field.get(object);
-                        if (fieldOfObject == null) {
-                            continue;
-                        }
-                        Class classOfField = fieldOfObject.getClass();
+                Class<?> classOfObject = object.getClass();
+                if (canEnterRecursive(classOfObject)) {
 
-                        if (!(ClassUtils.isPrimitiveOrWrapper(classOfField)
-                                || classOfField.getName().startsWith("java") || Enum.class.isAssignableFrom(classOfField))
-                                || List.class.isAssignableFrom(classOfField)) {
+                    //luego recorro todos sus campos a ver si alguno no es primitivo
+                    Field[] fields = classOfObject.getDeclaredFields();
+                    for (Field field : fields) {
+                        try {
+                            //trato de hacer el campo accesible, si no lo logro ni entro xq va a dar error
+                            if (field.trySetAccessible()) {
+                                Object fieldOfObject = field.get(object);
+                                if (fieldOfObject == null) {
+                                    continue;
+                                }
+                                if (canEnterRecursive(fieldOfObject.getClass())) {
+                                    String fieldName = field.getName();
 
-                            String fieldName = field.getName();
+                                    ValidationFieldName fieldNameAnnotation = field.getDeclaredAnnotation(ValidationFieldName.class);
+                                    if (fieldNameAnnotation != null) {
+                                        fieldName = fieldNameAnnotation.value();
+                                    } else {
+                                        JsonProperty jsonProp = field.getDeclaredAnnotation(JsonProperty.class);
+                                        if (jsonProp != null && jsonProp.value() != null) {
+                                            fieldName = jsonProp.value();
+                                        } else {
+                                            fieldName = parseFieldName(fieldName);
+                                        }
+                                    }
 
-                            ValidationFieldName fieldNameAnnotation = field.getDeclaredAnnotation(ValidationFieldName.class);
-                            if (fieldNameAnnotation != null) {
-                                fieldName = fieldNameAnnotation.value();
-                            } else {
-                                JsonProperty jsonProp = field.getDeclaredAnnotation(JsonProperty.class);
-                                if (jsonProp != null && jsonProp.value() != null) {
-                                    fieldName = jsonProp.value();
-                                } else {
-                                    fieldName = parseFieldName(fieldName);
+                                    //de todos los campos que no son primitivos los valido
+                                    validateRecursive(violations, parentTree + parentTeeSeparator + fieldName, fieldOfObject);
                                 }
                             }
-
-                            //de todos los campos que no son primitivos los valido
-                            validateRecursive(violations, parentTree + parentTeeSeparator + fieldName, fieldOfObject);
+                        } catch (Exception e) {
+                            System.out.println("Nunca debe entrar aqui, si entra IGNORAR, es un problema de acceso a los fields del objeto. " + e.getMessage());
                         }
-                    } catch (Exception e) {
-                        System.out.println("Nunca debe entrar aqui, si entra IGNORAR, es un problema de acceso a los fields del objeto. " + e.getMessage());
-                    }
 
+                    }
                 }
             }
         }
         return violations;
+    }
+
+    private boolean canEnterRecursive(Class<?> classOfObject) {
+        return !(ClassUtils.isPrimitiveOrWrapper(classOfObject)
+                || classOfObject.getName().startsWith("java") || Enum.class.isAssignableFrom(classOfObject))
+                || List.class.isAssignableFrom(classOfObject);
     }
 
     private String parseFieldName(String fieldName) {

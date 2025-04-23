@@ -10,7 +10,7 @@ class Main {
 
         Parent parent = new Parent("name111", ParentType.ACTIVE, List.of(new Toy("toy name 1")));
 
-        validationService.validateRecursiveAndThrow(parent);
+        validationService.validate(parent);
     }
 
 }

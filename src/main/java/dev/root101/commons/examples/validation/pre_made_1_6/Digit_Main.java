@@ -15,7 +15,7 @@ public class Digit_Main {
         }
 
         Parent parent = new Parent('a');
-        validationService.validateAndThrow(parent);
+        validationService.validate(parent);
     }
 
 }

@@ -35,7 +35,7 @@ class Main_1_3 {
                 )
         );
 
-        validationService.validateRecursiveAndThrow(parent);
+        validationService.validate(parent);
         //or
         /*ValidationService.validateAndThrow(
                 parent,

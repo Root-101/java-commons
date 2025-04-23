@@ -15,7 +15,7 @@ class Main_1_2 {
         }
         Parent parent = new Parent("");
 
-        validationService.validateAndThrow(parent);
+        validationService.validate(parent);
     }
 
 }

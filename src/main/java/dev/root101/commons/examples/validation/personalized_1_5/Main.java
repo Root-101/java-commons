@@ -14,7 +14,7 @@ public class Main {
         }
         Parent parent = new Parent("Pepito Simple");
 
-        validationService.validateAndThrow(parent);
+        validationService.validate(parent);
     }
 
 }

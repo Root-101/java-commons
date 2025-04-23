@@ -21,7 +21,7 @@ public class Enum_Single_DefaultComparator_Main {
         }
 
         Parent parent = new Parent("other");
-        validationService.validateAndThrow(parent);
+        validationService.validate(parent);
     }
 
 }

@@ -13,7 +13,7 @@ class Main_1_2 {
                 String parentName) {
 
         }
-        Parent parent = new Parent("");
+        Parent parent = new Parent("12345");
 
         validationService.validate(parent);
     }

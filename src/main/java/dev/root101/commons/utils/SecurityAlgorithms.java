@@ -7,9 +7,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import org.springframework.stereotype.Service;
 
-@Service
 public class SecurityAlgorithms {
 
     private Cipher cipher;

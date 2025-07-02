@@ -4,7 +4,7 @@ plugins {
 
 group = 'dev.root101.commons'
 
-version = '5.4.2.RELEASE.20250501'
+version = '5.4.3'
 
 repositories {
     jcenter()
@@ -13,18 +13,17 @@ repositories {
 
 dependencies{
     //validation
-    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+    implementation 'jakarta.validation:jakarta.validation-api:3.1.1'
     //runtime de validation, si no da error:
     //jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
-    implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
+    implementation 'org.hibernate.validator:hibernate-validator:9.0.1.Final'
 
     //spring
-    implementation 'org.springframework:spring-web:6.2.6'
-    implementation 'jakarta.el:jakarta.el-api:6.0.1'
+    implementation 'org.springframework:spring-web:7.0.0-M6'
+    //For error: Caused by: java.lang.ClassNotFoundException: org.osgi.framework.FrameworkUtil
     implementation 'org.glassfish:jakarta.el:4.0.2'
 
     //Jackson
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.14.2'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.19.1'
 }

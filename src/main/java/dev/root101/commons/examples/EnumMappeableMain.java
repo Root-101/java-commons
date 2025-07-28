@@ -9,9 +9,7 @@ public class EnumMappeableMain {
     public static void main(String[] args) throws Exception {
         System.out.println(EnumMappeableService.map(Status_Enum.class));
         
-        System.out.println(EnumMappeableService.map(Status_Enum.class, (t) -> {
-            return t.getName();
-        }));
+        System.out.println(EnumMappeableService.map(Status_Enum.class, Status_Enum::getName));
     }
 }
 

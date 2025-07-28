@@ -8,7 +8,7 @@ public class Enum_Single_Main {
 
     public static void main(String[] args) throws Exception {
         ValidationService validationService = ValidationService.basic();
-        
+
         record Parent(
                 @EnumValidator(target = Age.class)
                 String age) {

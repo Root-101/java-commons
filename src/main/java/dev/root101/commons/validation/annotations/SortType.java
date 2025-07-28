@@ -1,6 +1,7 @@
 package dev.root101.commons.validation.annotations;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Estado del envelope, indica si se firmo bien, si se cancelo o lo que sea
@@ -29,16 +30,14 @@ public enum SortType implements EnumValidatorComparator<String> {
     }
 
     public static boolean contain(String type) {
-        return List.of(SortType.values()
-        ).stream().anyMatch((SortType t) -> {
-            return t.test(type);
-        });
+        return Stream.of(
+                SortType.values()
+        ).anyMatch((SortType t) -> t.test(type));
     }
 
     public static List<String> all() {
-        return List.of(SortType.values()).stream().map((SortType t) -> {
-            return t.toString();
-        }
+        return Stream.of(SortType.values()).map(
+                SortType::toString
         ).toList();
     }
 }

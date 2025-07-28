@@ -1,17 +1,18 @@
 package dev.root101.commons.validation.annotations;
 
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
 
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {
-    EnumValidatorRegister_String.class,
-    EnumValidatorRegister_ListOfString.class
+        EnumValidatorRegister_String.class,
+        EnumValidatorRegister_ListOfString.class
 })
 public @interface EnumValidator {
 
@@ -21,7 +22,9 @@ public @interface EnumValidator {
 
     Class<? extends Payload>[] payload() default {};
 
-    public String detailMessage() default "";
+    String detailMessage() default "";
 
-    public Class<? extends Enum<?>> target();
+    Class<? extends Enum<?>> target();
+
+    boolean ignoreNull() default true;
 }

@@ -24,18 +24,14 @@ Docs updated for version: `5.1.2.RELEASE.20240211`
         - [1.7.2 - Enum](#1.7.2)
         - [1.7.3 - Size Exact](#1.7.3)
 - [2 - Exceptions](#2)
-- [4 - Rest](#3)
-- [5 - Utils](#4)
-    - [5.1 - Jackson](#4.1)
-    - [5.2 - Enum mappeable](#4.2)
-    - [5.3 - Network](#4.3)
-    - [5.4 - Security Algos](#4.4)
-- [6 - How to use this package](#5)
+- [3 - Utils](#4)
+    - [3.1 - Enum mappeable](#3.1)
+- [4 - How to use this package](#4)
 
 ## Validations <a name="1"></a>
 - All native validations are loaded from the [`jakarta.validations.*` framework](https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api).
 - To validate an object, the `dev.root101.commons.validation.ValidationService` class is used.
-- If all validations passed correctly, the code runs normally. If at least one validation fails, a `ValidationException` will be thrown or **a `List` in case of need** (`validationService.validate(some_object);`, without `andThrow`).
+- If all validations passed correctly, the code runs normally. If at least one validation fails, a `ValidationException` will be thrown. This exceptions have a list of all the validations that failed.
 - ALL validation examples are located in the examples folder `dev.root101.commons.examples.validation...`.
 - **NOTE**: ALL the objects used are `record` to reduce the example code, but everything explained here works *EXACTLY* the same with standard Java classes.
 
@@ -55,7 +51,7 @@ Validator validator = CONFIG.buildValidatorFactory().getValidator();
 PropertyNamingStrategies.NamingBase namingStrategy = null;
 ```
 
-If a more personalized instace is needed, it can be achieved with:
+If a more personalized instance is needed, it can be achieved with:
 ```java
         ValidationService validationService = ValidationService.builder()
                 .config(someNewConfig)
@@ -65,11 +61,11 @@ If a more personalized instace is needed, it can be achieved with:
 ```
 
 For more details on specific topics go to:
-- ![MessageInterpolator](https://www.baeldung.com/spring-validation-message-interpolation)
-- com.fasterxml.jackson.databind.PropertyNamingStrategies oficial docs
+- [MessageInterpolator](https://www.baeldung.com/spring-validation-message-interpolation)
+- `com.fasterxml.jackson.databind.PropertyNamingStrategies` oficial docs
 
 ### 1.2 - Validation Exception <a name="1.2"></a>
-Once validations are executed on an object, and some fail, an exception of type `dev.root101.commons.exceptions.ValidationException` will be thrown (or returned).
+Once validations are executed on an object, and some fail, an exception of type `dev.root101.commons.exceptions.ValidationException` will be thrown.
 
 This exception has the:
 - `status_code`, which represents the http response code, ALWAYS being `422: UNPROCESSABLE_ENTITY`. AND,
@@ -99,7 +95,7 @@ For an object like:
         }
 
         //validating the fields as a list
-        validationService.validateAndThrow(
+        validationService.validate(
                 parent,
                 parent.childs().get(0),
                 parent.childs().get(1)
@@ -150,7 +146,7 @@ All its fields are validated for a simple object:
         Parent parent = new Parent("Pepito Simple");
         
         //Validate
-        validationService.validateAndThrow(parent);
+        validationService.validate(parent);
 ```
 
 This code will throw the exception:
@@ -202,7 +198,7 @@ Including all its elements in a list.
         );
 
         //validate the object and revursive every field
-        validationService.validateRecursiveAndThrow(parent);
+        validationService.validate(parent);
 ```
 
 This code will throw the exception:
@@ -408,7 +404,7 @@ We then write down the field and execute the validations:
         }
         Parent parent = new Parent("Pepito Simple");
 
-        validationService.validateAndThrow(parent);
+        validationService.validate(parent);
 ```
 
 Answer will be:
@@ -442,7 +438,7 @@ But in case they are not enough, some were implemented that were needed at the t
         }
 
         Parent parent = new Parent('0');
-        validationService.validateAndThrow(parent);
+        validationService.validate(parent);
 ```
 
 Error:
@@ -505,7 +501,7 @@ The object is created and the required field is noted and the validation is run:
         }
 
         Parent parent = new Parent("other");
-        validationService.validateAndThrow(parent);
+        validationService.validate(parent);
 ```
 
 Which results:
@@ -537,9 +533,11 @@ In addition, in case you do not want to implement the `EnumValidatorComparator<S
 
 - <a name="1.7.3"></a> `SizeExact`: Validates that a `String`, `List`, `Array` or `Map` has an exact size. Validating for each one its length.
 
+**EXTRA**: This annotation also have an `ignoreNull` property in case you need to ignore/not-validate null values.
+
 ## 2 - Exceptions <a name="2"></a>
 
-Para estandarizar el uso de las respuestas HTTP se crearon las excepciones(mas comunes) a lanzar en cada momento:
+To standardize the use of HTTP responses, the most common exceptions to be thrown at each time were created:
 - `ApiException`: General exception from which the others derive, it has:
     - `rawStatusCode`: Indicate the HTTP response code of exception.
     - `message`: Indicates the message for which the exception was thrown.
@@ -569,53 +567,11 @@ Para estandarizar el uso de las respuestas HTTP se crearon las excepciones(mas c
     - `Status Code`: **500** INTERNAL SERVER ERROR.
     - `Use Case`: Some unexpected error occurs on the server's side, and generally the cause is unknown, this exception is thrown.
 
-## 3 - Rest <a name="3"></a>
+**EXTRA**: Oficial docs for HTTP Responses [here](https://datatracker.ietf.org/doc/html/rfc7231).
 
-Oficial docs for HTTP Responses [here](https://datatracker.ietf.org/doc/html/rfc7231).
+## 3 - Utils <a name="3"></a>
 
-## 4 - Utils <a name="4"></a>
-
-### 4.1 - Jackson <a name="4.1"></a>
-`Jackson` is a utility class for doing **fast** and low-value conversions of objects/strings.
-
-For operations related to business logic, it is recommended to use the ObjectMapper provided by Spring.
-
-How to use it for reading (convert String to Object):
-```java
-        //class target
-        record Parent(
-                String parentName) {
-
-        }
-
-        //text source
-        String parentString = """
-                              {
-                                "parentName": "Pepito Simple"
-                              }
-                              """;
-
-        //convert source `parentString` to target `parent`
-        Parent converted = Jackson.read(parentString, Parent.class);
-```
-
-For writing (Convert Object to String):
-
-```java
-        record Parent(
-                @JsonProperty("parent_name")//this annotations works here
-                String parentName) {
-
-        }
-
-        Parent object = new Parent("Pepito Simple");
-
-        String converted = Jackson.toString(object);
-```
-
-**NOTE**: This class has some other functionalities for further read/write customization, as well as to convert/parse objects from one type to another. For more details consult the source code in `dev.root101.commons.utils.Jackson`.
-
-### 4.2 - Enum mappeable <a name="4.2"></a>
+### 3.1 - Enum mappeable <a name="3.1"></a>
 When you want to map an Enum to its list of elements without so much code at hand:
 
 Having the enum:
@@ -698,34 +654,7 @@ The second argument being the mapping function, giving the answer in this exampl
 ]
 ```
 
-### 4.3 - Network <a name="4.3"></a>
-The Network utility was developed to validate that a service is running on a port:ip.
-
-```java
-    Network.isRunning("127.0.0.1", 8080)
-```
-
-### 4.4 - Security Algos <a name="4.4"></a>
-The security algorithms are a quick implementation of `AES` for encryption and `SHA-256` for hashing.
-
-To use `SHA-256`, access the static method: `SecurityAlgorithms.hash256(input)`, passing the initial string through parameters and waiting for the corresponding hash in response.
-
-To use `AES`:
-
-```java
-    SecurityAlgorithms secure = new SecurityAlgorithms("aes secret key");
-
-    String textToCipher = "Hiden text";
-
-    byte[] cipherText = secure.cipher(textToCipher);
-        
-    byte[] decipherText = secure.decipher(cipherText);
-
-    boolean matchingTexts = textToCipher.equals(new String(decipherText));//true
-```
-
-
-## 5 - How to use this package <a name="5"></a>
+## 4 - How to use this package <a name="5"></a>
 At the moment this package is not published in [mvnrepository](https://mvnrepository.com/), so we have to upload it directly from `Github Packages`.
 
 In the `settings.gradle` add:
@@ -749,6 +678,6 @@ dependencies {
 }
 ```
 
-Being `VERSION` the version you want to use of the package.
+Being `VERSION` the version number you want to use of the package.
 
 **NOTE**: The latest available version is ***ALWAYS*** recommended.

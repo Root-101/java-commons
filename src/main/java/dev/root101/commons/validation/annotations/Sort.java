@@ -18,6 +18,6 @@ public @interface Sort {
 
     Class<? extends Payload>[] payload() default {};
 
-    public String detailMessage() default "";
+    String detailMessage() default "";
 
 }

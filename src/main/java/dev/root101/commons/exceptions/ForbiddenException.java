@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Root101 (jhernandezb96@gmail.com, +53-5-426-8660).
+ * Copyright 2022 Root101 (jhernandezb96@gmail.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.springframework.http.HttpStatus;
 
 /**
  *
- * @author Root101 (jhernandezb96@gmail.com, +53-5-426-8660)
+ * @author Root101 (jhernandezb96@gmail.com)
  * @author JesusHdez960717@Github
  */
 public class ForbiddenException extends ApiException {

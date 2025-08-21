@@ -1,3 +1,8 @@
+* 5.4.5:
+    * **DATE** :date: : 2025-08-20
+    * **VALIDATIONS** :
+        * **IMPROVEMENT** :raised: : Ignore static fields in the recursive behaviour.
+
 * 5.4.4:
     * **DATE** :date: : 2025-07-27
     * **VALIDATIONS** :

@@ -1,7 +1,7 @@
 <!-- 
 
 Multilanguage:
-[Espa�ol](README.es.md)
+[Español](README.es.md)
 
 -->
 

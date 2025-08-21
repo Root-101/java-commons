@@ -7,6 +7,7 @@ import jakarta.validation.*;
 import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -148,7 +149,13 @@ public class ValidationService {
                     for (Field field : fields) {
                         try {
                             //trato de hacer el campo accesible, si no lo logro ni entro xq va a dar error
-                            if (field.trySetAccessible()) {
+                            //i go recursive in this particular field if:
+                            //1 - Can be set as accessible
+                            //2 - Is NOT a static field
+                            if (
+                                    field.trySetAccessible()
+                                            && !Modifier.isStatic(field.getModifiers())
+                            ) {
                                 Object fieldOfObject = field.get(object);
                                 if (fieldOfObject == null) {
                                     continue;

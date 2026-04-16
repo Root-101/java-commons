@@ -1,8 +1,8 @@
 package dev.root101.commons.examples.validation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.root101.commons.validation.ValidationService;
 import jakarta.validation.constraints.Size;
+import tools.jackson.databind.ObjectMapper;
 
 class Main_1_2 {
 

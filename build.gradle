@@ -23,6 +23,6 @@ dependencies {
     implementation 'org.glassfish.expressly:expressly:6.0.0'
 
     //Jackson
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.2'
+    implementation 'tools.jackson.core:jackson-databind:3.1.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.21'
 }

@@ -4,13 +4,13 @@ plugins {
 
 group = 'dev.root101.commons'
 
-version = '5.5.0'
+version = '5.5.1'
 
 repositories {
     mavenCentral()
 }
 
-dependencies{
+dependencies {
     //validation
     implementation 'jakarta.validation:jakarta.validation-api:3.1.1'
     //runtime de validation, si no da error:
@@ -23,6 +23,6 @@ dependencies{
     implementation 'org.glassfish.expressly:expressly:6.0.0'
 
     //Jackson
-    implementation 'tools.jackson.core:jackson-databind:3.1.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.21'
 }

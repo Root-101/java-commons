@@ -9,7 +9,7 @@ Multilanguage:
 
 This library aims to provide standards and utilities that make work easier when creating microservices.
 
-Docs updated for version: `5.1.2.RELEASE.20240211`
+Docs updated for version: `5.5.0`
 
 ## Table of Contents
 - [1 - Validations](#1)

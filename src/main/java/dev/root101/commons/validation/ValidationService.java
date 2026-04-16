@@ -1,10 +1,10 @@
 package dev.root101.commons.validation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import dev.root101.commons.exceptions.ValidationException;
 import jakarta.validation.*;
 import org.springframework.util.ClassUtils;
+import tools.jackson.databind.PropertyNamingStrategies;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
